@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Destino Furniture Studio Website
 
-## Getting Started
+Production-ready Next.js App Router site for Destino Furniture Studio, a unit of Manidivya Enterprises.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 App Router
+- TypeScript
+- Tailwind CSS 4
+- Supabase Auth, PostgreSQL and Storage
+- Local fallback seed content in `lib/data.ts`
+
+## Local Setup
 
 ```bash
+npm install
+cp .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Supabase Setup
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Create a Supabase project.
+2. Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to `.env.local`.
+3. Run `supabase/migrations/001_initial_schema.sql`.
+4. Create an Auth user.
+5. Insert a row into `profiles` for that user with role `admin`.
+6. Sign in at `/admin/login`.
 
-## Learn More
+## Validation
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run lint
+npm run typecheck
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Important Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- The site is enquiry-focused and does not include checkout, payments or fake prices.
+- Public content is rendered server-side or statically regenerated.
+- Product specs, addresses, hours, awards and pricing remain hidden until verified.
+- Wishlist data persists locally on the visitor's device.
+- Forms validate, rate-limit and store to Supabase when configured.
 
-## Deploy on Vercel
+See `docs/CONTENT_MANAGEMENT.md`, `docs/SEO_CHECKLIST.md`, `docs/REDIRECT_MAP.md` and `docs/CONFIRMATION_REQUIRED.md` for launch operations.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
