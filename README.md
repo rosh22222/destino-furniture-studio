@@ -37,6 +37,17 @@ npm run typecheck
 npm run build
 ```
 
+## Sites Artifact Build
+
+The project includes a parallel vinext/Cloudflare Workers build for Sites
+deployment:
+
+```bash
+npm run build:vinext
+```
+
+The deployable artifact is emitted to `dist/`.
+
 ## Important Notes
 
 - The site is enquiry-focused and does not include checkout, payments or fake prices.
@@ -46,4 +57,3 @@ npm run build
 - Forms validate, rate-limit and store to Supabase when configured.
 
 See `docs/CONTENT_MANAGEMENT.md`, `docs/SEO_CHECKLIST.md`, `docs/REDIRECT_MAP.md` and `docs/CONFIRMATION_REQUIRED.md` for launch operations.
-
