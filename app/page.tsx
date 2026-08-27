@@ -2,13 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  Building2,
   CheckCircle2,
-  MapPin,
   MessageCircle,
-  PenTool,
 } from "lucide-react";
 
+import { HeroCarousel, type HeroCarouselSlide } from "@/components/hero-carousel";
 import { JsonLd } from "@/components/json-ld";
 import { LeadForm } from "@/components/lead-form";
 import { LogoCloud } from "@/components/logo-cloud";
@@ -19,8 +17,6 @@ import {
   getBrands,
   getCategories,
   getClients,
-  getInsights,
-  getLocations,
   getProducts,
   getProjects,
 } from "@/lib/content";
@@ -31,11 +27,34 @@ import type { Brand, Category } from "@/lib/types";
 export const revalidate = 3600;
 
 export const metadata = pageMetadata({
-  title: "Office, Custom and Commercial Furniture Solutions",
+  title: "Office, Custom and Commercial Furniture",
   description:
-    "Destino Furniture Studio offers office furniture, ergonomic chairs, custom furniture and commercial furniture solutions across Visakhapatnam, Kakinada and Bengaluru.",
+    "Destino Furniture Studio offers office furniture, ergonomic chairs, custom furniture and commercial furniture planning across Visakhapatnam, Kakinada and Bengaluru.",
   path: "/",
 });
+
+const heroSlides: HeroCarouselSlide[] = [
+  {
+    src: "/legacy/image%20(1)-w08GJtF5.jpeg",
+    alt: "Premium office furniture project by Destino Furniture Studio",
+    label: "office furniture project",
+  },
+  {
+    src: "/legacy/image%20(1)-D1OB4ju4.jpeg",
+    alt: "Modern workstation furniture installation by Destino Furniture Studio",
+    label: "workstation installation",
+  },
+  {
+    src: "/legacy/image%20(1)-B3tP8rQx.jpeg",
+    alt: "Custom commercial furniture completed by Destino Furniture Studio",
+    label: "custom commercial furniture",
+  },
+  {
+    src: "/legacy/image%20(1)-CJHwYAep.jpeg",
+    alt: "Restaurant and hospitality furniture project by Destino Furniture Studio",
+    label: "hospitality furniture project",
+  },
+];
 
 function categoryBySlug(categories: Category[]) {
   return new Map(categories.map((category) => [category.slug, category]));
@@ -46,15 +65,13 @@ function brandBySlug(brands: Brand[]) {
 }
 
 export default async function Home() {
-  const [categories, brands, products, projects, clients, locations, insights] =
+  const [categories, brands, products, projects, clients] =
     await Promise.all([
       getCategories(),
       getBrands(),
       getProducts(),
       getProjects(),
       getClients(),
-      getLocations(),
-      getInsights(),
     ]);
 
   const categoryMap = categoryBySlug(categories);
@@ -72,22 +89,14 @@ export default async function Home() {
       <JsonLd data={organizationJsonLd()} />
       <JsonLd data={websiteJsonLd()} />
       <section className="relative min-h-[min(760px,calc(100svh-8rem))] overflow-hidden bg-[#202238] text-white md:min-h-[min(880px,calc(100svh-8rem))]">
-        <Image
-          alt="Premium office furniture project by Destino Furniture Studio"
-          className="object-cover opacity-68"
-          fill
-          priority
-          sizes="100vw"
-          src="/legacy/image%20(1)-w08GJtF5.jpeg"
-        />
-        <div className="absolute inset-0 bg-[#202238]/42" />
-        <div className="relative mx-auto flex min-h-[min(760px,calc(100svh-8rem))] max-w-7xl items-center px-4 py-16 sm:px-6 md:min-h-[min(880px,calc(100svh-8rem))] lg:px-8">
+        <HeroCarousel slides={heroSlides} />
+        <div className="relative z-30 mx-auto flex min-h-[min(760px,calc(100svh-8rem))] max-w-7xl items-center px-4 py-16 sm:px-6 md:min-h-[min(880px,calc(100svh-8rem))] lg:px-8">
           <div className="max-w-3xl">
             <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#F5F1EA]">
               A Unit of Manidivya Enterprises
             </p>
             <h1 className="text-4xl font-semibold leading-tight md:text-6xl">
-              Office, custom and commercial furniture solutions.
+              Office, custom and commercial furniture for real projects.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-[#F5F1EA]">
               Destino Furniture Studio helps buyers plan ergonomic chairs,
@@ -191,78 +200,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-[#FCFBF8] py-16 md:py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8">
-          <div>
-            <SectionHeading
-              eyebrow="Solutions"
-              title="Furniture support for offices, institutions, restaurants and homes"
-            >
-              <p>
-                Destino is structured for enquiry-led projects: define the room
-                use, select the furniture family, then confirm dimensions,
-                materials and quantities before quotation.
-              </p>
-            </SectionHeading>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-[4px] bg-[#202238] px-5 text-sm font-semibold text-white hover:bg-[#C56545]"
-                href="/solutions"
-              >
-                Explore solutions
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
-              </Link>
-              <Link
-                className="inline-flex h-12 items-center justify-center rounded-[4px] border border-[#DED7CF] px-5 text-sm font-semibold text-[#202238] hover:border-[#C56545] hover:text-[#C56545]"
-                href="/contact"
-              >
-                Talk to Destino
-              </Link>
-            </div>
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[
-              {
-                icon: Building2,
-                title: "Office and workstation planning",
-                text: "Workstations, office tables, task seating and project furniture for team spaces.",
-              },
-              {
-                icon: PenTool,
-                title: "Customized furniture",
-                text: "Made-to-fit furniture scoped after measurement, finish review and requirement notes.",
-              },
-              {
-                icon: CheckCircle2,
-                title: "Institutional furniture",
-                text: "Furniture support for education, government, healthcare and organizational environments.",
-              },
-              {
-                icon: MapPin,
-                title: "Local enquiry support",
-                text: "Verified city coverage for Visakhapatnam, Kakinada and Bengaluru.",
-              },
-            ].map((item) => (
-              <div
-                className="rounded-lg border border-[#DED7CF] bg-[#FCFBF8] p-5"
-                key={item.title}
-              >
-                <item.icon
-                  aria-hidden="true"
-                  className="h-6 w-6 text-[#C56545]"
-                />
-                <h3 className="mt-4 text-lg font-semibold text-[#202238]">
-                  {item.title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-[#625f5a]">
-                  {item.text}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="bg-[#202238] py-16 text-white md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -351,82 +288,6 @@ export default async function Home() {
             <div className="mt-8">
               <LogoCloud items={clients.slice(0, 12)} />
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#FCFBF8] py-16 md:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            align="center"
-            eyebrow="Locations"
-            title="Furniture enquiries across three verified city locations"
-          />
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {locations.map((location) => (
-              <Link
-                className="rounded-lg border border-[#DED7CF] bg-[#FCFBF8] p-6 transition hover:border-[#C56545]"
-                href={`/locations/${location.slug}`}
-                key={location.slug}
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#C56545]">
-                  {location.region}
-                </p>
-                <h3 className="mt-3 text-xl font-semibold text-[#202238]">
-                  {location.name}
-                </h3>
-                <p className="mt-3 text-sm leading-6 text-[#625f5a]">
-                  {location.intro}
-                </p>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#F5F1EA] py-16 md:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <SectionHeading
-              eyebrow="Insights"
-              title="Useful furniture buying notes"
-            />
-            <Link
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#C56545] hover:text-[#202238]"
-              href="/insights"
-            >
-              Read insights <ArrowRight aria-hidden="true" className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {insights.slice(0, 4).map((article) => (
-              <Link
-                className="overflow-hidden rounded-lg border border-[#DED7CF] bg-[#FCFBF8]"
-                href={`/insights/${article.slug}`}
-                key={article.slug}
-              >
-                <div className="relative aspect-[4/3]">
-                  <Image
-                    alt={article.title}
-                    className="object-cover"
-                    fill
-                    sizes="(min-width: 1024px) 23vw, (min-width: 640px) 45vw, 92vw"
-                    src={article.image}
-                  />
-                </div>
-                <div className="p-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#C56545]">
-                    {article.category}
-                  </p>
-                  <h3 className="mt-3 text-base font-semibold leading-snug text-[#202238]">
-                    {article.title}
-                  </h3>
-                  <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#625f5a]">
-                    {article.excerpt}
-                  </p>
-                </div>
-              </Link>
-            ))}
           </div>
         </div>
       </section>

@@ -1,5 +1,5 @@
 import { siteConfig } from "@/lib/constants";
-import type { Category, Insight, Location, Product, Project } from "@/lib/types";
+import type { Category, Product, Project } from "@/lib/types";
 import { absoluteUrl } from "@/lib/seo";
 
 export function organizationJsonLd() {
@@ -38,27 +38,6 @@ export function websiteJsonLd() {
       target: `${siteConfig.baseUrl}/products?q={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
-  };
-}
-
-export function localBusinessJsonLd(location: Location) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "FurnitureStore",
-    name: `${siteConfig.name} - ${location.name}`,
-    url: absoluteUrl(`/locations/${location.slug}`),
-    email: siteConfig.email,
-    telephone: siteConfig.phoneDisplay,
-    areaServed: location.serviceAreas,
-    address: location.address
-      ? {
-          "@type": "PostalAddress",
-          streetAddress: location.address,
-          addressLocality: location.name,
-          addressRegion: location.region,
-          addressCountry: "IN",
-        }
-      : undefined,
   };
 }
 
@@ -106,27 +85,6 @@ export function itemListJsonLd(name: string, items: Array<{ name: string; href: 
       name: item.name,
       url: absoluteUrl(item.href),
     })),
-  };
-}
-
-export function articleJsonLd(article: Insight) {
-  return {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: article.title,
-    description: article.excerpt,
-    image: absoluteUrl(article.image),
-    datePublished: article.publishedAt,
-    dateModified: article.updatedAt,
-    author: {
-      "@type": "Organization",
-      name: article.author,
-    },
-    publisher: {
-      "@type": "Organization",
-      name: siteConfig.name,
-    },
-    mainEntityOfPage: absoluteUrl(`/insights/${article.slug}`),
   };
 }
 

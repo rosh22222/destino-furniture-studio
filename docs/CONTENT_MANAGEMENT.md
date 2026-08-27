@@ -13,6 +13,4 @@ Recommended content keys:
 
 - Products: `categorySlug`, `brandSlug`, `furnitureType`, `shortDescription`, `fullDescription`, `gallery`, `features`, `materials`, `dimensions`, `finishes`, `relatedSlugs`, `seoTitle`, `seoDescription`.
 - Projects: `clientName`, `sector`, `location`, `gallery`, `scope`, `categories`, `relatedProductSlugs`, `seoTitle`, `seoDescription`.
-- Locations: `region`, `intro`, `services`, `serviceAreas`, `relatedProjectSlugs`, `address`, `businessHours`, `mapEmbedUrl`, `directionsUrl`, `seoTitle`, `seoDescription`.
-- Insights: `category`, `excerpt`, `body`, `author`, `publishedAt`, `seoTitle`, `seoDescription`.
-
+- FAQs: `answer`.

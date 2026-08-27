@@ -5,7 +5,7 @@ import { JsonLd } from "@/components/json-ld";
 import { PageHero } from "@/components/page-hero";
 import { SectionHeading } from "@/components/section-heading";
 import { siteConfig } from "@/lib/constants";
-import { getFaqs, getLocations } from "@/lib/content";
+import { getFaqs } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { faqJsonLd } from "@/lib/structured-data";
 import { whatsappUrl } from "@/lib/whatsapp";
@@ -21,7 +21,7 @@ export const metadata = pageMetadata({
 });
 
 export default async function ContactPage() {
-  const [locations, faqs] = await Promise.all([getLocations(), getFaqs()]);
+  const faqs = await getFaqs();
 
   return (
     <>
@@ -82,19 +82,13 @@ export default async function ContactPage() {
             </div>
             <div className="rounded-lg border border-[#DED7CF] bg-[#F5F1EA] p-6">
               <h2 className="text-2xl font-semibold text-[#202238]">
-                Location pages
+                Service cities
               </h2>
-              <div className="mt-5 grid gap-3">
-                {locations.map((location) => (
-                  <a
-                    className="rounded-[4px] border border-[#DED7CF] bg-[#FCFBF8] p-4 text-sm font-semibold text-[#202238] hover:border-[#C56545]"
-                    href={`/locations/${location.slug}`}
-                    key={location.slug}
-                  >
-                    {location.name}, {location.region}
-                  </a>
-                ))}
-              </div>
+              <p className="mt-4 text-sm leading-6 text-[#625f5a]">
+                Destino handles furniture enquiries across Visakhapatnam,
+                Kakinada and Bengaluru through the contact form, phone and
+                WhatsApp.
+              </p>
             </div>
           </div>
 

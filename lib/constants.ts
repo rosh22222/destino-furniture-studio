@@ -21,11 +21,8 @@ export const navItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
   { label: "Products", href: "/products" },
-  { label: "Solutions", href: "/solutions" },
   { label: "Projects", href: "/projects" },
   { label: "Clients", href: "/clients" },
-  { label: "Locations", href: "/locations" },
-  { label: "Insights", href: "/insights" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -38,4 +35,3 @@ export const confirmationItems = [
   "SKU-level product names, dimensions, materials, finishes and brochures",
   "Any awards, ratings, establishment year, prices or warranty claims",
 ];
-

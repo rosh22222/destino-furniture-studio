@@ -70,20 +70,6 @@ export const adminResources: AdminResource[] = [
     description: "Manage client logos, sectors and display order.",
   },
   {
-    slug: "locations",
-    label: "Locations",
-    table: "locations",
-    kind: "content",
-    description: "Manage city pages, addresses, hours, maps and service areas.",
-  },
-  {
-    slug: "insights",
-    label: "Insights",
-    table: "insights",
-    kind: "content",
-    description: "Manage article drafts, published posts and SEO fields.",
-  },
-  {
     slug: "faqs",
     label: "FAQs",
     table: "faqs",
@@ -264,4 +250,3 @@ export async function getAdminRows(resource: AdminResource): Promise<AdminRow[]>
     updatedAt: row.updated_at,
   }));
 }
-

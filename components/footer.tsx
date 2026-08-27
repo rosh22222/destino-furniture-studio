@@ -2,15 +2,13 @@ import Link from "next/link";
 import { Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 
 import { navItems, siteConfig } from "@/lib/constants";
-import type { Category, Location } from "@/lib/types";
+import type { Category } from "@/lib/types";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 export function Footer({
   categories,
-  locations,
 }: {
   categories: Category[];
-  locations: Location[];
 }) {
   return (
     <footer className="border-t border-[#DED7CF] bg-[#202238] text-[#FCFBF8]">
@@ -97,20 +95,28 @@ export function Footer({
 
         <div>
           <h2 className="text-sm font-semibold uppercase tracking-[0.16em] text-[#C56545]">
-            Locations
+            Enquiry
           </h2>
           <ul className="mt-4 space-y-3 text-sm text-[#DED7CF]">
-            {locations.map((location) => (
-              <li key={location.slug}>
-                <Link
-                  className="hover:text-white"
-                  href={`/locations/${location.slug}`}
-                >
-                  {location.name}, {location.region}
-                </Link>
-              </li>
-            ))}
+            <li>
+              <Link className="hover:text-white" href="/contact#quote">
+                Request a quote
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:text-white" href="/wishlist">
+                Wishlist
+              </Link>
+            </li>
+            <li>
+              <Link className="hover:text-white" href="/contact">
+                Contact Destino
+              </Link>
+            </li>
           </ul>
+          <p className="mt-5 text-sm leading-6 text-[#DED7CF]">
+            Enquiries served across Visakhapatnam, Kakinada and Bengaluru.
+          </p>
           <div className="mt-6 flex gap-4 text-sm text-[#DED7CF]">
             <Link className="hover:text-white" href="/privacy-policy">
               Privacy
@@ -128,4 +134,3 @@ export function Footer({
     </footer>
   );
 }
-

@@ -5,8 +5,6 @@ import {
   categories as seedCategories,
   clients as seedClients,
   faqs as seedFaqs,
-  insights as seedInsights,
-  locations as seedLocations,
   products as seedProducts,
   projects as seedProjects,
 } from "@/lib/data";
@@ -16,8 +14,6 @@ import type {
   Category,
   Client,
   Faq,
-  Insight,
-  Location,
   Product,
   Project,
 } from "@/lib/types";
@@ -181,65 +177,6 @@ export async function getClients(): Promise<Client[]> {
     sector: String(row.content?.sector || "Client"),
     displayOrder: row.display_order ?? 100,
   }));
-}
-
-export async function getLocations(): Promise<Location[]> {
-  const rows = await fetchContentRows("locations");
-
-  if (!rows) {
-    return seedLocations;
-  }
-
-  return rows.map((row) => {
-    const content = row.content || {};
-
-    return {
-      ...(content as Partial<Location>),
-      slug: row.slug,
-      name: row.title,
-      region: String(content.region || ""),
-      intro: String(content.intro || ""),
-      services: Array.isArray(content.services) ? (content.services as string[]) : [],
-      serviceAreas: Array.isArray(content.serviceAreas)
-        ? (content.serviceAreas as string[])
-        : [],
-      relatedProjectSlugs: Array.isArray(content.relatedProjectSlugs)
-        ? (content.relatedProjectSlugs as string[])
-        : [],
-      seoTitle: String(content.seoTitle || row.title),
-      seoDescription: String(content.seoDescription || content.intro || ""),
-      updatedAt: rowDate(row),
-    };
-  });
-}
-
-export async function getInsights(): Promise<Insight[]> {
-  const rows = await fetchContentRows("insights");
-
-  if (!rows) {
-    return [...seedInsights].sort(
-      (a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt),
-    );
-  }
-
-  return rows.map((row) => {
-    const content = row.content || {};
-
-    return {
-      ...(content as Partial<Insight>),
-      slug: row.slug,
-      title: row.title,
-      image: row.image_url || String(content.image || ""),
-      category: String(content.category || "Insights"),
-      excerpt: String(content.excerpt || ""),
-      body: Array.isArray(content.body) ? (content.body as string[]) : [],
-      author: String(content.author || "Destino Furniture Studio"),
-      publishedAt: String(content.publishedAt || rowDate(row)),
-      updatedAt: rowDate(row),
-      seoTitle: String(content.seoTitle || row.title),
-      seoDescription: String(content.seoDescription || content.excerpt || ""),
-    };
-  });
 }
 
 export async function getFaqs(): Promise<Faq[]> {

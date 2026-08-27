@@ -2,31 +2,24 @@ import type { MetadataRoute } from "next";
 
 import {
   getCategories,
-  getInsights,
-  getLocations,
   getProducts,
   getProjects,
 } from "@/lib/content";
 import { absoluteUrl } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [categories, products, projects, locations, insights] = await Promise.all([
+  const [categories, products, projects] = await Promise.all([
     getCategories(),
     getProducts(),
     getProjects(),
-    getLocations(),
-    getInsights(),
   ]);
 
   const staticRoutes = [
     "/",
     "/about",
     "/products",
-    "/solutions",
     "/projects",
     "/clients",
-    "/locations",
-    "/insights",
     "/contact",
     "/privacy-policy",
     "/terms",
@@ -60,19 +53,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
       images: project.coverImage ? [absoluteUrl(project.coverImage)] : [],
     })),
-    ...locations.map((location) => ({
-      url: absoluteUrl(`/locations/${location.slug}`),
-      lastModified: new Date(location.updatedAt),
-      changeFrequency: "weekly" as const,
-      priority: 0.75,
-    })),
-    ...insights.map((article) => ({
-      url: absoluteUrl(`/insights/${article.slug}`),
-      lastModified: new Date(article.updatedAt),
-      changeFrequency: "monthly" as const,
-      priority: 0.65,
-      images: [absoluteUrl(article.image)],
-    })),
   ];
 }
-

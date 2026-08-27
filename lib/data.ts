@@ -410,9 +410,9 @@ export const products: Product[] = [
     featured: true,
     displayOrder: 9,
     status: "published",
-    seoTitle: "Office Interior Solutions | Destino Furniture Studio",
+    seoTitle: "Office Interior Furniture | Destino Furniture Studio",
     seoDescription:
-      "Explore office interior and furniture solutions for commercial spaces in Visakhapatnam, Kakinada and Bengaluru.",
+      "Explore office interior and furniture planning for commercial spaces in Visakhapatnam, Kakinada and Bengaluru.",
     updatedAt: "2026-08-26",
   },
   {

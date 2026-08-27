@@ -3,7 +3,7 @@ import { Manrope } from "next/font/google";
 
 import { SiteChrome } from "@/components/site-chrome";
 import { siteConfig } from "@/lib/constants";
-import { getCategories, getLocations, getProducts } from "@/lib/content";
+import { getCategories, getProducts } from "@/lib/content";
 
 import "./globals.css";
 
@@ -38,9 +38,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [categories, locations, products] = await Promise.all([
+  const [categories, products] = await Promise.all([
     getCategories(),
-    getLocations(),
     getProducts(),
   ]);
 
@@ -49,7 +48,6 @@ export default async function RootLayout({
       <body className="min-h-full">
         <SiteChrome
           categories={categories}
-          locations={locations}
           products={products}
         >
           {children}
