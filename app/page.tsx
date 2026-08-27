@@ -3,9 +3,13 @@ import Link from "next/link";
 import {
   ArrowRight,
   CheckCircle2,
-  MessageCircle,
+  ShieldCheck,
+  Sofa,
+  Sparkles,
+  Table2,
 } from "lucide-react";
 
+import hero1 from "../public/images/hero/hero1.png";
 import { HeroCarousel, type HeroCarouselSlide } from "@/components/hero-carousel";
 import { JsonLd } from "@/components/json-ld";
 import { LeadForm } from "@/components/lead-form";
@@ -35,24 +39,54 @@ export const metadata = pageMetadata({
 
 const heroSlides: HeroCarouselSlide[] = [
   {
-    src: "/images/hero/pastry-chef-office-lounge.jpeg",
-    alt: "Premium office furniture project by Destino Furniture Studio",
-    label: "office furniture project",
+    src: hero1,
+    alt: "Destino Furniture Studio Hero Image",
+    label: "hero image",
+  },
+];
+
+const showcaseBanners = [
+  {
+    title: "Premium seating crafted for calm, comfortable spaces",
+    subtitle:
+      "A refined lounge and visitor seating presentation for offices, waiting areas and hospitality corners.",
+    image: "/images/home-showcase/soft-seating-banner.jpeg",
+    alt: "Premium seating display for Destino Furniture Studio",
+    href: "/product/lounge-and-visitor-seating",
+    cta: "Explore Seating",
+    accent: "#202238",
+    align: "left",
+    features: [
+      {
+        icon: Sofa,
+        title: "Comfort-first upholstery",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Project-grade structure",
+      },
+    ],
   },
   {
-    src: "/images/hero/spl-logistics-workstations.jpeg",
-    alt: "Modern workstation furniture installation by Destino Furniture Studio",
-    label: "workstation installation",
-  },
-  {
-    src: "/images/hero/tarnika-corporate-office.jpeg",
-    alt: "Custom commercial furniture completed by Destino Furniture Studio",
-    label: "custom commercial furniture",
-  },
-  {
-    src: "/images/hero/hospitality-furniture.jpeg",
-    alt: "Restaurant and hospitality furniture project by Destino Furniture Studio",
-    label: "hospitality furniture project",
+    title: "Revamp dining and cafeteria areas with polished furniture sets",
+    subtitle:
+      "Plan dining, restaurant and cafeteria furniture with coordinated seating, table sizes and refined finishes.",
+    image: "/images/home-showcase/dining-banner.jpeg",
+    alt: "Dining and cafeteria furniture display for Destino Furniture Studio",
+    href: "/products/restaurant-furniture",
+    cta: "Explore Dining",
+    accent: "#9A6A45",
+    align: "center",
+    features: [
+      {
+        icon: Table2,
+        title: "Coordinated table sets",
+      },
+      {
+        icon: Sparkles,
+        title: "Refined finish options",
+      },
+    ],
   },
 ];
 
@@ -88,38 +122,93 @@ export default async function Home() {
     <>
       <JsonLd data={organizationJsonLd()} />
       <JsonLd data={websiteJsonLd()} />
-      <section className="relative min-h-[min(760px,calc(100svh-8rem))] overflow-hidden bg-[#202238] text-white md:min-h-[min(880px,calc(100svh-8rem))]">
+      <section className="relative w-full overflow-hidden bg-[#FCFBF8]">
         <HeroCarousel slides={heroSlides} />
-        <div className="relative z-30 mx-auto flex min-h-[min(760px,calc(100svh-8rem))] max-w-7xl items-center px-4 py-16 sm:px-6 md:min-h-[min(880px,calc(100svh-8rem))] lg:px-8">
-          <div className="max-w-3xl">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-[#F5F1EA]">
-              A Unit of Manidivya Enterprises
-            </p>
-            <h1 className="text-4xl font-semibold leading-tight md:text-6xl">
-              Office, custom and commercial furniture for real projects.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-[#F5F1EA]">
-              Destino Furniture Studio helps buyers plan ergonomic chairs,
-              workstations, office tables, customized furniture and commercial
-              interiors across Visakhapatnam, Kakinada and Bengaluru.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-[4px] bg-[#FCFBF8] px-5 text-sm font-semibold text-[#202238] transition hover:bg-[#F5F1EA]"
-                href="/products"
+      </section>
+
+      <section className="bg-[#FBF8F3] py-8 md:py-10">
+        <div className="mx-auto max-w-[1560px] space-y-8 px-4 sm:px-6 lg:px-8">
+          {showcaseBanners.map((banner, index) => (
+            <article
+              className="relative min-h-[440px] overflow-hidden rounded-lg border border-[#E6DDD1] bg-[#F7F0E8] shadow-[0_22px_70px_rgba(32,34,56,0.10)] md:min-h-[390px]"
+              key={banner.title}
+            >
+              <Image
+                alt={banner.alt}
+                className="object-cover"
+                fill
+                priority={index === 0}
+                sizes="(min-width: 1280px) 1500px, 100vw"
+                src={banner.image}
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-[#FBF8F3]/86 via-[#FBF8F3]/36 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#FBF8F3]/80 via-transparent to-transparent md:hidden" />
+              <div
+                className={
+                  banner.align === "center"
+                    ? "relative z-10 flex min-h-[440px] items-center px-5 py-10 md:min-h-[390px] md:justify-center md:px-10"
+                    : "relative z-10 flex min-h-[440px] items-center px-5 py-10 md:min-h-[390px] md:px-10 lg:px-16"
+                }
               >
-                Explore Products
-                <ArrowRight aria-hidden="true" className="h-4 w-4" />
-              </Link>
-              <Link
-                className="inline-flex h-12 items-center justify-center gap-2 rounded-[4px] border border-white/55 px-5 text-sm font-semibold text-white transition hover:border-white hover:bg-white/10"
-                href="/contact#quote"
-              >
-                Request a Quote
-                <MessageCircle aria-hidden="true" className="h-4 w-4" />
-              </Link>
-            </div>
-          </div>
+                <div
+                  className={
+                    banner.align === "center"
+                      ? "max-w-3xl rounded-md bg-[#FBF8F3]/88 px-5 py-7 text-left shadow-[0_18px_60px_rgba(32,34,56,0.10)] sm:px-8 md:text-center"
+                      : "max-w-xl rounded-md bg-[#FBF8F3]/90 px-5 py-7 shadow-[0_18px_60px_rgba(32,34,56,0.10)] sm:px-8"
+                  }
+                >
+                  <h2
+                    className="text-4xl leading-tight text-[#111111] sm:text-5xl lg:text-6xl"
+                    style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                  >
+                    {banner.title}
+                  </h2>
+                  <div
+                    className={
+                      banner.align === "center"
+                        ? "mt-5 h-1 w-36 md:mx-auto"
+                        : "mt-5 h-1 w-36"
+                    }
+                    style={{ backgroundColor: banner.accent }}
+                  />
+                  <p className="mt-5 max-w-2xl text-lg leading-8 text-[#29282D] sm:text-xl">
+                    {banner.subtitle}
+                  </p>
+                  <div
+                    className={
+                      banner.align === "center"
+                        ? "mt-7 flex flex-col gap-4 sm:flex-row sm:items-center md:justify-center"
+                        : "mt-7 flex flex-col gap-4 sm:flex-row sm:items-center"
+                    }
+                  >
+                    {banner.features.map((feature) => {
+                      const Icon = feature.icon;
+
+                      return (
+                        <div className="flex items-center gap-3" key={feature.title}>
+                          <span className="inline-flex h-14 w-14 flex-none items-center justify-center rounded-full bg-black text-white shadow-sm">
+                            <Icon aria-hidden="true" className="h-7 w-7" />
+                          </span>
+                          <span className="max-w-36 text-sm font-semibold leading-5 text-[#111111]">
+                            {feature.title}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-7">
+                    <Link
+                      className="inline-flex h-11 items-center justify-center rounded-[4px] px-5 text-base font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                      href={banner.href}
+                      style={{ backgroundColor: banner.accent }}
+                    >
+                      {banner.cta}
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
