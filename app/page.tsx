@@ -4,6 +4,10 @@ import {
   ArrowRight,
   CheckCircle2,
   MessageCircle,
+  ShieldCheck,
+  Sofa,
+  Sparkles,
+  Table2,
 } from "lucide-react";
 
 import { HeroCarousel, type HeroCarouselSlide } from "@/components/hero-carousel";
@@ -53,6 +57,49 @@ const heroSlides: HeroCarouselSlide[] = [
     src: "/images/hero/hospitality-furniture.jpeg",
     alt: "Restaurant and hospitality furniture project by Destino Furniture Studio",
     label: "hospitality furniture project",
+  },
+];
+
+const showcaseBanners = [
+  {
+    title: "Premium seating crafted for calm, comfortable spaces",
+    subtitle:
+      "A refined lounge and visitor seating presentation for offices, waiting areas and hospitality corners.",
+    image: "/images/home-showcase/soft-seating-banner.jpeg",
+    alt: "Premium seating display for Destino Furniture Studio",
+    href: "/product/lounge-and-visitor-seating",
+    cta: "Explore Seating",
+    accent: "#202238",
+    features: [
+      {
+        icon: Sofa,
+        title: "Comfort-first upholstery",
+      },
+      {
+        icon: ShieldCheck,
+        title: "Project-grade structure",
+      },
+    ],
+  },
+  {
+    title: "Revamp dining and cafeteria areas with polished furniture sets",
+    subtitle:
+      "Plan dining, restaurant and cafeteria furniture with coordinated seating, table sizes and refined finishes.",
+    image: "/images/home-showcase/dining-banner.jpeg",
+    alt: "Dining and cafeteria furniture display for Destino Furniture Studio",
+    href: "/products/restaurant-furniture",
+    cta: "Explore Dining",
+    accent: "#9A6A45",
+    features: [
+      {
+        icon: Table2,
+        title: "Coordinated table sets",
+      },
+      {
+        icon: Sparkles,
+        title: "Refined finish options",
+      },
+    ],
   },
 ];
 
@@ -120,6 +167,68 @@ export default async function Home() {
               </Link>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-8 md:py-10">
+        <div className="mx-auto max-w-[1560px] space-y-8 px-4 sm:px-6 lg:px-8">
+          {showcaseBanners.map((banner, index) => (
+            <article
+              className="group relative min-h-[430px] overflow-hidden rounded-lg border border-[#DED7CF] bg-[#FCFBF8] md:min-h-[390px]"
+              key={banner.title}
+            >
+              <Image
+                alt={banner.alt}
+                className="object-cover transition duration-500 group-hover:scale-[1.015]"
+                fill
+                priority={index === 0}
+                sizes="(min-width: 1280px) 1500px, 100vw"
+                src={banner.image}
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-white via-white/92 to-white/12 md:via-white/78" />
+              <div className="absolute inset-0 bg-gradient-to-t from-white/78 via-transparent to-transparent md:hidden" />
+              <div className="relative z-10 flex min-h-[430px] max-w-2xl flex-col justify-center px-6 py-10 sm:px-10 md:min-h-[390px] lg:px-16">
+                <h2
+                  className="max-w-2xl text-4xl leading-tight text-[#111111] sm:text-5xl lg:text-6xl"
+                  style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                >
+                  {banner.title}
+                </h2>
+                <div
+                  className="mt-5 h-1 w-36"
+                  style={{ backgroundColor: banner.accent }}
+                />
+                <p className="mt-5 max-w-xl text-xl leading-8 text-[#29282D] sm:text-2xl">
+                  {banner.subtitle}
+                </p>
+                <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+                  {banner.features.map((feature) => {
+                    const Icon = feature.icon;
+
+                    return (
+                      <div className="flex items-center gap-3" key={feature.title}>
+                        <span className="inline-flex h-14 w-14 flex-none items-center justify-center rounded-full bg-black text-white">
+                          <Icon aria-hidden="true" className="h-7 w-7" />
+                        </span>
+                        <span className="max-w-36 text-sm font-semibold leading-5 text-[#111111]">
+                          {feature.title}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-8">
+                  <Link
+                    className="inline-flex h-11 items-center justify-center rounded-[4px] px-5 text-base font-semibold text-white transition hover:opacity-90"
+                    href={banner.href}
+                    style={{ backgroundColor: banner.accent }}
+                  >
+                    {banner.cta}
+                  </Link>
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 
