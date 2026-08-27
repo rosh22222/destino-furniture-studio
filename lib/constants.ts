@@ -14,7 +14,7 @@ export const siteConfig = {
     "https://www.destinofurniture.com",
   cities: ["Visakhapatnam", "Kakinada", "Bengaluru"],
   brandLine: "Chairs with Futuristic Options",
-  defaultOgImage: "/legacy/image%20(1)-w08GJtF5.jpeg",
+  defaultOgImage: "/images/site/default-og-office-lounge.jpeg",
 };
 
 export const navItems = [

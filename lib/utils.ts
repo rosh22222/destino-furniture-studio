@@ -4,8 +4,8 @@ export function cn(...inputs: ClassValue[]) {
   return clsx(inputs);
 }
 
-export function legacyAsset(fileName: string) {
-  return encodeURI(`/legacy/${fileName}`);
+export function imageAsset(relativePath: string) {
+  return encodeURI(`/images/${relativePath.replace(/^\/+/, "")}`);
 }
 
 export function slugify(value: string) {
@@ -31,4 +31,3 @@ export function cleanText(value: FormDataEntryValue | null) {
 
   return value.replace(/[<>]/g, "").replace(/\s+/g, " ").trim();
 }
-

@@ -57,3 +57,4 @@ The deployable artifact is emitted to `dist/`.
 - Forms validate, rate-limit and store to Supabase when configured.
 
 See `docs/CONTENT_MANAGEMENT.md`, `docs/SEO_CHECKLIST.md`, `docs/REDIRECT_MAP.md` and `docs/CONFIRMATION_REQUIRED.md` for launch operations.
+See `docs/IMAGE_ASSETS.md` for the organized public image folder map.

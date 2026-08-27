@@ -90,22 +90,7 @@ export type Location = {
   updatedAt: string;
 };
 
-export type Insight = {
-  slug: string;
-  title: string;
-  category: string;
-  excerpt: string;
-  body: string[];
-  image: string;
-  author: string;
-  publishedAt: string;
-  updatedAt: string;
-  seoTitle: string;
-  seoDescription: string;
-};
-
 export type Faq = {
   question: string;
   answer: string;
 };
-

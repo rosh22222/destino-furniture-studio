@@ -15,7 +15,7 @@ export const metadata = pageMetadata({
   description:
     "Learn about Destino Furniture Studio, a unit of Manidivya Enterprises, serving furniture buyers in Visakhapatnam, Kakinada and Bengaluru.",
   path: "/about",
-  image: "/legacy/image%20(1)-w08GJtF5.jpeg",
+  image: "/images/pages/about/hero-office-lounge.jpeg",
 });
 
 export default async function AboutPage() {
@@ -26,7 +26,7 @@ export default async function AboutPage() {
       <PageHero
         breadcrumbs={[{ name: "About", href: "/about" }]}
         eyebrow="About"
-        image="/legacy/image%20(1)-w08GJtF5.jpeg"
+        image="/images/pages/about/hero-office-lounge.jpeg"
         title="A furniture studio built for guided commercial buying"
       >
         <p>
@@ -79,7 +79,7 @@ export default async function AboutPage() {
                 className="object-cover"
                 fill
                 sizes="(min-width: 1024px) 50vw, 92vw"
-                src="/legacy/image%20(1)-D1OB4ju4.jpeg"
+                src="/images/pages/about/workstation-detail.jpeg"
               />
             </div>
             <div className="self-center">

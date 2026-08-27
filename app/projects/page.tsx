@@ -12,7 +12,7 @@ export const metadata = pageMetadata({
   description:
     "Explore completed office, institutional, restaurant, healthcare and commercial furniture project records from Destino Furniture Studio.",
   path: "/projects",
-  image: "/legacy/image%20(1)-w08GJtF5.jpeg",
+  image: "/images/pages/projects/hero-office-lounge.jpeg",
 });
 
 export default async function ProjectsPage() {
@@ -32,7 +32,7 @@ export default async function ProjectsPage() {
       <PageHero
         breadcrumbs={[{ name: "Projects", href: "/projects" }]}
         eyebrow="Projects"
-        image="/legacy/image%20(1)-w08GJtF5.jpeg"
+        image="/images/pages/projects/hero-office-lounge.jpeg"
         title="Completed project records, rebuilt as case studies"
       >
         <p>

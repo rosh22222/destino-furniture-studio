@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: ProjectPageProps) {
     title: project.seoTitle,
     description: project.seoDescription,
     path: `/projects/${project.slug}`,
-    image: project.coverImage || "/legacy/image%20(1)-w08GJtF5.jpeg",
+    image: project.coverImage || "/images/pages/projects/fallback-office-lounge.jpeg",
   });
 }
 
@@ -72,7 +72,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           { name: project.title, href: `/projects/${project.slug}` },
         ]}
         eyebrow={project.sector}
-        image={project.coverImage || "/legacy/image%20(1)-w08GJtF5.jpeg"}
+        image={project.coverImage || "/images/pages/projects/fallback-office-lounge.jpeg"}
         title={project.title}
       >
         <p>

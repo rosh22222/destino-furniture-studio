@@ -35,22 +35,22 @@ export const metadata = pageMetadata({
 
 const heroSlides: HeroCarouselSlide[] = [
   {
-    src: "/legacy/image%20(1)-w08GJtF5.jpeg",
+    src: "/images/hero/pastry-chef-office-lounge.jpeg",
     alt: "Premium office furniture project by Destino Furniture Studio",
     label: "office furniture project",
   },
   {
-    src: "/legacy/image%20(1)-D1OB4ju4.jpeg",
+    src: "/images/hero/spl-logistics-workstations.jpeg",
     alt: "Modern workstation furniture installation by Destino Furniture Studio",
     label: "workstation installation",
   },
   {
-    src: "/legacy/image%20(1)-B3tP8rQx.jpeg",
+    src: "/images/hero/tarnika-corporate-office.jpeg",
     alt: "Custom commercial furniture completed by Destino Furniture Studio",
     label: "custom commercial furniture",
   },
   {
-    src: "/legacy/image%20(1)-CJHwYAep.jpeg",
+    src: "/images/hero/hospitality-furniture.jpeg",
     alt: "Restaurant and hospitality furniture project by Destino Furniture Studio",
     label: "hospitality furniture project",
   },

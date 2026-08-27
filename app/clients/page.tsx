@@ -11,7 +11,7 @@ export const metadata = pageMetadata({
   description:
     "View client organizations and channel partners represented in Destino Furniture Studio's furniture portfolio.",
   path: "/clients",
-  image: "/legacy/image%20(1)-D1OB4ju4.jpeg",
+  image: "/images/pages/clients/hero-workstations.jpeg",
 });
 
 export default async function ClientsPage() {
@@ -23,7 +23,7 @@ export default async function ClientsPage() {
       <PageHero
         breadcrumbs={[{ name: "Clients", href: "/clients" }]}
         eyebrow="Clients"
-        image="/legacy/image%20(1)-D1OB4ju4.jpeg"
+        image="/images/pages/clients/hero-workstations.jpeg"
         title="Clients and partner brands in one clean portfolio view"
       >
         <p>

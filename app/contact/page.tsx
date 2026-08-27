@@ -17,7 +17,7 @@ export const metadata = pageMetadata({
   description:
     "Contact Destino Furniture Studio for office furniture, ergonomic chairs, custom furniture and commercial project quotations.",
   path: "/contact",
-  image: "/legacy/image%20(1)-w08GJtF5.jpeg",
+  image: "/images/pages/contact/hero-office-lounge.jpeg",
 });
 
 export default async function ContactPage() {
@@ -29,7 +29,7 @@ export default async function ContactPage() {
       <PageHero
         breadcrumbs={[{ name: "Contact", href: "/contact" }]}
         eyebrow="Contact"
-        image="/legacy/image%20(1)-w08GJtF5.jpeg"
+        image="/images/pages/contact/hero-office-lounge.jpeg"
         title="Request a quotation or project consultation"
       >
         <p>
