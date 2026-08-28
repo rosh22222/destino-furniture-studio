@@ -2,7 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
-  CheckCircle2,
+  BadgeCheck,
+  ClipboardList,
+  Handshake,
+  Settings2,
 } from "lucide-react";
 
 import hero1 from "../public/images/hero/hero1.png";
@@ -10,17 +13,10 @@ import { HeroCarousel, type HeroCarouselSlide } from "@/components/hero-carousel
 import { JsonLd } from "@/components/json-ld";
 import { LeadForm } from "@/components/lead-form";
 import { LogoCloud } from "@/components/logo-cloud";
-import { ProductCard } from "@/components/product-card";
 import { SectionHeading } from "@/components/section-heading";
-import {
-  getBrands,
-  getCategories,
-  getClients,
-  getProducts,
-} from "@/lib/content";
+import { getBrands, getClients } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
-import type { Brand, Category } from "@/lib/types";
 
 export const revalidate = 3600;
 
@@ -82,28 +78,27 @@ const homeCategories = [
   },
 ];
 
-function categoryBySlug(categories: Category[]) {
-  return new Map(categories.map((category) => [category.slug, category]));
-}
-
-function brandBySlug(brands: Brand[]) {
-  return new Map(brands.map((brand) => [brand.slug, brand]));
-}
+const whyDestinoItems = [
+  {
+    icon: BadgeCheck,
+    text: "Verified categories and product records are preserved.",
+  },
+  {
+    icon: ClipboardList,
+    text: "Wishlist and multi-product quotation flows reduce back-and-forth.",
+  },
+  {
+    icon: Settings2,
+    text: "Admin-managed fields keep claims, specs and SEO editable.",
+  },
+  {
+    icon: Handshake,
+    text: "Partner brands HOF, Spacewood and Paradise are clearly represented.",
+  },
+];
 
 export default async function Home() {
-  const [categories, brands, products, clients] =
-    await Promise.all([
-      getCategories(),
-      getBrands(),
-      getProducts(),
-      getClients(),
-    ]);
-
-  const categoryMap = categoryBySlug(categories);
-  const brandMap = brandBySlug(brands);
-  const featuredProducts = products
-    .filter((product) => product.featured)
-    .slice(0, 6);
+  const [brands, clients] = await Promise.all([getBrands(), getClients()]);
 
   return (
     <>
@@ -172,64 +167,32 @@ export default async function Home() {
       </section>
 
       <section className="bg-[#F5F1EA] py-16 md:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <SectionHeading
-            align="center"
-            eyebrow="Featured products"
-            title="Quote-ready ranges without fake prices"
-          >
-            <p>
-              Product pages support model numbers, dimensions, finishes,
-              brochures and galleries as soon as verified records are added in
-              the admin panel.
-            </p>
-          </SectionHeading>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {featuredProducts.map((product, index) => (
-              <ProductCard
-                brand={
-                  product.brandSlug ? brandMap.get(product.brandSlug) : undefined
-                }
-                category={categoryMap.get(product.categorySlug)}
-                key={product.slug}
-                priority={index < 3}
-                product={product}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C56545]">
+            Why Destino
+          </p>
+          <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight text-[#202238] md:text-4xl">
+            Furniture guidance that keeps every detail clear.
+          </h2>
+          <div className="mx-auto mt-5 h-0.5 w-24 bg-[#C56545]" />
+          <div className="mx-auto mt-10 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {whyDestinoItems.map((item) => {
+              const Icon = item.icon;
 
-      <section className="bg-[#FCFBF8] py-16 md:py-20">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
-          <SectionHeading
-            eyebrow="Why Destino"
-            title="Quiet guidance for furniture decisions that need to hold up"
-          >
-            <p>
-              The site avoids checkout and unverified pricing because furniture
-              decisions depend on models, quantities, finishes, delivery scope
-              and site context.
-            </p>
-          </SectionHeading>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {[
-              "Verified categories and product records are preserved.",
-              "Wishlist and multi-product quotation flows reduce back-and-forth.",
-              "Admin-managed fields keep claims, specs and SEO editable.",
-              "Partner brands HOF, Spacewood and Paradise are clearly represented.",
-            ].map((item) => (
-              <div
-                className="flex gap-3 rounded-lg border border-[#DED7CF] bg-[#FCFBF8] p-4"
-                key={item}
-              >
-                <CheckCircle2
-                  aria-hidden="true"
-                  className="mt-1 h-5 w-5 flex-none text-[#C56545]"
-                />
-                <p className="text-sm leading-6 text-[#29282D]">{item}</p>
-              </div>
-            ))}
+              return (
+                <div
+                  className="rounded-lg border border-[#E6DDD1] bg-[#FCFBF8] p-5 shadow-[0_14px_38px_rgba(32,34,56,0.07)]"
+                  key={item.text}
+                >
+                  <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#202238] text-white shadow-sm">
+                    <Icon aria-hidden="true" className="h-5 w-5" />
+                  </span>
+                  <p className="mt-4 text-sm font-medium leading-6 text-[#29282D]">
+                    {item.text}
+                  </p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -237,13 +200,17 @@ export default async function Home() {
       <section className="bg-[#F5F1EA] py-16 md:py-20">
         <div className="mx-auto max-w-7xl space-y-12 px-4 sm:px-6 lg:px-8">
           <div>
-            <SectionHeading
-              align="center"
-              eyebrow="Channel partners"
-              title="Partner brands"
-            />
-            <div className="mx-auto mt-8 max-w-4xl">
-              <LogoCloud items={brands} />
+            <div className="text-center">
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C56545]">
+                Channel partners
+              </p>
+              <h2 className="mt-3 text-3xl font-bold leading-tight text-[#202238] md:text-4xl">
+                Partner brands
+              </h2>
+              <div className="mx-auto mt-4 h-0.5 w-20 bg-[#C56545]" />
+            </div>
+            <div className="mx-auto mt-8 max-w-5xl">
+              <LogoCloud items={brands} variant="partners" />
             </div>
           </div>
           <div>
