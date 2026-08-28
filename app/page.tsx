@@ -81,18 +81,22 @@ const homeCategories = [
 const whyDestinoItems = [
   {
     icon: BadgeCheck,
+    title: "Verified Records",
     text: "Verified categories and product records are preserved.",
   },
   {
     icon: ClipboardList,
+    title: "Quotation Flow",
     text: "Wishlist and multi-product quotation flows reduce back-and-forth.",
   },
   {
     icon: Settings2,
+    title: "Editable Details",
     text: "Admin-managed fields keep claims, specs and SEO editable.",
   },
   {
     icon: Handshake,
+    title: "Partner Brands",
     text: "Partner brands HOF, Spacewood and Paradise are clearly represented.",
   },
 ];
@@ -166,7 +170,7 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-[#F5F1EA] py-16 md:py-20">
+      <section className="bg-[#F7F3ED] py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C56545]">
             Why Destino
@@ -175,19 +179,22 @@ export default async function Home() {
             Furniture guidance that keeps every detail clear.
           </h2>
           <div className="mx-auto mt-5 h-0.5 w-24 bg-[#C56545]" />
-          <div className="mx-auto mt-10 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mx-auto mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {whyDestinoItems.map((item) => {
               const Icon = item.icon;
 
               return (
                 <div
-                  className="rounded-lg border border-[#E6DDD1] bg-[#FCFBF8] p-5 shadow-[0_14px_38px_rgba(32,34,56,0.07)]"
+                  className="flex min-h-72 flex-col items-center justify-center rounded-lg bg-white px-6 py-9 shadow-[0_18px_55px_rgba(32,34,56,0.08)]"
                   key={item.text}
                 >
-                  <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#202238] text-white shadow-sm">
-                    <Icon aria-hidden="true" className="h-5 w-5" />
+                  <span className="flex h-24 w-24 items-center justify-center text-[#164C46]">
+                    <Icon aria-hidden="true" className="h-16 w-16 stroke-[1.7]" />
                   </span>
-                  <p className="mt-4 text-sm font-medium leading-6 text-[#29282D]">
+                  <h3 className="mt-6 text-xl font-bold leading-tight text-[#164C46]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-4 text-base font-medium leading-7 text-[#4F4B4A]">
                     {item.text}
                   </p>
                 </div>
@@ -220,7 +227,7 @@ export default async function Home() {
               title="Organizations represented in the Destino portfolio"
             />
             <div className="mt-8">
-              <LogoCloud items={clients.slice(0, 12)} />
+              <LogoCloud items={clients} variant="marquee" />
             </div>
           </div>
         </div>

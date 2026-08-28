@@ -43,6 +43,16 @@ img {
   max-width: 100%;
 }
 
+@keyframes client-logo-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 :focus-visible {
   outline-color: var(--terracotta);
 }
