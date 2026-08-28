@@ -11,14 +11,12 @@ import { JsonLd } from "@/components/json-ld";
 import { LeadForm } from "@/components/lead-form";
 import { LogoCloud } from "@/components/logo-cloud";
 import { ProductCard } from "@/components/product-card";
-import { ProjectCard } from "@/components/project-card";
 import { SectionHeading } from "@/components/section-heading";
 import {
   getBrands,
   getCategories,
   getClients,
   getProducts,
-  getProjects,
 } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
@@ -41,6 +39,49 @@ const heroSlides: HeroCarouselSlide[] = [
   },
 ];
 
+const homeCategories = [
+  {
+    title: "Ergonomic Chairs",
+    href: "/products/ergonomic-chairs",
+    image: "/images/categories/ergonomic-chairs/cover.jpeg",
+  },
+  {
+    title: "Office Chairs",
+    href: "/products/office-chairs",
+    image: "/images/categories/office-chairs/cover.jpeg",
+  },
+  {
+    title: "Office Tables",
+    href: "/products/office-tables",
+    image: "/images/categories/office-tables/cover.jpeg",
+  },
+  {
+    title: "Cafeteria Chairs",
+    href: "/products/cafeteria-furniture",
+    image: "/images/categories/cafeteria-furniture/cover.jpeg",
+  },
+  {
+    title: "Workstation Tables",
+    href: "/product/workstation-table-system",
+    image: "/images/products/workstation-table-system/cover.jpeg",
+  },
+  {
+    title: "Workstation Chairs",
+    href: "/products/workstation-tables-and-chairs",
+    image: "/images/categories/workstation-tables-and-chairs/cover.jpeg",
+  },
+  {
+    title: "Wood Collection",
+    href: "/product/custom-storage-and-cabinetry",
+    image: "/images/products/custom-storage-and-cabinetry/cover.jpeg",
+  },
+  {
+    title: "Office Turnkey Interiors",
+    href: "/product/office-interior-turnkey-furniture",
+    image: "/images/products/office-interior-turnkey-furniture/cover.jpeg",
+  },
+];
+
 function categoryBySlug(categories: Category[]) {
   return new Map(categories.map((category) => [category.slug, category]));
 }
@@ -50,24 +91,19 @@ function brandBySlug(brands: Brand[]) {
 }
 
 export default async function Home() {
-  const [categories, brands, products, projects, clients] =
+  const [categories, brands, products, clients] =
     await Promise.all([
       getCategories(),
       getBrands(),
       getProducts(),
-      getProjects(),
       getClients(),
     ]);
 
   const categoryMap = categoryBySlug(categories);
   const brandMap = brandBySlug(brands);
-  const featuredCategories = categories.filter((category) => category.featured);
   const featuredProducts = products
     .filter((product) => product.featured)
     .slice(0, 6);
-  const featuredProjects = projects
-    .filter((project) => project.featured)
-    .slice(0, 4);
 
   return (
     <>
@@ -95,45 +131,39 @@ export default async function Home() {
 
       <section className="bg-[#FCFBF8] py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <SectionHeading
-              eyebrow="Catalogue"
-              title="Furniture categories built around real buying needs"
-            >
-              <p>
-                Explore office, institutional, restaurant, domestic and custom
-                furniture categories with enquiry-first product pages.
-              </p>
-            </SectionHeading>
+          <div className="mb-10 text-center">
+            <h2 className="text-3xl font-bold leading-tight text-[#202238] sm:text-4xl">
+              Categories
+            </h2>
+            <div className="mx-auto mt-4 h-0.5 w-20 bg-[#C56545]" />
             <Link
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#C56545] hover:text-[#202238]"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#C56545] hover:text-[#202238]"
               href="/products"
             >
               View all products{" "}
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredCategories.map((category, index) => (
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {homeCategories.map((category) => (
               <Link
-                className="group relative min-h-72 overflow-hidden rounded-lg border border-[#DED7CF] bg-[#F5F1EA]"
-                href={`/products/${category.slug}`}
-                key={category.slug}
+                className="group relative min-h-64 overflow-hidden rounded-lg border border-[#DED7CF] bg-[#F5F1EA] shadow-[0_14px_42px_rgba(32,34,56,0.08)]"
+                href={category.href}
+                key={category.title}
               >
                 <Image
-                  alt={`${category.name} by Destino Furniture Studio`}
+                  alt={`${category.title} by Destino Furniture Studio`}
                   className="object-cover transition duration-300 group-hover:scale-[1.03]"
                   fill
-                  priority={index < 2}
-                  sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
+                  priority
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 92vw"
                   src={category.image}
                 />
-                <div className="absolute inset-0 bg-[#202238]/34" />
-                <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                  <h3 className="text-xl font-semibold">{category.name}</h3>
-                  <p className="mt-2 text-sm leading-6 text-[#F5F1EA]">
-                    {category.summary}
-                  </p>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#202238]/72 via-[#202238]/18 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5 text-center text-white">
+                  <h3 className="text-xl font-bold leading-tight">
+                    {category.title}
+                  </h3>
                 </div>
               </Link>
             ))}
@@ -170,39 +200,6 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-[#202238] py-16 text-white md:py-20">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-            <SectionHeading
-              eyebrow="Projects"
-              tone="inverse"
-              title="Selected completed project records"
-            >
-              <p className="text-[#DED7CF]">
-                Real project photographs from the existing Destino portfolio are
-                preserved as professional case-study pages.
-              </p>
-            </SectionHeading>
-            <Link
-              className="inline-flex items-center gap-2 text-sm font-semibold text-[#F5F1EA] hover:text-white"
-              href="/projects"
-            >
-              View all projects{" "}
-              <ArrowRight aria-hidden="true" className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {featuredProjects.map((project, index) => (
-              <ProjectCard
-                key={project.slug}
-                priority={index < 2}
-                project={project}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="bg-[#FCFBF8] py-16 md:py-20">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
           <SectionHeading
@@ -217,7 +214,7 @@ export default async function Home() {
           </SectionHeading>
           <div className="grid gap-4 sm:grid-cols-2">
             {[
-              "Verified categories and project records are preserved.",
+              "Verified categories and product records are preserved.",
               "Wishlist and multi-product quotation flows reduce back-and-forth.",
               "Admin-managed fields keep claims, specs and SEO editable.",
               "Partner brands HOF, Spacewood and Paradise are clearly represented.",
