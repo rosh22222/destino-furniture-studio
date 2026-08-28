@@ -3,7 +3,7 @@
 Live website imagery is organized by usage under `public/images/`.
 
 - `hero/`: homepage carousel slides.
-- `home-showcase/`: homepage promotional banner placeholders shown after the hero.
+- `home-showcase/`: homepage promotional banners shown after the hero.
 - `pages/`: static page hero/detail images.
 - `categories/`: product category cards.
 - `products/<product-slug>/`: product cover and gallery images.
@@ -51,8 +51,7 @@ To replace an image without changing code, keep the same file path and extension
 | `/images/hero/pastry-chef-office-lounge.jpeg` | `image (1)-w08GJtF5.jpeg` |
 | `/images/hero/spl-logistics-workstations.jpeg` | `image (1)-D1OB4ju4.jpeg` |
 | `/images/hero/tarnika-corporate-office.jpeg` | `image (1)-B3tP8rQx.jpeg` |
-| `/images/home-showcase/dining-banner.jpeg` | temporary homepage dining banner |
-| `/images/home-showcase/soft-seating-banner.jpeg` | temporary homepage seating banner |
+| `/images/home-showcase/cosy-chair.png` | uploaded homepage cosy chair banner |
 | `/images/pages/about/hero-office-lounge.jpeg` | `image (1)-w08GJtF5.jpeg` |
 | `/images/pages/about/workstation-detail.jpeg` | `image (1)-D1OB4ju4.jpeg` |
 | `/images/pages/clients/hero-workstations.jpeg` | `image (1)-D1OB4ju4.jpeg` |

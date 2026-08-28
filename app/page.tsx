@@ -3,10 +3,6 @@ import Link from "next/link";
 import {
   ArrowRight,
   CheckCircle2,
-  ShieldCheck,
-  Sofa,
-  Sparkles,
-  Table2,
 } from "lucide-react";
 
 import hero1 from "../public/images/hero/hero1.png";
@@ -42,51 +38,6 @@ const heroSlides: HeroCarouselSlide[] = [
     src: hero1,
     alt: "Destino Furniture Studio Hero Image",
     label: "hero image",
-  },
-];
-
-const showcaseBanners = [
-  {
-    title: "Premium seating crafted for calm, comfortable spaces",
-    subtitle:
-      "A refined lounge and visitor seating presentation for offices, waiting areas and hospitality corners.",
-    image: "/images/home-showcase/soft-seating-banner.jpeg",
-    alt: "Premium seating display for Destino Furniture Studio",
-    href: "/product/lounge-and-visitor-seating",
-    cta: "Explore Seating",
-    accent: "#202238",
-    align: "left",
-    features: [
-      {
-        icon: Sofa,
-        title: "Comfort-first upholstery",
-      },
-      {
-        icon: ShieldCheck,
-        title: "Project-grade structure",
-      },
-    ],
-  },
-  {
-    title: "Revamp dining and cafeteria areas with polished furniture sets",
-    subtitle:
-      "Plan dining, restaurant and cafeteria furniture with coordinated seating, table sizes and refined finishes.",
-    image: "/images/home-showcase/dining-banner.jpeg",
-    alt: "Dining and cafeteria furniture display for Destino Furniture Studio",
-    href: "/products/restaurant-furniture",
-    cta: "Explore Dining",
-    accent: "#9A6A45",
-    align: "center",
-    features: [
-      {
-        icon: Table2,
-        title: "Coordinated table sets",
-      },
-      {
-        icon: Sparkles,
-        title: "Refined finish options",
-      },
-    ],
   },
 ];
 
@@ -126,89 +77,19 @@ export default async function Home() {
         <HeroCarousel slides={heroSlides} />
       </section>
 
-      <section className="bg-[#FBF8F3] py-8 md:py-10">
-        <div className="mx-auto max-w-[1560px] space-y-8 px-4 sm:px-6 lg:px-8">
-          {showcaseBanners.map((banner, index) => (
-            <article
-              className="relative min-h-[440px] overflow-hidden rounded-lg border border-[#E6DDD1] bg-[#F7F0E8] shadow-[0_22px_70px_rgba(32,34,56,0.10)] md:min-h-[390px]"
-              key={banner.title}
-            >
-              <Image
-                alt={banner.alt}
-                className="object-cover"
-                fill
-                priority={index === 0}
-                sizes="(min-width: 1280px) 1500px, 100vw"
-                src={banner.image}
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-[#FBF8F3]/86 via-[#FBF8F3]/36 to-transparent" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#FBF8F3]/80 via-transparent to-transparent md:hidden" />
-              <div
-                className={
-                  banner.align === "center"
-                    ? "relative z-10 flex min-h-[440px] items-center px-5 py-10 md:min-h-[390px] md:justify-center md:px-10"
-                    : "relative z-10 flex min-h-[440px] items-center px-5 py-10 md:min-h-[390px] md:px-10 lg:px-16"
-                }
-              >
-                <div
-                  className={
-                    banner.align === "center"
-                      ? "max-w-3xl rounded-md bg-[#FBF8F3]/88 px-5 py-7 text-left shadow-[0_18px_60px_rgba(32,34,56,0.10)] sm:px-8 md:text-center"
-                      : "max-w-xl rounded-md bg-[#FBF8F3]/90 px-5 py-7 shadow-[0_18px_60px_rgba(32,34,56,0.10)] sm:px-8"
-                  }
-                >
-                  <h2
-                    className="text-4xl leading-tight text-[#111111] sm:text-5xl lg:text-6xl"
-                    style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-                  >
-                    {banner.title}
-                  </h2>
-                  <div
-                    className={
-                      banner.align === "center"
-                        ? "mt-5 h-1 w-36 md:mx-auto"
-                        : "mt-5 h-1 w-36"
-                    }
-                    style={{ backgroundColor: banner.accent }}
-                  />
-                  <p className="mt-5 max-w-2xl text-lg leading-8 text-[#29282D] sm:text-xl">
-                    {banner.subtitle}
-                  </p>
-                  <div
-                    className={
-                      banner.align === "center"
-                        ? "mt-7 flex flex-col gap-4 sm:flex-row sm:items-center md:justify-center"
-                        : "mt-7 flex flex-col gap-4 sm:flex-row sm:items-center"
-                    }
-                  >
-                    {banner.features.map((feature) => {
-                      const Icon = feature.icon;
-
-                      return (
-                        <div className="flex items-center gap-3" key={feature.title}>
-                          <span className="inline-flex h-14 w-14 flex-none items-center justify-center rounded-full bg-black text-white shadow-sm">
-                            <Icon aria-hidden="true" className="h-7 w-7" />
-                          </span>
-                          <span className="max-w-36 text-sm font-semibold leading-5 text-[#111111]">
-                            {feature.title}
-                          </span>
-                        </div>
-                      );
-                    })}
-                  </div>
-                  <div className="mt-7">
-                    <Link
-                      className="inline-flex h-11 items-center justify-center rounded-[4px] px-5 text-base font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                      href={banner.href}
-                      style={{ backgroundColor: banner.accent }}
-                    >
-                      {banner.cta}
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </article>
-          ))}
+      <section className="bg-[#FBF8F3] px-4 py-8 sm:px-6 md:py-10 lg:px-8">
+        <div className="mx-auto max-w-[1560px] overflow-hidden rounded-lg border border-[#E6DDD1] bg-[#F7F0E8] shadow-[0_22px_70px_rgba(32,34,56,0.10)]">
+          <Image
+            alt="Premium cosy chair seating banner for Destino Furniture Studio"
+            className="h-auto w-full"
+            height={917}
+            priority
+            quality={100}
+            sizes="(min-width: 1280px) 1500px, 100vw"
+            src="/images/home-showcase/cosy-chair.png"
+            unoptimized
+            width={2048}
+          />
         </div>
       </section>
 
