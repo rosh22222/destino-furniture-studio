@@ -69,10 +69,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         )}
       />
       <PageHero
-        breadcrumbs={[
-          { name: "Products", href: "/products" },
-          { name: category.name, href: `/products/${category.slug}` },
-        ]}
+
         eyebrow="Category"
         image={category.image}
         title={category.name}

@@ -64,13 +64,19 @@ export function WishlistPage() {
                   className="relative aspect-[4/3] overflow-hidden rounded-[4px] bg-[#F5F1EA]"
                   href={`/product/${product.slug}`}
                 >
-                  <Image
-                    alt={product.name}
-                    className="object-cover"
-                    fill
-                    sizes="140px"
-                    src={product.image}
-                  />
+                  {product.image ? (
+                    <Image
+                      alt={product.name}
+                      className="object-cover"
+                      fill
+                      sizes="140px"
+                      src={product.image}
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-xs text-gray-400">
+                      No Image
+                    </div>
+                  )}
                 </Link>
                 <div>
                   <h2 className="text-lg font-semibold text-[#202238]">

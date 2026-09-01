@@ -1,5 +1,17 @@
 import type { Product } from "@/lib/types";
 
+const standardProductTypes = [
+  "Chairs",
+  "Workstations",
+  "Tables",
+  "Storage",
+  "Recliners",
+  "Swings",
+  "Sofas",
+];
+
+const hiddenCustomizedProductSlugs = ["lounge-and-visitor-seating"];
+
 export type NormalizedProductFilters = {
   q: string;
   category: string;
@@ -55,7 +67,12 @@ export function filterProducts(
     const matchesBrand = filters.brand
       ? product.brandSlug === filters.brand
       : true;
-    const matchesType = filters.type ? product.furnitureType === filters.type : true;
+    const matchesType = filters.type
+      ? filters.type === "Customized"
+        ? !hiddenCustomizedProductSlugs.includes(product.slug) &&
+          !standardProductTypes.includes(product.furnitureType)
+        : product.furnitureType === filters.type
+      : true;
 
     return matchesQuery && matchesCategory && matchesBrand && matchesType;
   });
@@ -81,4 +98,3 @@ export function hasActiveProductFilters(filters: NormalizedProductFilters) {
       filters.page > 1,
   );
 }
-

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Download, MessageCircle } from "lucide-react";
 
-import { Breadcrumbs } from "@/components/breadcrumbs";
+
 import { ImageGallery } from "@/components/image-gallery";
 import { JsonLd } from "@/components/json-ld";
 import { LeadForm } from "@/components/lead-form";
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: ProductPageProps) {
     title: product.seoTitle,
     description: product.seoDescription,
     path: `/product/${product.slug}`,
-    image: product.image,
+    image: product.image || undefined,
   });
 }
 
@@ -65,41 +65,38 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const relatedProducts = products
     .filter((item) => product.relatedSlugs.includes(item.slug))
     .slice(0, 3);
-  const breadcrumbs = [
-    { name: "Products", href: "/products" },
-    {
-      name: category?.name || "Furniture",
-      href: category ? `/products/${category.slug}` : "/products",
-    },
-    { name: product.name, href: `/product/${product.slug}` },
-  ];
+
 
   return (
     <>
       <JsonLd data={productJsonLd(product, category)} />
-      <section className="bg-[#F5F1EA]">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <Breadcrumbs items={breadcrumbs} />
-        </div>
-      </section>
+
 
       <section className="bg-[#FCFBF8] py-10 md:py-16">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
           <div className="space-y-4">
             <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-[#DED7CF] bg-[#F5F1EA]">
-              <Image
-                alt={`${product.name} by Destino Furniture Studio`}
-                className="object-cover"
-                fill
-                priority
-                sizes="(min-width: 1024px) 52vw, 92vw"
-                src={product.image}
-              />
+              {product.image ? (
+                <Image
+                  alt={`${product.name} by Destino Furniture Studio`}
+                  className="object-cover"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 52vw, 92vw"
+                  src={product.image}
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-gray-400">
+                  No Image
+                </div>
+              )}
             </div>
-            <ImageGallery
-              images={product.gallery.filter((image) => image !== product.image)}
-              title={product.name}
-            />
+            {product.gallery?.length > 0 && (
+              <ImageGallery
+                images={product.gallery.filter((image) => image !== product.image)}
+                title={product.name}
+              />
+            )}
           </div>
 
           <div>

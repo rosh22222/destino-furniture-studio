@@ -60,6 +60,20 @@ function rowDate(row: ContentRow) {
   return row.updated_at?.slice(0, 10) || "2026-08-26";
 }
 
+function clientFromRow(row: ContentRow, fallback?: Client): Client {
+  const content = row.content || {};
+
+  return {
+    ...fallback,
+    ...(content as Partial<Client>),
+    slug: row.slug,
+    name: row.title || fallback?.name || row.slug,
+    logo: row.image_url || String(content.logo || fallback?.logo || ""),
+    sector: String(content.sector || fallback?.sector || "Client"),
+    displayOrder: row.display_order ?? fallback?.displayOrder ?? 100,
+  };
+}
+
 export async function getCategories(): Promise<Category[]> {
   const rows = await fetchContentRows("product_categories");
 
@@ -169,14 +183,13 @@ export async function getClients(): Promise<Client[]> {
     return byOrder(seedClients);
   }
 
-  return rows.map((row) => ({
-    ...(row.content as Partial<Client>),
-    slug: row.slug,
-    name: row.title,
-    logo: row.image_url || String(row.content?.logo || ""),
-    sector: String(row.content?.sector || "Client"),
-    displayOrder: row.display_order ?? 100,
-  }));
+  const mergedClients = new Map(seedClients.map((client) => [client.slug, client]));
+
+  rows.forEach((row) => {
+    mergedClients.set(row.slug, clientFromRow(row, mergedClients.get(row.slug)));
+  });
+
+  return byOrder([...mergedClients.values()]);
 }
 
 export async function getFaqs(): Promise<Faq[]> {

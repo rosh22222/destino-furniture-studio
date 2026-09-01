@@ -59,9 +59,9 @@ export function productJsonLd(product: Product, category?: Category) {
     "@context": "https://schema.org",
     "@type": "Product",
     name: product.name,
-    image: product.gallery.length
+    image: product.gallery?.length
       ? product.gallery.map((image) => absoluteUrl(image))
-      : [absoluteUrl(product.image)],
+      : product.image ? [absoluteUrl(product.image)] : undefined,
     description: product.shortDescription,
     sku: product.sku,
     category: category?.name,

@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/json-ld";
 import { LeadForm } from "@/components/lead-form";
 import { PageHero } from "@/components/page-hero";
 import { ProductCard } from "@/components/product-card";
+import { ProjectEnquiryModal } from "@/components/project-enquiry-modal";
 import { getBrands, getCategories, getProducts, getProjects } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { projectJsonLd } from "@/lib/structured-data";
@@ -71,13 +72,22 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           { name: "Projects", href: "/projects" },
           { name: project.title, href: `/projects/${project.slug}` },
         ]}
-        eyebrow={project.sector}
         image={project.coverImage || "/images/pages/projects/fallback-office-lounge.jpeg"}
         title={project.title}
       >
-        <p>
-          {project.location} | {project.description}
-        </p>
+        <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-[#DED7CF]">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-[#C56545]"></span>
+            <span className="text-sm font-bold tracking-[0.2em] uppercase text-white">{project.sector}</span>
+          </div>
+          <div className="hidden sm:block h-4 w-[1px] bg-white/30"></div>
+          <div className="flex items-center gap-2">
+            <span className="text-sm font-medium tracking-wide">{project.location}</span>
+          </div>
+        </div>
+        <div className="mt-8 max-w-2xl text-[17px] leading-relaxed text-white/90">
+          {project.description}
+        </div>
       </PageHero>
 
       <section className="bg-[#FCFBF8] py-12 md:py-16">
@@ -183,26 +193,19 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         </section>
       ) : null}
 
-      <section className="bg-[#202238] py-12 md:py-16">
-        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.75fr_1fr] lg:px-8">
-          <div className="text-white">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#C56545]">
-              Project enquiry
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold">
-              Planning a similar requirement?
-            </h2>
-            <p className="mt-4 text-sm leading-6 text-[#DED7CF]">
-              Share the city, room type, quantities and any reference products
-              so Destino can respond with a useful next step.
-            </p>
-          </div>
-          <LeadForm
-            intent="project"
-            project={project.title}
-            sourcePath={`/projects/${project.slug}`}
-            title="Discuss this project type"
-          />
+      <section className="bg-white py-20 md:py-32 border-t border-[#E6DDD1]">
+        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+          <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C56545]">
+            Project enquiry
+          </span>
+          <h2 className="mt-4 text-4xl font-bold text-[#202238] sm:text-5xl">
+            Planning a similar requirement?
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-[#625f5a]">
+            Share the city, room type, quantities and any reference products
+            so Destino can respond with a useful next step.
+          </p>
+          <ProjectEnquiryModal projectSlug={project.slug} projectTitle={project.title} />
         </div>
       </section>
     </>

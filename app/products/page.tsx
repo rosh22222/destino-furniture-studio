@@ -1,12 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 
-import { Breadcrumbs } from "@/components/breadcrumbs";
+
 import { ProductCard } from "@/components/product-card";
-import {
-  ProductFilterForm,
-  type ProductFilters,
-} from "@/components/product-filter-form";
 import { SectionHeading } from "@/components/section-heading";
 import { getBrands, getCategories, getProducts } from "@/lib/content";
 import {
@@ -20,6 +16,32 @@ import { JsonLd } from "@/components/json-ld";
 
 export const revalidate = 3600;
 
+const productTypeFilters = [
+  { label: "Chairs", value: "Chairs" },
+  { label: "Workstations", value: "Workstations" },
+  { label: "Tables", value: "Tables" },
+  { label: "Storage", value: "Storage" },
+  { label: "Recliners", value: "Recliners" },
+  { label: "Swings", value: "Swings" },
+  { label: "Sofas", value: "Sofas" },
+  { label: "Customized", value: "Customized" },
+];
+
+const standardProductTypes = productTypeFilters
+  .map((type) => type.value)
+  .filter((type) => type !== "Customized");
+
+function matchesType(product: { furnitureType: string; slug: string }, filterType: string) {
+  if (filterType === "Customized") {
+    return (
+      product.slug !== "lounge-and-visitor-seating" &&
+      !standardProductTypes.includes(product.furnitureType)
+    );
+  }
+
+  return product.furnitureType === filterType;
+}
+
 type ProductsPageProps = {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
@@ -32,6 +54,7 @@ export async function generateMetadata({ searchParams }: ProductsPageProps) {
     description:
       "Search and filter office furniture, ergonomic chairs, office tables, cafeteria furniture and custom furniture ranges from Destino Furniture Studio.",
     path: "/products",
+    image: "/images/pages/products/product-hero-banner.png",
     noIndex: hasActiveProductFilters(filters),
   });
 }
@@ -44,13 +67,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   ]);
   const filters = normalizeProductFilters(await searchParams);
   const filteredProducts = filterProducts(products, filters);
-  const pageSize = 9;
-  const pageCount = Math.max(1, Math.ceil(filteredProducts.length / pageSize));
-  const currentPage = Math.min(filters.page, pageCount);
-  const visibleProducts = filteredProducts.slice(
-    (currentPage - 1) * pageSize,
-    currentPage * pageSize,
-  );
+  const visibleProducts = filteredProducts;
   const categoryMap = new Map(categories.map((category) => [category.slug, category]));
   const brandMap = new Map(brands.map((brand) => [brand.slug, brand]));
   const types = [...new Set(products.map((product) => product.furnitureType))].sort();
@@ -74,36 +91,72 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           })),
         )}
       />
-      <section className="bg-[#F5F1EA]">
-        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-          <Breadcrumbs items={[{ name: "Products", href: "/products" }]} />
-          <div className="mt-8">
-            <SectionHeading
-              eyebrow="Products"
-              title="Furniture catalogue for quotation-led buying"
-            >
-              <p>
-                Search by furniture type, category or partner brand. Product
-                pages hide unverified specs and keep quotation requests clear.
-              </p>
-            </SectionHeading>
+
+
+      <section className="text-center">
+        <div className="relative flex h-[300px] items-center justify-center overflow-hidden bg-[#F4EFE7] sm:h-[360px] lg:h-[411px]">
+          <Image
+            alt="Destino furniture products banner"
+            className="object-cover object-center"
+            fill
+            priority
+            src="/images/pages/products/product-hero-banner.png"
+          />
+          <div className="absolute inset-0 bg-white/62" />
+          <div className="relative max-w-3xl px-5">
+            <span className="text-[11px] font-bold uppercase tracking-[0.45em] text-[#B9854F]">
+              Product catalogue
+            </span>
+            <h1 className="mt-5 text-5xl font-extrabold leading-none tracking-normal text-[#164E4A] sm:text-6xl lg:text-7xl">
+              PRODUCTS
+            </h1>
+            <p className="mt-2 text-4xl font-light italic leading-tight text-[#77746F] sm:text-5xl lg:text-6xl">
+              & Collections.
+            </p>
+            <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-[#4F5E5A]">
+              Explore seating, workstations, tables, storage, sofas and custom
+              furniture ranges curated for premium workspaces.
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="bg-[#FCFBF8] py-10 md:py-14">
+      <section className="bg-white py-10 md:py-14">
         <div className="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
-          <ProductFilterForm
-            brands={brands}
-            categories={categories}
-            filters={filters as ProductFilters}
-            types={types}
-          />
+          {/* Quick Filter Buttons */}
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-sm font-semibold text-[#202238]">Product Types:</span>
+            <Link
+              href="/products"
+              className={`rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
+                filters.type
+                  ? "bg-[#F5F1EA] text-[#4F4B4A] hover:bg-[#C56545] hover:text-white"
+                  : "bg-[#1E3A8A] text-white"
+              }`}
+            >
+              All
+            </Link>
+            {productTypeFilters.map((type) => {
+              const isActive = filters.type === type.value;
+              return (
+                <Link
+                  key={type.value}
+                  href={`/products?type=${encodeURIComponent(type.value)}`}
+                  className={`rounded-full px-4 py-1.5 text-sm font-bold transition-colors ${
+                    isActive
+                      ? "bg-[#1E3A8A] text-white"
+                      : "bg-[#F5F1EA] text-[#4F4B4A] hover:bg-[#C56545] hover:text-white"
+                  }`}
+                >
+                  {type.label}
+                </Link>
+              );
+            })}
+          </div>
 
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-[#625f5a]">
-              Showing {visibleProducts.length} of {filteredProducts.length} products
-            </p>
+
+
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end">
             {hasActiveProductFilters(filters) ? (
               <Link
                 className="text-sm font-semibold text-[#C56545] hover:text-[#202238]"
@@ -115,18 +168,40 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
           </div>
 
           {visibleProducts.length ? (
-            <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {visibleProducts.map((product, index) => (
-                <ProductCard
-                  brand={
-                    product.brandSlug ? brandMap.get(product.brandSlug) : undefined
-                  }
-                  category={categoryMap.get(product.categorySlug)}
-                  key={product.slug}
-                  priority={index < 3}
-                  product={product}
-                />
-              ))}
+            <div className="space-y-16">
+              {(() => {
+                const mainTypes = productTypeFilters;
+                
+                const renderedMain = mainTypes.map((type) => {
+                  const productsOfType = visibleProducts.filter(
+                    (product) => matchesType(product, type.value)
+                  );
+                  if (productsOfType.length === 0) return null;
+                  
+                  return (
+                    <div key={type.value} className="space-y-6">
+                      <h2 className="text-2xl font-bold text-[#202238] border-b border-[#DED7CF] pb-2">
+                        {type.label}
+                      </h2>
+                      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                        {productsOfType.map((product, index) => (
+                          <ProductCard
+                            brand={
+                              product.brandSlug ? brandMap.get(product.brandSlug) : undefined
+                            }
+                            category={categoryMap.get(product.categorySlug)}
+                            key={product.slug}
+                            priority={index < 3}
+                            product={product}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                });
+
+                return renderedMain;
+              })()}
             </div>
           ) : (
             <div className="rounded-lg border border-[#DED7CF] bg-[#FCFBF8] p-8 text-center">
@@ -141,43 +216,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             </div>
           )}
 
-          {pageCount > 1 ? (
-            <nav
-              aria-label="Product pagination"
-              className="flex items-center justify-center gap-3"
-            >
-              {currentPage > 1 ? (
-                <Link
-                  className="inline-flex h-11 items-center gap-2 rounded-[4px] border border-[#DED7CF] px-4 text-sm font-semibold text-[#202238] hover:border-[#C56545]"
-                  href={`/products?${new URLSearchParams({
-                    ...Object.fromEntries(queryBase),
-                    page: String(currentPage - 1),
-                  })}`}
-                >
-                  <ArrowLeft aria-hidden="true" className="h-4 w-4" />
-                  Previous
-                </Link>
-              ) : null}
-              <span className="text-sm text-[#625f5a]">
-                Page {currentPage} of {pageCount}
-              </span>
-              {currentPage < pageCount ? (
-                <Link
-                  className="inline-flex h-11 items-center gap-2 rounded-[4px] border border-[#DED7CF] px-4 text-sm font-semibold text-[#202238] hover:border-[#C56545]"
-                  href={`/products?${new URLSearchParams({
-                    ...Object.fromEntries(queryBase),
-                    page: String(currentPage + 1),
-                  })}`}
-                >
-                  Next
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </Link>
-              ) : null}
-            </nav>
-          ) : null}
+
         </div>
       </section>
     </>
   );
 }
-

@@ -21,6 +21,7 @@ export function HeroCarousel({
   intervalMs = 3000,
 }: HeroCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
   const slideCount = slides.length;
 
   useEffect(() => {
@@ -35,15 +36,30 @@ export function HeroCarousel({
     }
 
     const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % slideCount);
+      setIsTransitioning(true);
+      setActiveIndex((current) => current + 1);
     }, intervalMs);
 
     return () => window.clearInterval(timer);
   }, [intervalMs, slideCount]);
 
+  useEffect(() => {
+    if (activeIndex === slideCount) {
+      const resetTimer = window.setTimeout(() => {
+        setIsTransitioning(false);
+        setActiveIndex(0);
+      }, 700); // Must match the CSS transition duration (700ms)
+
+      return () => window.clearTimeout(resetTimer);
+    }
+  }, [activeIndex, slideCount]);
+
   if (!slideCount) {
     return null;
   }
+
+  // Clone the first slide at the end to create a seamless infinite loop effect
+  const extendedSlides = [...slides, slides[0]];
 
   return (
     <div
@@ -51,37 +67,42 @@ export function HeroCarousel({
       className="relative w-full overflow-hidden bg-[#FCFBF8]"
       role="region"
     >
-      {slides.map((slide, index) => (
-        <div
-          aria-hidden={index !== activeIndex}
-          className={cn(
-            "w-full transition-[opacity,transform] duration-700 ease-out motion-reduce:transition-none",
-            index === activeIndex
-              ? "relative z-10 translate-x-0 scale-100 opacity-100"
-              : "absolute top-0 left-0 z-0 translate-x-8 scale-[1.02] opacity-0",
-          )}
-          key={typeof slide.src === "string" ? slide.src : slide.src.src}
-        >
-          {typeof slide.src === "string" ? (
-            <Image
-              alt={slide.alt}
-              className="object-cover"
-              fill
-              priority={index === 0}
-              sizes="100vw"
-              src={slide.src}
-            />
-          ) : (
-            <Image
-              alt={slide.alt}
-              className="w-full h-auto"
-              priority={index === 0}
-              sizes="100vw"
-              src={slide.src}
-            />
-          )}
-        </div>
-      ))}
+      <div 
+        className={cn(
+          "flex w-full ease-in-out motion-reduce:transition-none",
+          isTransitioning ? "transition-transform duration-700" : "transition-none"
+        )}
+        style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+      >
+        {extendedSlides.map((slide, index) => (
+          <div
+            aria-hidden={index !== activeIndex && !(index === 0 && activeIndex === slideCount)}
+            className="w-full shrink-0 relative"
+            key={index}
+          >
+            {typeof slide.src === "string" ? (
+              <div className="relative w-full h-[60vh] min-h-[400px]">
+                <Image
+                  alt={slide.alt}
+                  className="object-cover"
+                  fill
+                  priority={index === 0 || index === slideCount}
+                  sizes="100vw"
+                  src={slide.src}
+                />
+              </div>
+            ) : (
+              <Image
+                alt={slide.alt}
+                className="w-full h-auto object-cover"
+                priority={index === 0 || index === slideCount}
+                sizes="100vw"
+                src={slide.src}
+              />
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
