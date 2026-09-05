@@ -5,12 +5,11 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import type { Category } from "@/lib/types";
 
 export function Footer({
-  categories,
 }: {
   categories: Category[];
 }) {
   return (
-    <footer className="bg-white py-16 text-[#1E3A8A] border-t border-[#E6DDD1]">
+    <footer className="border-t border-[#E6DDD1] bg-white py-16 text-[#026670]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           
@@ -25,28 +24,19 @@ export function Footer({
                 className="h-14 w-auto"
               />
             </Link>
-            <p className="text-sm font-medium leading-relaxed max-w-[280px] mb-6">
-              Your premier destination for quality furniture and home decor. Creating comfortable spaces since 1969.
+            <p className="mb-7 max-w-[310px] text-base font-semibold leading-7">
+              Your premier destination for quality furniture and home decor. Creating comfortable spaces since 2014.
             </p>
-            <h3 className="text-lg font-bold mb-3">Follow Us</h3>
-            <div className="flex gap-4">
-              <a href="#" className="hover:text-[#C56545] transition-colors">
+            <h3 className="mb-4 text-xl font-extrabold">Follow Us</h3>
+            <div className="flex gap-5">
+              <a
+                href="https://www.instagram.com/destino_furniture_studio?igsi=ZG1uMDQ4azNzMXMy"
+                className="transition-colors hover:text-[#C56545]"
+                rel="noreferrer"
+                target="_blank"
+              >
                 <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                </svg>
-                <span className="sr-only">Facebook</span>
-              </a>
-              <a href="#" className="hover:text-[#C56545] transition-colors">
-                <svg
-                  className="h-5 w-5"
+                  className="h-6 w-6"
                   fill="none"
                   stroke="currentColor"
                   strokeLinecap="round"
@@ -60,56 +50,43 @@ export function Footer({
                 </svg>
                 <span className="sr-only">Instagram</span>
               </a>
-              <a href="#" className="hover:text-[#C56545] transition-colors">
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
-                </svg>
-                <span className="sr-only">Twitter</span>
-              </a>
             </div>
           </div>
 
           {/* Column 2 */}
           <div className="flex flex-col">
-            <h3 className="text-[17px] font-bold mb-5">Quick Links</h3>
-            <ul className="flex flex-col gap-3 text-[14px] font-medium">
-              <li><Link href="/about" className="hover:underline">About Us</Link></li>
+            <h3 className="mb-5 text-xl font-extrabold">Quick Links</h3>
+            <ul className="flex flex-col gap-3.5 text-base font-semibold">
+              <li><Link href="/about" className="transition-colors hover:text-[#C56545] hover:underline">About Us</Link></li>
+              <li><Link href="/franchise" className="transition-colors hover:text-[#C56545] hover:underline">Franchise</Link></li>
             </ul>
           </div>
 
           {/* Column 3 */}
           <div className="flex flex-col">
-            <h3 className="text-[17px] font-bold mb-5">Customer Service</h3>
-            <ul className="flex flex-col gap-3 text-[14px] font-medium">
-              <li><Link href="/faq" className="hover:underline">FAQ</Link></li>
-              <li><Link href="/store-locator" className="hover:underline">Store Locator</Link></li>
-              <li><Link href="/terms-and-conditions" className="hover:underline">Terms and Conditions</Link></li>
-              <li><Link href="/privacy-policy" className="hover:underline">Privacy Policy</Link></li>
+            <h3 className="mb-5 text-xl font-extrabold">Customer Service</h3>
+            <ul className="flex flex-col gap-3.5 text-base font-semibold">
+              <li><Link href="/faq" className="transition-colors hover:text-[#C56545] hover:underline">FAQ</Link></li>
+              <li><Link href="/store-locator" className="transition-colors hover:text-[#C56545] hover:underline">Store Locator</Link></li>
+              <li><Link href="/terms-and-conditions" className="transition-colors hover:text-[#C56545] hover:underline">Terms and Conditions</Link></li>
+              <li><Link href="/privacy-policy" className="transition-colors hover:text-[#C56545] hover:underline">Privacy Policy</Link></li>
             </ul>
           </div>
 
           {/* Column 4 */}
           <div className="flex flex-col">
-            <h3 className="text-[17px] font-bold mb-5">Contact Us</h3>
-            <ul className="flex flex-col gap-4 text-[14px] font-medium">
+            <h3 className="mb-5 text-xl font-extrabold">Contact Us</h3>
+            <ul className="flex flex-col gap-4 text-base font-semibold">
               <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 shrink-0 mt-0.5" />
+                <MapPin className="mt-0.5 h-6 w-6 shrink-0" />
                 <span>Visakhapatnam | Kakinada |<br />Hyderabad</span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone className="h-5 w-5 shrink-0" />
+                <Phone className="h-6 w-6 shrink-0" />
                 <span>+91 9948191991</span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail className="h-5 w-5 shrink-0" />
+                <Mail className="h-6 w-6 shrink-0" />
                 <span>sales@destinofurniture.com</span>
               </li>
             </ul>
@@ -118,7 +95,7 @@ export function Footer({
         </div>
         
         {/* Bottom */}
-        <div className="mt-20 text-center text-[13px] font-medium">
+        <div className="mt-20 text-center text-sm font-semibold">
           &copy; {new Date().getFullYear()} Destino Furniture Studio. All rights reserved.
         </div>
       </div>

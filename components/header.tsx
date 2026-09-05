@@ -48,7 +48,7 @@ export function Header({ categories }: HeaderProps) {
             {navItems.map((item) => (
               <Link
                 className={cn(
-                  "text-[15px] px-2 py-1 font-semibold text-[#1E3A8A] transition hover:text-[#C56545]",
+                  "px-2 py-1 text-[17px] font-bold text-[#1E3A8A] transition hover:text-[#C56545]",
                   pathname === item.href && "text-[#C56545]",
                 )}
                 href={item.href}
@@ -64,7 +64,7 @@ export function Header({ categories }: HeaderProps) {
               className="hidden h-11 items-center justify-center rounded-full bg-[#202238] px-7 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#C56545] hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C56545] lg:inline-flex"
               href="/contact"
             >
-              Contact Us
+              Enquiry
             </Link>
             <button
               aria-expanded={menuOpen}
@@ -88,7 +88,7 @@ export function Header({ categories }: HeaderProps) {
               <nav aria-label="Mobile navigation" className="grid gap-1">
                 {navItems.map((item) => (
                   <Link
-                    className="rounded-[4px] px-3 py-3 text-sm font-semibold text-[#1E3A8A] hover:bg-[#F5F1EA] hover:text-[#C56545]"
+                    className="rounded-[4px] px-3 py-3 text-base font-bold text-[#1E3A8A] hover:bg-[#F5F1EA] hover:text-[#C56545]"
                     href={item.href}
                     key={item.href}
                     onClick={closeMenu}
@@ -101,7 +101,7 @@ export function Header({ categories }: HeaderProps) {
                   href="/contact"
                   onClick={closeMenu}
                 >
-                  Contact Us
+                  Enquiry
                 </Link>
               </nav>
               <div className="mt-4 border-t border-[#DED7CF] pt-4">

@@ -5,7 +5,6 @@ import {
   ExternalLink,
   Mail,
   MapPin,
-  MessageCircle,
   Phone,
 } from "lucide-react";
 
@@ -34,6 +33,9 @@ const primaryAddress = [
   "Lakshmi Srinivasam, Dwaraka Nagar",
   "Visakhapatnam, Andhra Pradesh 530016",
 ];
+
+const kakinadaAddress =
+  "Upstairs Mohmad khan & Sons Jewelers, Ganjam Vari St, Kakinada, Andhra Pradesh 533001, India";
 
 function WhatsAppLogo(props: SVGProps<SVGSVGElement>) {
   return (
@@ -98,19 +100,27 @@ const contactDetails = [
   },
 ];
 
-const locationCards = locations.map((location) => {
-  const query = mapsQuery(location.name);
-
-  return {
-    ...location,
-    mapSrc: `https://www.google.com/maps?q=${query}&output=embed`,
-    directionsUrl: `https://www.google.com/maps/search/?api=1&query=${query}`,
-    address:
+const locationCards = locations
+  .filter((location) => location.slug !== "bengaluru")
+  .map((location) => {
+    const address =
       location.slug === "visakhapatnam"
         ? primaryAddress.join(", ")
-        : `${location.name}, ${location.region}`,
-  };
-});
+        : location.slug === "kakinada"
+          ? kakinadaAddress
+          : `${location.name}, ${location.region}`;
+    const query =
+      location.slug === "kakinada"
+        ? encodeURIComponent(kakinadaAddress)
+        : mapsQuery(location.name);
+
+    return {
+      ...location,
+      mapSrc: `https://www.google.com/maps?q=${query}&output=embed`,
+      directionsUrl: `https://www.google.com/maps/search/?api=1&query=${query}`,
+      address,
+    };
+  });
 
 export default async function ContactPage() {
   const faqs = await getFaqs();
@@ -166,10 +176,10 @@ export default async function ContactPage() {
                   <Icon aria-hidden="true" className="h-5 w-5" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-lg font-extrabold text-[#164E4A]">
+                  <span className="block text-lg font-extrabold text-[#1E3A8A]">
                     {item.title}
                   </span>
-                  <span className="mt-2 block break-words text-sm leading-7 text-[#7A756F]">
+                  <span className="mt-2 block break-words text-sm leading-7 text-[#1E3A8A]">
                     {item.text}
                   </span>
                 </span>
@@ -192,19 +202,19 @@ export default async function ContactPage() {
           <span className="text-[11px] font-bold uppercase tracking-[0.36em] text-[#B9854F]">
             Our locations
           </span>
-          <h2 className="mt-4 text-3xl font-extrabold text-[#164E4A] sm:text-4xl">
-            Visit or connect with Destino
+          <h2 className="mx-auto mt-4 max-w-2xl [font-family:var(--font-collection-heading)] text-2xl font-extrabold uppercase leading-tight tracking-[0.04em] text-[#026670] sm:text-3xl md:text-4xl">
+            Connect with Destino
           </h2>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="mx-auto grid max-w-5xl gap-6 md:grid-cols-2">
           {locationCards.map((location) => (
             <article
               className="overflow-hidden rounded-lg border border-[#E9E1D8] bg-white shadow-[0_18px_50px_rgba(32,34,56,0.07)]"
               key={location.slug}
             >
-              <div className="p-6">
-                <div className="flex items-start gap-4">
+              <div className="p-6 text-center">
+                <div className="flex flex-col items-center gap-4">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[4px] bg-[#EDF7F6] text-[#164E4A]">
                     <MapPin aria-hidden="true" className="h-5 w-5" />
                   </span>
@@ -254,7 +264,7 @@ export default async function ContactPage() {
             <span className="text-[11px] font-bold uppercase tracking-[0.36em] text-[#B9854F]">
               Support
             </span>
-            <h2 className="mt-4 text-3xl font-extrabold text-[#164E4A] sm:text-4xl">
+            <h2 className="mx-auto mt-4 max-w-2xl [font-family:var(--font-collection-heading)] text-2xl font-extrabold uppercase leading-tight tracking-[0.04em] text-[#026670] sm:text-3xl md:text-4xl">
               Frequently asked questions
             </h2>
           </div>

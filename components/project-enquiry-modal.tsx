@@ -48,9 +48,9 @@ export function ProjectEnquiryModal({ projectTitle, projectSlug }: ProjectEnquir
               <X className="h-5 w-5" />
             </button>
             <div className="p-8 sm:p-12 text-left">
-              <h3 className="mb-2 text-3xl font-bold text-[#202238]">Let's collaborate</h3>
+              <h3 className="mb-2 text-3xl font-bold text-[#202238]">Let&apos;s collaborate</h3>
               <p className="mb-8 text-[15px] leading-relaxed text-[#625f5a]">
-                Share a few details and we'll get back to you with the next steps for a similar project.
+                Share a few details and we&apos;ll get back to you with the next steps for a similar project.
               </p>
               <div className="[&>form>div:first-child]:hidden">
                 {/* We hide the internal LeadForm title because we have our own premium one above */}

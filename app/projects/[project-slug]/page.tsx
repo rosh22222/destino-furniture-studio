@@ -1,11 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Building2, MapPin, MessageCircle } from "lucide-react";
 
+import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ImageGallery } from "@/components/image-gallery";
 import { JsonLd } from "@/components/json-ld";
-import { LeadForm } from "@/components/lead-form";
-import { PageHero } from "@/components/page-hero";
 import { ProductCard } from "@/components/product-card";
 import { ProjectEnquiryModal } from "@/components/project-enquiry-modal";
 import { getBrands, getCategories, getProducts, getProjects } from "@/lib/content";
@@ -67,28 +67,78 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       <JsonLd data={projectJsonLd(project)} />
-      <PageHero
-        breadcrumbs={[
-          { name: "Projects", href: "/projects" },
-          { name: project.title, href: `/projects/${project.slug}` },
-        ]}
-        image={project.coverImage || "/images/pages/projects/fallback-office-lounge.jpeg"}
-        title={project.title}
-      >
-        <div className="mt-6 flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-8 text-[#DED7CF]">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 rounded-full bg-[#C56545]"></span>
-            <span className="text-sm font-bold tracking-[0.2em] uppercase text-white">{project.sector}</span>
+      <section className="relative overflow-hidden bg-[#FFF9F5] py-10 sm:py-12 lg:py-16">
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-[#F5E9DC] to-transparent" />
+        <div className="absolute right-0 top-16 h-64 w-64 rounded-full bg-[#026670]/10 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <Breadcrumbs
+              items={[
+                { name: "Projects", href: "/projects" },
+                { name: project.title, href: `/projects/${project.slug}` },
+              ]}
+            />
           </div>
-          <div className="hidden sm:block h-4 w-[1px] bg-white/30"></div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium tracking-wide">{project.location}</span>
+
+          <div className="grid items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14">
+            <div>
+              <Link
+                className="inline-flex items-center gap-2 text-sm font-extrabold uppercase tracking-[0.16em] text-[#C56545] transition hover:text-[#1E3A8A]"
+                href="/projects"
+              >
+                <ArrowLeft aria-hidden="true" className="h-4 w-4" />
+                Projects
+              </Link>
+              <p className="mt-7 text-[11px] font-bold uppercase tracking-[0.42em] text-[#B9854F]">
+                Project showcase
+              </p>
+              <h1 className="mt-4 [font-family:var(--font-collection-heading)] text-3xl font-extrabold uppercase leading-tight tracking-[0.04em] text-[#026670] sm:text-4xl lg:text-5xl">
+                {project.title}
+              </h1>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#E6DDD1] bg-white px-4 py-2 text-sm font-bold uppercase tracking-[0.12em] text-[#1E3A8A] shadow-[0_10px_30px_rgba(32,34,56,0.06)]">
+                  <Building2 aria-hidden="true" className="h-4 w-4 text-[#C56545]" />
+                  {project.sector}
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#E6DDD1] bg-white px-4 py-2 text-sm font-bold text-[#1E3A8A] shadow-[0_10px_30px_rgba(32,34,56,0.06)]">
+                  <MapPin aria-hidden="true" className="h-4 w-4 text-[#C56545]" />
+                  {project.location}
+                </span>
+              </div>
+              <p className="mt-7 max-w-2xl text-lg font-medium leading-8 text-[#1E3A8A]">
+                {project.description}
+              </p>
+              <a
+                className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#202238] px-7 text-sm font-bold uppercase tracking-[0.12em] text-white shadow-[0_16px_34px_rgba(32,34,56,0.16)] transition hover:-translate-y-0.5 hover:bg-[#C56545]"
+                href={whatsappUrl(
+                  projectWhatsappMessage(project.title, `/projects/${project.slug}`),
+                )}
+                rel="noreferrer"
+                target="_blank"
+              >
+                <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                Enquire about this project
+              </a>
+            </div>
+
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-[2rem] bg-[#026670]/10 blur-2xl" />
+              <div className="relative overflow-hidden rounded-[2rem] border border-white bg-white p-3 shadow-[0_30px_90px_rgba(32,34,56,0.16)]">
+                <div className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-[#F4EFE7]">
+                  <Image
+                    alt={project.title}
+                    className="object-cover"
+                    fill
+                    priority
+                    sizes="(min-width: 1024px) 620px, 100vw"
+                    src={project.coverImage || "/images/pages/projects/fallback-office-lounge.jpeg"}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div className="mt-8 max-w-2xl text-[17px] leading-relaxed text-white/90">
-          {project.description}
-        </div>
-      </PageHero>
+      </section>
 
       <section className="bg-[#FCFBF8] py-12 md:py-16">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.7fr_1.3fr] lg:px-8">

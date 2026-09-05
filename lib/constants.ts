@@ -5,8 +5,8 @@ export const siteConfig = {
   contactPerson: "Manikanta Pradeep M",
   phoneDisplay: "+91 9948191991",
   phoneHref: "+919948191991",
-  whatsappDisplay: "+91 9959401058",
-  whatsappHref: "919959401058",
+  whatsappDisplay: "+91 9948191991",
+  whatsappHref: "919948191991",
   email: "sales@destinofurniture.com",
   website: "www.destinofurniture.com",
   baseUrl:

@@ -14,8 +14,6 @@ type ProductCardProps = {
 
 export function ProductCard({
   product,
-  category,
-  brand,
   priority,
 }: ProductCardProps) {
   const href = `/product/${product.slug}`;

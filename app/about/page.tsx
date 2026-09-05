@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { Briefcase, PenTool, GraduationCap, Home, Utensils, LayoutDashboard, Layers, ShieldCheck, Tag, UserCheck, MapPin, Target } from "lucide-react";
-import { LogoCloud } from "@/components/logo-cloud";
 import { getBrands } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 
@@ -24,8 +23,8 @@ export default async function AboutPage() {
         <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C56545]">
           Our Journey
         </span>
-        <h1 className="mt-4 flex flex-col items-center justify-center gap-1 text-4xl text-[#1E3A8A] sm:gap-2 sm:text-5xl lg:text-6xl">
-          <span className="font-extrabold uppercase tracking-tight">The Destino</span>
+        <h1 className="mt-4 flex flex-col items-center justify-center gap-1 text-4xl text-[#026670] sm:gap-2 sm:text-5xl lg:text-6xl">
+          <span className="[font-family:var(--font-collection-heading)] font-extrabold uppercase tracking-[0.04em]">The Destino</span>
           <span className="font-light italic text-[#4F4B4A]">Story.</span>
         </h1>
 
@@ -87,14 +86,14 @@ export default async function AboutPage() {
 
           <div className="space-y-10">
             <div>
-              <h2 className="text-2xl font-bold text-[#1E3A8A] sm:text-3xl">Our Vision</h2>
+              <h2 className="[font-family:var(--font-collection-heading)] text-2xl font-extrabold uppercase tracking-[0.04em] text-[#026670] sm:text-3xl">Our Vision</h2>
               <p className="mt-3 text-sm font-medium leading-relaxed text-[#4F4B4A] sm:text-base">
                 To be the preferred office furniture destination in Visakhapatnam, Kakinada, and beyond.
               </p>
             </div>
             
             <div>
-              <h2 className="text-2xl font-bold text-[#1E3A8A] sm:text-3xl">Our Mission</h2>
+              <h2 className="[font-family:var(--font-collection-heading)] text-2xl font-extrabold uppercase tracking-[0.04em] text-[#026670] sm:text-3xl">Our Mission</h2>
               <p className="mt-3 text-sm font-medium leading-relaxed text-[#4F4B4A] sm:text-base">
                 Furnishing large-scale office spaces with exceptional quality, refined style, and lasting value.
               </p>
@@ -125,18 +124,22 @@ export default async function AboutPage() {
       </div>
 
       {/* Our Services Section */}
-      <div className="mx-auto mt-32 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-16 text-center">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C56545]">
-            What We Do
-          </p>
-          <h2 className="mt-3 text-3xl font-bold text-[#1E3A8A] sm:text-4xl">
-            Our Services
-          </h2>
-          <div className="mx-auto mt-6 h-0.5 w-16 bg-[#C56545]" />
-        </div>
+      <section className="mt-24 bg-[#F4EFE7] py-14 md:py-16">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mb-10 max-w-3xl text-center">
+            <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-[#C56545]">
+              What We Do
+            </p>
+            <h2 className="mt-4 [font-family:var(--font-collection-heading)] text-4xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-5xl">
+              Our Services
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-[#625f5a]">
+              Complete furniture support for homes, offices, institutions and hospitality spaces, planned with practical detail and refined finish choices.
+            </p>
+            <div className="mx-auto mt-6 h-0.5 w-20 bg-[#C56545]" />
+          </div>
         
-        <div className="grid gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 mt-12">
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {[
             {
               title: "Office Furniture",
@@ -167,36 +170,43 @@ export default async function AboutPage() {
               title: "Office Space Management",
               description: "Efficient space planning and furniture solutions for a well-optimized workspace.",
               icon: LayoutDashboard,
-            }
+            },
           ].map((service) => {
             const Icon = service.icon;
+
             return (
               <div 
                 key={service.title}
-                className="group relative border-l-[3px] border-gray-200 pl-8 py-2 transition-colors duration-500 hover:border-[#C56545]"
+                className="group relative overflow-hidden rounded-lg border border-[#E3D8CA] bg-white/95 p-5 shadow-[0_12px_34px_rgba(32,34,56,0.06)] transition duration-300 hover:-translate-y-1 hover:border-[#026670]/35 hover:bg-white hover:shadow-[0_22px_48px_rgba(2,102,112,0.12)]"
               >
-                <div className="mb-6 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gray-50 text-[#1E3A8A] transition-all duration-500 group-hover:bg-[#C56545] group-hover:text-white group-hover:shadow-md">
-                  <Icon className="h-5 w-5" strokeWidth={1.5} />
+                <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-[#026670]/40 to-transparent" />
+                <div className="flex items-start gap-4">
+                  <span className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#EEF7F6] text-[#026670] shadow-[0_10px_24px_rgba(2,102,112,0.10)] transition duration-300 group-hover:bg-[#026670] group-hover:text-white">
+                    <Icon className="h-6 w-6" strokeWidth={1.8} />
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-extrabold leading-tight text-[#1E3A8A] transition-colors duration-300 group-hover:text-[#026670]">
+                      {service.title}
+                    </h3>
+                    <p className="mt-2 text-[15px] font-medium leading-7 text-[#625f5a]">
+                      {service.description}
+                    </p>
+                  </div>
                 </div>
-                <h3 className="mb-3 text-xl font-bold tracking-tight text-[#202238] transition-colors duration-300 group-hover:text-[#C56545]">
-                  {service.title}
-                </h3>
-                <p className="text-sm font-medium leading-relaxed text-[#625f5a]">
-                  {service.description}
-                </p>
               </div>
             );
           })}
         </div>
-      </div>
+        </div>
+      </section>
 
       {/* Brands We Deal With */}
-      <div className="mt-32 w-full border-t border-[#F5F1EA] bg-[#FCFBF8] py-16">
+      <div className="mt-14 w-full border-t border-[#F5F1EA] bg-[#FCFBF8] py-14">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#C56545]">
             Partnerships
           </p>
-          <h2 className="mt-3 text-2xl font-bold text-[#1E3A8A] sm:text-3xl">
+          <h2 className="mt-3 [font-family:var(--font-collection-heading)] text-2xl font-extrabold uppercase tracking-[0.04em] text-[#026670] sm:text-3xl">
             Brands We Deal With
           </h2>
           <div className="mt-12 flex flex-wrap items-center justify-center gap-12 sm:gap-24">
@@ -225,7 +235,7 @@ export default async function AboutPage() {
       <div className="w-full bg-[#FBF8F3] py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-16 text-center">
-            <h2 className="text-3xl font-bold text-[#1E3A8A] sm:text-4xl">
+            <h2 className="[font-family:var(--font-collection-heading)] text-3xl font-extrabold uppercase tracking-[0.04em] text-[#026670] sm:text-4xl">
               Why Choose Destino
             </h2>
             <div className="mx-auto mt-6 h-0.5 w-16 bg-[#C56545]" />

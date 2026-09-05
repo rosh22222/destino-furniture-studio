@@ -49,14 +49,14 @@ export default async function ClientsPage() {
 
       {/* Channel Partners Section */}
       <section className="relative z-10 mx-auto -mt-10 max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="rounded-3xl border border-[#F5F1EA] bg-white p-8 shadow-[0_20px_40px_-15px_rgba(32,34,56,0.05)] sm:p-12 lg:p-16">
-          <div className="mb-12 text-center">
-            <h2 className="text-2xl font-bold text-[#1E3A8A] sm:text-3xl">
+        <div className="rounded-3xl border border-[#F5F1EA] bg-white p-8 shadow-[0_20px_40px_-15px_rgba(32,34,56,0.05)] sm:p-10 lg:p-12">
+          <div className="mb-8 text-center">
+            <h2 className="[font-family:var(--font-collection-heading)] text-3xl font-extrabold uppercase leading-tight tracking-[0.05em] text-[#026670] sm:text-4xl">
               Strategic Channel Partners
             </h2>
             <div className="mx-auto mt-4 h-0.5 w-16 bg-[#C56545]" />
             <p className="mt-4 text-sm font-medium text-[#625f5a]">
-              Collaborating with India's most reputed manufacturers to deliver uncompromising quality.
+              Collaborating with India&apos;s most reputed manufacturers to deliver uncompromising quality.
             </p>
           </div>
           <LogoCloud items={brands} variant="partners" />
@@ -64,14 +64,22 @@ export default async function ClientsPage() {
       </section>
 
       {/* Client Portfolio Marquee Section */}
-      <section className="mt-24 overflow-hidden py-16">
+      <section className="mt-12 overflow-hidden bg-[#FFF3E0] py-14 md:py-16">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-bold text-[#1E3A8A] sm:text-3xl">
+          <div className="mx-auto inline-flex items-center gap-4">
+            <span className="hidden h-px w-14 bg-[#C56545]/70 sm:block" />
+            <span className="text-[11px] font-bold uppercase tracking-[0.42em] text-[#C56545]">
+              Trusted portfolio
+            </span>
+            <span className="hidden h-px w-14 bg-[#C56545]/70 sm:block" />
+          </div>
+          <h2 className="mx-auto mt-5 max-w-3xl [font-family:var(--font-collection-heading)] text-3xl font-extrabold uppercase leading-tight tracking-[0.05em] text-[#026670] sm:text-4xl md:text-5xl">
             Our Distinguished Clients
           </h2>
-          <div className="mx-auto mt-4 h-0.5 w-16 bg-[#C56545]" />
-          <p className="mt-4 text-sm font-medium text-[#625f5a]">
-            Organizations that have transformed their workspaces with Destino.
+          <div className="mx-auto mt-5 h-0.5 w-24 bg-[#C56545]" />
+          <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-[#625f5a] sm:text-lg">
+            Organizations across public, retail, hospitality and workplace
+            sectors that trust Destino for refined furniture solutions.
           </p>
         </div>
         <div className="mt-12 w-full">
@@ -82,7 +90,7 @@ export default async function ClientsPage() {
       {/* Sectors Section */}
       <section className="mx-auto mt-20 max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="rounded-3xl border border-[#F5F1EA] bg-white p-8 text-center shadow-sm sm:p-12">
-          <h2 className="text-xl font-bold text-[#1E3A8A] sm:text-2xl">
+          <h2 className="[font-family:var(--font-collection-heading)] text-xl font-bold uppercase tracking-[0.05em] text-[#026670] sm:text-2xl">
             Industries We Serve
           </h2>
           <p className="mt-3 text-sm text-[#625f5a]">

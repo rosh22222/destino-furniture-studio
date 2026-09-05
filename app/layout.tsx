@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Cinzel, Manrope } from "next/font/google";
 
 import { SiteChrome } from "@/components/site-chrome";
 import { siteConfig } from "@/lib/constants";
@@ -11,6 +11,13 @@ const manrope = Manrope({
   display: "swap",
   subsets: ["latin"],
   variable: "--font-manrope",
+});
+
+const cinzel = Cinzel({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-collection-heading",
+  weight: ["700", "800"],
 });
 
 export const metadata: Metadata = {
@@ -44,7 +51,7 @@ export default async function RootLayout({
   ]);
 
   return (
-    <html lang="en" className={`${manrope.variable} h-full antialiased`}>
+    <html lang="en" className={`${manrope.variable} ${cinzel.variable} h-full antialiased`}>
       <body className="min-h-full">
         <SiteChrome
           categories={categories}

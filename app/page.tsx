@@ -18,6 +18,7 @@ import hero6 from "../public/images/hero/hero6.png";
 import hero7 from "../public/images/hero/hero7.png";
 import hero8 from "../public/images/hero/hero8.png";
 import { HeroCarousel, type HeroCarouselSlide } from "@/components/hero-carousel";
+import { ColourVariantsShowcase } from "@/components/colour-variants-showcase";
 import { JsonLd } from "@/components/json-ld";
 import { ConsultationModal } from "@/components/consultation-modal";
 import { LogoCloud } from "@/components/logo-cloud";
@@ -95,7 +96,7 @@ const homeCategories = [
   },
   {
     title: "Cafeteria Chairs",
-    href: "/products/cafeteria-furniture",
+    href: "/products/cafeteria-chairs",
     image: "/images/categories/cafeteria-chair.png",
   },
   {
@@ -126,7 +127,7 @@ const homeCategories = [
   {
     title: "Metal Series",
     href: "/products/metal-series",
-    image: "/images/categories/metal-series.jpg",
+    image: "/images/categories/metal-series.png",
   },
   {
     title: "Banquet Chairs",
@@ -164,29 +165,50 @@ const whyDestinoItems = [
 ];
 
 const ourCollectionItems = [
-  { 
-    title: "CUTE BLACK", 
-    subtitle: "", 
-    image: "/images/collection/c1.png", 
-    isNew: false 
+  {
+    title: "VISITORS",
+    href: "/product/lounge-and-visitor-seating",
+    image: "/images/collection/visitors1.png",
   },
-  { 
-    title: "802 Visitor Chair", 
-    subtitle: "802", 
-    image: "/images/collection/c2.png", 
-    isNew: true 
+  {
+    title: "TABLE",
+    href: "/products?type=Tables",
+    image: "/images/collection/table.png",
   },
-  { 
-    title: "HAWK HB BLACK", 
-    subtitle: "HAWK HB BLACK", 
-    image: "/images/collection/c3.png", 
-    isNew: true 
+  {
+    title: "BARSTOOL",
+    href: "/products?type=Chairs",
+    image: "/images/collection/barstool.png",
   },
-  { 
-    title: "Lounge Series", 
-    subtitle: "Premium", 
-    image: "/images/collection/c4.png", 
-    isNew: false 
+  {
+    title: "EXECUTIVE",
+    href: "/products?type=Chairs",
+    image: "/images/collection/executive.png",
+  },
+  {
+    title: "CAFE CHAIRS",
+    href: "/products/cafeteria-furniture",
+    image: "/images/collection/cafe-chair.png",
+  },
+  {
+    title: "RECLINER",
+    href: "/products?type=Recliners",
+    image: "/images/collection/recliner.png",
+  },
+  {
+    title: "WORKSTATION",
+    href: "/products?type=Workstations",
+    image: "/images/collection/workstation.png",
+  },
+  {
+    title: "LOUNGE",
+    href: "/product/lounge-and-visitor-seating",
+    image: "/images/collection/longue.png",
+  },
+  {
+    title: "MULTISEATERS",
+    href: "/products?type=Sofas",
+    image: "/images/collection/multiseater.png",
   },
 ];
 
@@ -229,7 +251,7 @@ export default async function Home() {
         <HeroCarousel slides={heroSlides} />
       </section>
 
-      <section className="bg-[#FBF8F3] px-4 py-8 sm:px-6 md:py-10 lg:px-8">
+      <section className="bg-[#FBF8F3] px-4 pb-8 pt-0 sm:px-6 md:pb-10 lg:px-8">
         <div className="mx-auto max-w-[1560px] overflow-hidden rounded-lg border border-[#E6DDD1] bg-[#F7F0E8] shadow-[0_22px_70px_rgba(32,34,56,0.10)]">
           <Image
             alt="Premium cosy chair seating banner for Destino Furniture Studio"
@@ -247,18 +269,21 @@ export default async function Home() {
 
       <section className="bg-[#FCFBF8] py-16 md:py-20">
         <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 xl:px-12">
-          <div className="mb-10 text-center">
-            <h2 className="text-3xl font-bold leading-tight text-[#202238] sm:text-4xl">
-              Categories
+          <div className="mb-10 text-left">
+            <h2 className="[font-family:var(--font-collection-heading)] text-4xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-5xl md:text-6xl">
+              CATEGORIES
             </h2>
-            <div className="mx-auto mt-4 h-0.5 w-20 bg-[#C56545]" />
+            <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-[#4F4B4A] sm:text-lg">
+              Discover a refined selection created to enhance modern spaces with thoughtful design, lasting quality, and effortless elegance. Each piece is made to deliver a balanced blend of style, comfort, and everyday functionality.
+            </p>
             <Link
-              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-[#C56545] hover:text-[#202238]"
+              className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[#C56545] transition-colors hover:text-[#202238]"
               href="/products"
             >
               View all products{" "}
               <ArrowRight aria-hidden="true" className="h-4 w-4" />
             </Link>
+            <div className="mt-4 h-0.5 w-20 bg-[#C56545]" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {homeCategories.map((category) => (
@@ -268,7 +293,7 @@ export default async function Home() {
                 key={category.title}
               >
                 <Image
-                  alt={`${category.title} by Destino Furniture Studio`}
+                  alt={category.title + " by Destino Furniture Studio"}
                   className="object-cover transition duration-300 group-hover:scale-[1.03]"
                   fill
                   priority
@@ -287,63 +312,61 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="bg-white py-16 md:py-20 overflow-hidden">
-        <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold leading-tight text-[#202238] sm:text-4xl">
-            Our Collection
+      <section className="overflow-hidden bg-white py-16 md:py-20">
+        <div className="mb-10 px-4 text-left sm:px-6 lg:px-12 xl:px-24">
+          <h2 className="[font-family:var(--font-collection-heading)] text-4xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-5xl md:text-6xl">
+            OUR COLLECTION
           </h2>
-          <div className="mx-auto mt-4 h-0.5 w-20 bg-[#C56545]" />
+          <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-[#4F4B4A] sm:text-lg">
+            Distinct designs. Exceptional comfort. Purposeful functionality.
+            <br />
+            Explore the Destino collection crafted to elevate every space.
+          </p>
+          <div className="mt-4 h-0.5 w-20 bg-[#C56545]" />
         </div>
         
         <div className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto px-4 pb-8 sm:px-6 lg:px-12 xl:px-24 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {ourCollectionItems.map((item, idx) => (
-            <div 
-              className="group flex w-[280px] shrink-0 snap-start cursor-pointer flex-col sm:w-[320px] lg:w-[380px]" 
+            <Link
+              className="group flex w-[260px] shrink-0 snap-start flex-col sm:w-[300px] lg:w-[340px]"
+              href={item.href}
               key={idx}
             >
-              <div className="relative mb-5 aspect-square w-full overflow-hidden rounded-3xl bg-white">
-                {item.isNew ? (
-                  <span className="absolute right-6 top-6 z-10 rounded-full bg-[#126872] px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-white">
-                    New
-                  </span>
-                ) : (
-                  <span className="absolute right-6 top-6 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/60 text-[#4F4B4A] shadow-sm backdrop-blur-sm">
-                    <ArrowUpRight className="h-5 w-5" />
-                  </span>
-                )}
+              <div className="relative mb-5 aspect-square w-full overflow-hidden rounded-lg border border-[#E6DDD1] bg-white shadow-[0_16px_45px_rgba(32,34,56,0.08)] transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_22px_55px_rgba(2,102,112,0.14)]">
+                <span className="absolute right-5 top-5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/85 text-[#026670] shadow-sm">
+                  <ArrowUpRight className="h-5 w-5" />
+                </span>
                 <div className="absolute inset-0">
                   <Image
                     alt={item.title}
                     className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
                     fill
-                    sizes="(min-width: 1024px) 380px, (min-width: 640px) 320px, 280px"
+                    sizes="(min-width: 1024px) 340px, (min-width: 640px) 300px, 260px"
                     src={item.image}
                   />
                 </div>
               </div>
-              <div className="flex flex-col px-2 pt-2">
-                <h3 className="text-xl font-bold uppercase text-[#126872] transition-colors group-hover:text-[#202238]">
+              <div className="px-2 pt-1 text-center">
+                <h3 className="text-lg font-extrabold tracking-[0.12em] text-[#026670] transition-colors group-hover:text-[#202238]">
                   {item.title}
                 </h3>
-                {item.subtitle ? (
-                  <span className="mt-1.5 text-sm font-bold tracking-wider text-[#8C8C8C] uppercase">
-                    {item.subtitle}
-                  </span>
-                ) : (
-                  <div className="mt-1.5 h-5" aria-hidden="true" />
-                )}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
 
+      <ColourVariantsShowcase />
+
       <section className="bg-[#FCFBF8] py-16 md:py-20 overflow-hidden">
-        <div className="mb-10 text-center">
-          <h2 className="text-3xl font-bold leading-tight text-[#202238] sm:text-4xl">
-            New Arrivals
+        <div className="mb-10 px-4 text-left sm:px-6 lg:px-12 xl:px-24">
+          <h2 className="[font-family:var(--font-collection-heading)] text-4xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-5xl md:text-6xl">
+            NEW ARRIVALS
           </h2>
-          <div className="mx-auto mt-4 h-0.5 w-20 bg-[#C56545]" />
+          <p className="mt-5 max-w-2xl text-base font-medium leading-7 text-[#4F4B4A] sm:text-lg">
+            Explore our latest furniture arrivals, crafted to make every space feel fresh, functional and distinctly premium.
+          </p>
+          <div className="mt-4 h-0.5 w-20 bg-[#C56545]" />
         </div>
         
         <div className="flex w-full snap-x snap-mandatory gap-6 overflow-x-auto px-4 pb-8 sm:px-6 lg:px-12 xl:px-24 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -384,7 +407,7 @@ export default async function Home() {
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C56545]">
             Why Destino
           </p>
-          <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-tight text-[#202238] md:text-4xl">
+          <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-semibold leading-tight text-[#026670] md:text-4xl">
             Furniture guidance that keeps every detail clear.
           </h2>
           <div className="mx-auto mt-5 h-0.5 w-24 bg-[#C56545]" />
@@ -419,8 +442,8 @@ export default async function Home() {
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C56545]">
               Channel partners
             </p>
-            <h2 className="mt-3 text-3xl font-bold leading-tight text-[#202238] md:text-4xl">
-              Partner brands
+            <h2 className="mt-3 [font-family:var(--font-collection-heading)] text-4xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-5xl md:text-6xl">
+              PARTNER BRANDS
             </h2>
             <div className="mx-auto mt-4 h-0.5 w-20 bg-[#C56545]" />
           </div>
@@ -435,8 +458,8 @@ export default async function Home() {
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C56545]">
             Trusted By
           </p>
-          <h2 className="mt-3 text-3xl font-bold leading-tight text-[#202238] md:text-4xl">
-            Our Clients
+          <h2 className="mt-3 text-4xl font-extrabold uppercase leading-none text-[#1E3A8A] sm:text-5xl md:text-6xl">
+            OUR CLIENTS
           </h2>
           <div className="mx-auto mt-4 h-0.5 w-16 bg-[#C56545]" />
         </div>

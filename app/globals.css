@@ -43,6 +43,29 @@ img {
   max-width: 100%;
 }
 
+main :where(p, li, dd):not([class*="text-white"]):not([class*="text-[#F5F1EA]"]):not([class*="text-[#DED7CF]"]) {
+  color: #1e3a8a;
+}
+
+main p.text-sm,
+main li.text-sm,
+main dd.text-sm,
+main div.text-sm {
+  font-size: 1rem;
+  line-height: 1.75rem;
+}
+
+main p.text-base {
+  font-size: 1.0625rem;
+  line-height: 1.9rem;
+}
+
+main p[class*="text-[13px]"],
+main p[class*="text-[15px]"] {
+  font-size: 1rem;
+  line-height: 1.75rem;
+}
+
 @keyframes client-logo-scroll {
   from {
     transform: translateX(0);

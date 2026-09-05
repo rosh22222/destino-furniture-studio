@@ -3,7 +3,6 @@ import Link from "next/link";
 
 
 import { ProductCard } from "@/components/product-card";
-import { SectionHeading } from "@/components/section-heading";
 import { getBrands, getCategories, getProducts } from "@/lib/content";
 import {
   filterProducts,
@@ -70,7 +69,6 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const visibleProducts = filteredProducts;
   const categoryMap = new Map(categories.map((category) => [category.slug, category]));
   const brandMap = new Map(brands.map((brand) => [brand.slug, brand]));
-  const types = [...new Set(products.map((product) => product.furnitureType))].sort();
   const queryBase = new URLSearchParams();
 
   Object.entries(filters).forEach(([key, value]) => {
@@ -107,7 +105,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             <span className="text-[11px] font-bold uppercase tracking-[0.45em] text-[#B9854F]">
               Product catalogue
             </span>
-            <h1 className="mt-5 text-5xl font-extrabold leading-none tracking-normal text-[#164E4A] sm:text-6xl lg:text-7xl">
+            <h1 className="mt-5 [font-family:var(--font-collection-heading)] text-5xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-6xl lg:text-7xl">
               PRODUCTS
             </h1>
             <p className="mt-2 text-4xl font-light italic leading-tight text-[#77746F] sm:text-5xl lg:text-6xl">
@@ -180,7 +178,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                   
                   return (
                     <div key={type.value} className="space-y-6">
-                      <h2 className="text-2xl font-bold text-[#202238] border-b border-[#DED7CF] pb-2">
+                      <h2 className="[font-family:var(--font-collection-heading)] text-2xl font-extrabold uppercase tracking-[0.04em] text-[#026670] border-b border-[#DED7CF] pb-2">
                         {type.label}
                       </h2>
                       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -205,7 +203,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             </div>
           ) : (
             <div className="rounded-lg border border-[#DED7CF] bg-[#FCFBF8] p-8 text-center">
-              <h2 className="text-xl font-semibold text-[#202238]">
+              <h2 className="[font-family:var(--font-collection-heading)] text-xl font-extrabold uppercase tracking-[0.04em] text-[#026670]">
                 No matching products
               </h2>
               <p className="mx-auto mt-2 max-w-lg text-sm leading-6 text-[#625f5a]">
