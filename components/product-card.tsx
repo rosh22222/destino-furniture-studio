@@ -55,7 +55,7 @@ export function ProductCard({
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
             {product.shortDescription && (
-              <p className="text-[13px] font-medium text-[#4F4B4A] line-clamp-2 leading-relaxed">
+              <p className="text-[15px] font-medium text-[#4F4B4A] line-clamp-2 leading-relaxed">
                 <Link className="hover:text-[#C56545]" href={href}>
                   {product.shortDescription}
                 </Link>
@@ -68,7 +68,7 @@ export function ProductCard({
         </div>
         
         <div className="mt-4">
-          <Link href={`${href}#quote`} className="text-[13px] font-bold text-[#202238] hover:text-[#C56545] transition-colors">
+          <Link href={`${href}#quote`} className="text-[15px] font-bold text-[#202238] hover:text-[#C56545] transition-colors">
             Enquire
           </Link>
         </div>

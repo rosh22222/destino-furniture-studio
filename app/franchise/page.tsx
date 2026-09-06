@@ -85,7 +85,7 @@ export default function FranchisePage() {
               fill
               priority
               sizes="(min-width: 1024px) 52vw, 100vw"
-              src="/images/about/about1.png"
+              src="/images/franchise/franchise1.png"
             />
           </div>
         </div>
@@ -98,7 +98,7 @@ export default function FranchisePage() {
             className="object-cover"
             fill
             sizes="(min-width: 1024px) 48vw, 100vw"
-            src="/images/about/about1.png"
+            src="/images/franchise/franchise2.png"
           />
         </div>
 

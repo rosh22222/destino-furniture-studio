@@ -424,21 +424,22 @@
 }
 
 .sofaSignature {
-  margin-top: 23px;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   gap: 12px;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 19px;
   font-style: italic;
-  color: var(--variant-navy);
+  color: #1e3a8a;
 }
 
 .sofaSignature::before {
   content: "";
+  flex: 0 0 38px;
   width: 38px;
   height: 1px;
-  background: rgba(24, 54, 79, 0.25);
+  background: rgba(30, 58, 138, 0.25);
 }
 
 .chairSignature {
@@ -491,9 +492,16 @@
 .sofaVisual {
   min-height: 590px;
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
   isolation: isolate;
+}
+
+.sofaSwatches {
+  max-width: 560px;
 }
 
 .sofaVisual::before {

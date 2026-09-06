@@ -31,7 +31,7 @@ export const metadata: Metadata = {
   applicationName: siteConfig.name,
   generator: "Next.js",
   icons: {
-    icon: "/icon.svg",
+    icon: "/icon.png",
   },
   verification: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
     ? {

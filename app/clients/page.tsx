@@ -39,7 +39,7 @@ export default async function ClientsPage() {
             <p className="mt-2 text-4xl font-light italic leading-tight text-[#77746F] sm:text-5xl lg:text-6xl">
               & Partners.
             </p>
-            <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-[#4F5E5A]">
+            <p className="mx-auto mt-7 max-w-2xl text-lg font-medium leading-8 text-[#4F5E5A] sm:text-xl">
               Trusted by distinguished organizations and supported by reputed
               channel partners for premium furniture solutions.
             </p>
@@ -55,7 +55,7 @@ export default async function ClientsPage() {
               Strategic Channel Partners
             </h2>
             <div className="mx-auto mt-4 h-0.5 w-16 bg-[#C56545]" />
-            <p className="mt-4 text-sm font-medium text-[#625f5a]">
+            <p className="mt-4 text-base font-medium leading-7 text-[#1E3A8A] sm:text-lg">
               Collaborating with India&apos;s most reputed manufacturers to deliver uncompromising quality.
             </p>
           </div>
@@ -77,7 +77,7 @@ export default async function ClientsPage() {
             Our Distinguished Clients
           </h2>
           <div className="mx-auto mt-5 h-0.5 w-24 bg-[#C56545]" />
-          <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-[#625f5a] sm:text-lg">
+          <p className="mx-auto mt-5 max-w-2xl text-lg font-medium leading-8 text-[#1E3A8A] sm:text-xl">
             Organizations across public, retail, hospitality and workplace
             sectors that trust Destino for refined furniture solutions.
           </p>
@@ -93,14 +93,14 @@ export default async function ClientsPage() {
           <h2 className="[font-family:var(--font-collection-heading)] text-xl font-bold uppercase tracking-[0.05em] text-[#026670] sm:text-2xl">
             Industries We Serve
           </h2>
-          <p className="mt-3 text-sm text-[#625f5a]">
+          <p className="mt-3 text-lg font-medium leading-8 text-[#1E3A8A] sm:text-xl">
             Delivering tailored furnishing solutions across diverse sectors.
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             {sectors.map((sector) => (
               <span
                 key={sector}
-                className="cursor-default rounded-full bg-[#F5F1EA] px-6 py-2.5 text-sm font-bold tracking-wide text-[#1E3A8A] transition-all hover:-translate-y-1 hover:bg-[#1E3A8A] hover:text-white hover:shadow-lg hover:shadow-[#1E3A8A]/20"
+                className="cursor-default rounded-full bg-[#F5F1EA] px-7 py-3 text-base font-bold tracking-wide text-[#1E3A8A] transition-all hover:-translate-y-1 hover:bg-[#1E3A8A] hover:text-white hover:shadow-lg hover:shadow-[#1E3A8A]/20 sm:text-lg"
               >
                 {sector}
               </span>

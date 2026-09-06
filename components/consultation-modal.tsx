@@ -13,7 +13,7 @@ export function ConsultationModal() {
         <p className="text-sm font-bold uppercase tracking-[0.16em] text-[#C56545] mb-4">
           Consultation
         </p>
-        <h2 className="text-3xl font-bold leading-tight text-[#C56545] md:text-5xl mb-6">
+        <h2 className="mb-6 font-serif text-3xl font-normal italic leading-tight text-[#1E3A8A] md:text-5xl">
           Ready to transform your space?
         </h2>
         <p className="text-lg leading-relaxed text-[#4F4B4A] max-w-2xl mx-auto">

@@ -33,21 +33,21 @@ export function ProjectCard({
       </Link>
       <div className="flex flex-col justify-between p-6">
         <div>
-          <div className="text-[11px] font-bold uppercase tracking-[0.15em] text-[#C56545]">
+          <div className="text-[13px] font-bold uppercase tracking-[0.15em] text-[#C56545]">
             {project.sector} <span className="mx-1 text-gray-300">|</span> {project.location}
           </div>
-          <h3 className="mt-2 text-[17px] font-bold text-[#202238]">
+          <h3 className="mt-2 text-xl font-bold text-[#202238]">
             <Link className="hover:text-[#C56545] transition-colors" href={`/projects/${project.slug}`}>
               {project.title}
             </Link>
           </h3>
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-[#7b746e]">
+          <p className="mt-3 line-clamp-2 text-lg font-medium leading-relaxed text-[#1E3A8A]">
             {project.description}
           </p>
         </div>
         <div className="mt-5">
           <Link
-            className="inline-flex items-center gap-2 text-[13px] font-bold text-[#202238] transition-colors hover:text-[#C56545]"
+            className="inline-flex items-center gap-2 text-base font-bold text-[#202238] transition-colors hover:text-[#C56545]"
             href={`/projects/${project.slug}`}
           >
             View case study <ArrowRight aria-hidden="true" className="h-[14px] w-[14px]" />
@@ -57,4 +57,3 @@ export function ProjectCard({
     </article>
   );
 }
-

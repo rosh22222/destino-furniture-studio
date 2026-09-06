@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 import { JsonLd } from "@/components/json-ld";
-import { PageHero } from "@/components/page-hero";
 import { ProductCard } from "@/components/product-card";
 import { SectionHeading } from "@/components/section-heading";
 import { getBrands, getCategories, getProducts } from "@/lib/content";
@@ -68,14 +68,34 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           })),
         )}
       />
-      <PageHero
 
-        eyebrow="Category"
-        image={category.image}
-        title={category.name}
-      >
-        <p>{category.description}</p>
-      </PageHero>
+      <section className="pb-12 text-center">
+        <div className="relative flex h-[300px] items-center justify-center overflow-hidden bg-[#F4EFE7] sm:h-[360px] lg:h-[411px]">
+          <Image
+            alt={`${category.name} category banner`}
+            className="object-cover object-center"
+            fill
+            priority
+            sizes="100vw"
+            src={category.image}
+          />
+          <div className="absolute inset-0 bg-white/62" />
+          <div className="relative max-w-3xl px-5">
+            <span className="text-[11px] font-bold uppercase tracking-[0.45em] text-[#B9854F]">
+              Category
+            </span>
+            <h1 className="mt-5 [font-family:var(--font-collection-heading)] text-5xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-6xl lg:text-7xl">
+              {category.name}
+            </h1>
+            <p className="mt-2 text-4xl font-light italic leading-tight text-[#77746F] sm:text-5xl lg:text-6xl">
+              & Collections.
+            </p>
+            <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-[#4F5E5A]">
+              {category.description}
+            </p>
+          </div>
+        </div>
+      </section>
 
       <section className="bg-[#FCFBF8] py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

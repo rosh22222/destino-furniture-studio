@@ -22,6 +22,7 @@ import { ColourVariantsShowcase } from "@/components/colour-variants-showcase";
 import { JsonLd } from "@/components/json-ld";
 import { ConsultationModal } from "@/components/consultation-modal";
 import { LogoCloud } from "@/components/logo-cloud";
+import { TestimonialsSection } from "@/components/testimonials-section";
 import { getBrands, getClients } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { organizationJsonLd, websiteJsonLd } from "@/lib/structured-data";
@@ -251,7 +252,7 @@ export default async function Home() {
         <HeroCarousel slides={heroSlides} />
       </section>
 
-      <section className="bg-[#FBF8F3] px-4 pb-8 pt-0 sm:px-6 md:pb-10 lg:px-8">
+      <section className="bg-[#FBF8F3] px-4 py-8 sm:px-6 md:py-10 lg:px-8">
         <div className="mx-auto max-w-[1560px] overflow-hidden rounded-lg border border-[#E6DDD1] bg-[#F7F0E8] shadow-[0_22px_70px_rgba(32,34,56,0.10)]">
           <Image
             alt="Premium cosy chair seating banner for Destino Furniture Studio"
@@ -404,10 +405,10 @@ export default async function Home() {
 
       <section className="bg-[#F7F3ED] py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C56545]">
+          <p className="text-base font-bold uppercase tracking-[0.16em] text-[#C56545]">
             Why Destino
           </p>
-          <h2 className="mx-auto mt-3 max-w-3xl text-3xl font-semibold leading-tight text-[#026670] md:text-4xl">
+          <h2 className="mx-auto mt-3 max-w-3xl font-serif text-3xl font-normal italic leading-tight text-[#1E3A8A] md:text-4xl">
             Furniture guidance that keeps every detail clear.
           </h2>
           <div className="mx-auto mt-5 h-0.5 w-24 bg-[#C56545]" />
@@ -439,7 +440,7 @@ export default async function Home() {
       <section className="bg-[#F5F1EA] py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C56545]">
+            <p className="text-base font-bold uppercase tracking-[0.16em] text-[#C56545]">
               Channel partners
             </p>
             <h2 className="mt-3 [font-family:var(--font-collection-heading)] text-4xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-5xl md:text-6xl">
@@ -455,10 +456,10 @@ export default async function Home() {
 
       <section className="w-full overflow-hidden bg-[#FFF3E0] py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#C56545]">
+          <p className="text-base font-bold uppercase tracking-[0.16em] text-[#C56545]">
             Trusted By
           </p>
-          <h2 className="mt-3 text-4xl font-extrabold uppercase leading-none text-[#1E3A8A] sm:text-5xl md:text-6xl">
+          <h2 className="mt-3 [font-family:var(--font-collection-heading)] text-4xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-5xl md:text-6xl">
             OUR CLIENTS
           </h2>
           <div className="mx-auto mt-4 h-0.5 w-16 bg-[#C56545]" />
@@ -467,6 +468,8 @@ export default async function Home() {
           <LogoCloud items={clients} variant="marquee" />
         </div>
       </section>
+
+      <TestimonialsSection />
 
       <ConsultationModal />
     </>

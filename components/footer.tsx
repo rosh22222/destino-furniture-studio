@@ -24,7 +24,7 @@ export function Footer({
                 className="h-14 w-auto"
               />
             </Link>
-            <p className="mb-7 max-w-[310px] text-base font-semibold leading-7">
+            <p className="mb-7 max-w-[330px] text-lg font-semibold leading-8">
               Your premier destination for quality furniture and home decor. Creating comfortable spaces since 2014.
             </p>
             <h3 className="mb-4 text-xl font-extrabold">Follow Us</h3>
@@ -56,7 +56,7 @@ export function Footer({
           {/* Column 2 */}
           <div className="flex flex-col">
             <h3 className="mb-5 text-xl font-extrabold">Quick Links</h3>
-            <ul className="flex flex-col gap-3.5 text-base font-semibold">
+            <ul className="flex flex-col gap-3.5 text-lg font-semibold">
               <li><Link href="/about" className="transition-colors hover:text-[#C56545] hover:underline">About Us</Link></li>
               <li><Link href="/franchise" className="transition-colors hover:text-[#C56545] hover:underline">Franchise</Link></li>
             </ul>
@@ -65,7 +65,7 @@ export function Footer({
           {/* Column 3 */}
           <div className="flex flex-col">
             <h3 className="mb-5 text-xl font-extrabold">Customer Service</h3>
-            <ul className="flex flex-col gap-3.5 text-base font-semibold">
+            <ul className="flex flex-col gap-3.5 text-lg font-semibold">
               <li><Link href="/faq" className="transition-colors hover:text-[#C56545] hover:underline">FAQ</Link></li>
               <li><Link href="/store-locator" className="transition-colors hover:text-[#C56545] hover:underline">Store Locator</Link></li>
               <li><Link href="/terms-and-conditions" className="transition-colors hover:text-[#C56545] hover:underline">Terms and Conditions</Link></li>
@@ -76,7 +76,7 @@ export function Footer({
           {/* Column 4 */}
           <div className="flex flex-col">
             <h3 className="mb-5 text-xl font-extrabold">Contact Us</h3>
-            <ul className="flex flex-col gap-4 text-base font-semibold">
+            <ul className="flex flex-col gap-4 text-lg font-semibold">
               <li className="flex items-start gap-3">
                 <MapPin className="mt-0.5 h-6 w-6 shrink-0" />
                 <span>Visakhapatnam | Kakinada |<br />Hyderabad</span>
@@ -95,8 +95,12 @@ export function Footer({
         </div>
         
         {/* Bottom */}
-        <div className="mt-20 text-center text-sm font-semibold">
-          &copy; {new Date().getFullYear()} Destino Furniture Studio. All rights reserved.
+        <div className="mt-20 flex flex-col items-center justify-center gap-3 text-center text-base font-semibold text-[#026670] sm:flex-row sm:gap-6">
+          <span>
+            &copy; {new Date().getFullYear()} Destino Furniture Studio. All rights reserved.
+          </span>
+          <span className="hidden h-4 w-px bg-[#026670]/25 sm:block" />
+          <span>Developed by Arixa Technologies</span>
         </div>
       </div>
     </footer>

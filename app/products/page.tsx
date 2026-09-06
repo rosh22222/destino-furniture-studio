@@ -111,7 +111,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
             <p className="mt-2 text-4xl font-light italic leading-tight text-[#77746F] sm:text-5xl lg:text-6xl">
               & Collections.
             </p>
-            <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-[#4F5E5A]">
+            <p className="mx-auto mt-7 max-w-2xl text-lg font-medium leading-8 text-[#4F5E5A] sm:text-xl">
               Explore seating, workstations, tables, storage, sofas and custom
               furniture ranges curated for premium workspaces.
             </p>

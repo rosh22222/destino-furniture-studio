@@ -83,7 +83,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <div className="grid items-center gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:gap-14">
             <div>
               <Link
-                className="inline-flex items-center gap-2 text-sm font-extrabold uppercase tracking-[0.16em] text-[#C56545] transition hover:text-[#1E3A8A]"
+                className="inline-flex items-center gap-2 text-base font-extrabold uppercase tracking-[0.16em] text-[#C56545] transition hover:text-[#1E3A8A]"
                 href="/projects"
               >
                 <ArrowLeft aria-hidden="true" className="h-4 w-4" />
@@ -96,11 +96,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {project.title}
               </h1>
               <div className="mt-6 flex flex-wrap gap-3">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#E6DDD1] bg-white px-4 py-2 text-sm font-bold uppercase tracking-[0.12em] text-[#1E3A8A] shadow-[0_10px_30px_rgba(32,34,56,0.06)]">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#E6DDD1] bg-white px-4 py-2 text-base font-bold uppercase tracking-[0.12em] text-[#1E3A8A] shadow-[0_10px_30px_rgba(32,34,56,0.06)]">
                   <Building2 aria-hidden="true" className="h-4 w-4 text-[#C56545]" />
                   {project.sector}
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#E6DDD1] bg-white px-4 py-2 text-sm font-bold text-[#1E3A8A] shadow-[0_10px_30px_rgba(32,34,56,0.06)]">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#E6DDD1] bg-white px-4 py-2 text-base font-bold text-[#1E3A8A] shadow-[0_10px_30px_rgba(32,34,56,0.06)]">
                   <MapPin aria-hidden="true" className="h-4 w-4 text-[#C56545]" />
                   {project.location}
                 </span>
@@ -109,7 +109,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 {project.description}
               </p>
               <a
-                className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#202238] px-7 text-sm font-bold uppercase tracking-[0.12em] text-white shadow-[0_16px_34px_rgba(32,34,56,0.16)] transition hover:-translate-y-0.5 hover:bg-[#C56545]"
+                className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#202238] px-7 text-base font-bold uppercase tracking-[0.12em] text-white shadow-[0_16px_34px_rgba(32,34,56,0.16)] transition hover:-translate-y-0.5 hover:bg-[#C56545]"
                 href={whatsappUrl(
                   projectWhatsappMessage(project.title, `/projects/${project.slug}`),
                 )}
@@ -147,7 +147,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <h2 className="text-lg font-semibold text-[#202238]">
                 Project details
               </h2>
-              <dl className="mt-4 space-y-4 text-sm">
+              <dl className="mt-4 space-y-4 text-base">
                 {[
                   ["Client", project.clientName],
                   ["Sector", project.sector],
@@ -155,15 +155,15 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   ["Furniture categories", project.categories.map((item) => categoryMap.get(item)?.name || item).join(", ")],
                 ].map(([label, value]) => (
                   <div key={label}>
-                    <dt className="text-xs font-semibold uppercase tracking-[0.14em] text-[#7b746e]">
+                    <dt className="text-sm font-semibold uppercase tracking-[0.14em] text-[#7b746e]">
                       {label}
                     </dt>
-                    <dd className="mt-1 text-[#29282D]">{value}</dd>
+                    <dd className="mt-1 font-medium text-[#1E3A8A]">{value}</dd>
                   </div>
                 ))}
               </dl>
               <a
-                className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[4px] bg-[#202238] px-4 text-sm font-semibold text-white hover:bg-[#C56545]"
+                className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[4px] bg-[#202238] px-4 text-base font-semibold text-white hover:bg-[#C56545]"
                 href={whatsappUrl(
                   projectWhatsappMessage(project.title, `/projects/${project.slug}`),
                 )}
@@ -178,7 +178,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <h2 className="text-lg font-semibold text-[#202238]">
                 Scope of work
               </h2>
-              <ul className="mt-4 space-y-3 text-sm leading-6 text-[#625f5a]">
+              <ul className="mt-4 space-y-3 text-base font-medium leading-7 text-[#1E3A8A]">
                 {project.scope.map((item) => (
                   <li className="flex gap-3" key={item}>
                     <span
@@ -221,7 +221,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 </h2>
               </div>
               <Link
-                className="inline-flex items-center gap-2 text-sm font-semibold text-[#C56545] hover:text-[#202238]"
+                className="inline-flex items-center gap-2 text-base font-semibold text-[#C56545] hover:text-[#202238]"
                 href="/products"
               >
                 View catalogue <ArrowRight aria-hidden="true" className="h-4 w-4" />

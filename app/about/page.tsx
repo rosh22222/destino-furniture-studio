@@ -38,7 +38,7 @@ export default async function AboutPage() {
           />
         </div>
 
-        <div className="mx-auto mt-16 max-w-4xl space-y-6 text-justify text-[15px] font-medium leading-relaxed text-[#4F4B4A] sm:text-base">
+        <div className="mx-auto mt-16 max-w-4xl space-y-6 text-justify text-lg font-medium leading-8 text-[#1E3A8A] sm:text-xl">
           <p>
             <strong className="font-bold text-[#202238]">Destino Furniture Studio</strong>, a unit of{" "}
             <strong className="font-bold text-[#202238]">Manidivya Enterprises</strong>, is established in two
@@ -87,34 +87,34 @@ export default async function AboutPage() {
           <div className="space-y-10">
             <div>
               <h2 className="[font-family:var(--font-collection-heading)] text-2xl font-extrabold uppercase tracking-[0.04em] text-[#026670] sm:text-3xl">Our Vision</h2>
-              <p className="mt-3 text-sm font-medium leading-relaxed text-[#4F4B4A] sm:text-base">
+              <p className="mt-3 text-lg font-medium leading-8 text-[#1E3A8A] sm:text-xl">
                 To be the preferred office furniture destination in Visakhapatnam, Kakinada, and beyond.
               </p>
             </div>
             
             <div>
               <h2 className="[font-family:var(--font-collection-heading)] text-2xl font-extrabold uppercase tracking-[0.04em] text-[#026670] sm:text-3xl">Our Mission</h2>
-              <p className="mt-3 text-sm font-medium leading-relaxed text-[#4F4B4A] sm:text-base">
+              <p className="mt-3 text-lg font-medium leading-8 text-[#1E3A8A] sm:text-xl">
                 Furnishing large-scale office spaces with exceptional quality, refined style, and lasting value.
               </p>
             </div>
 
             <div className="space-y-6 border-t border-[#F5F1EA] pt-8">
               <div>
-                <h3 className="text-sm font-bold text-[#1E3A8A] sm:text-[15px]">Quality</h3>
-                <p className="mt-1 text-[13px] font-medium leading-relaxed text-[#4F4B4A] sm:text-sm">
+                <h3 className="text-base font-bold text-[#1E3A8A] sm:text-lg">Quality</h3>
+                <p className="mt-1 text-base font-medium leading-7 text-[#1E3A8A] sm:text-lg">
                   We use only the finest materials and time-tested craftsmanship techniques.
                 </p>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[#1E3A8A] sm:text-[15px]">Sustainability</h3>
-                <p className="mt-1 text-[13px] font-medium leading-relaxed text-[#4F4B4A] sm:text-sm">
+                <h3 className="text-base font-bold text-[#1E3A8A] sm:text-lg">Sustainability</h3>
+                <p className="mt-1 text-base font-medium leading-7 text-[#1E3A8A] sm:text-lg">
                   Our commitment to environmental responsibility guides every decision we make.
                 </p>
               </div>
               <div>
-                <h3 className="text-sm font-bold text-[#1E3A8A] sm:text-[15px]">Innovation</h3>
-                <p className="mt-1 text-[13px] font-medium leading-relaxed text-[#4F4B4A] sm:text-sm">
+                <h3 className="text-base font-bold text-[#1E3A8A] sm:text-lg">Innovation</h3>
+                <p className="mt-1 text-base font-medium leading-7 text-[#1E3A8A] sm:text-lg">
                   We continuously explore new designs and manufacturing technologies.
                 </p>
               </div>
@@ -133,7 +133,7 @@ export default async function AboutPage() {
             <h2 className="mt-4 [font-family:var(--font-collection-heading)] text-4xl font-extrabold uppercase leading-none tracking-[0.04em] text-[#026670] sm:text-5xl">
               Our Services
             </h2>
-            <p className="mx-auto mt-5 max-w-2xl text-base font-medium leading-7 text-[#625f5a]">
+            <p className="mx-auto mt-5 max-w-2xl text-lg font-medium leading-8 text-[#1E3A8A] sm:text-xl">
               Complete furniture support for homes, offices, institutions and hospitality spaces, planned with practical detail and refined finish choices.
             </p>
             <div className="mx-auto mt-6 h-0.5 w-20 bg-[#C56545]" />
@@ -188,7 +188,7 @@ export default async function AboutPage() {
                     <h3 className="text-lg font-extrabold leading-tight text-[#1E3A8A] transition-colors duration-300 group-hover:text-[#026670]">
                       {service.title}
                     </h3>
-                    <p className="mt-2 text-[15px] font-medium leading-7 text-[#625f5a]">
+                    <p className="mt-2 text-base font-medium leading-7 text-[#1E3A8A] sm:text-lg">
                       {service.description}
                     </p>
                   </div>
@@ -282,7 +282,7 @@ export default async function AboutPage() {
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-[#1E3A8A]">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[#625f5a]">
+                    <p className="mt-2 text-base font-medium leading-7 text-[#1E3A8A] sm:text-lg">
                       {item.description}
                     </p>
                   </div>

@@ -149,7 +149,7 @@ export default async function ContactPage() {
             <p className="mt-2 text-4xl font-light italic leading-tight text-[#77746F] sm:text-5xl lg:text-6xl">
               & Reach Us.
             </p>
-            <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-[#4F5E5A]">
+            <p className="mx-auto mt-7 max-w-2xl text-lg font-medium leading-8 text-[#4F5E5A] sm:text-xl">
               Our team is here to help you find the right seating, workstation
               and office furniture solution for your workspace.
             </p>
@@ -176,10 +176,10 @@ export default async function ContactPage() {
                   <Icon aria-hidden="true" className="h-5 w-5" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-lg font-extrabold text-[#1E3A8A]">
+                  <span className="block text-xl font-extrabold text-[#1E3A8A] sm:text-2xl">
                     {item.title}
                   </span>
-                  <span className="mt-2 block break-words text-sm leading-7 text-[#1E3A8A]">
+                  <span className="mt-2 block break-words text-base font-medium leading-8 text-[#1E3A8A] sm:text-lg">
                     {item.text}
                   </span>
                 </span>
@@ -188,7 +188,7 @@ export default async function ContactPage() {
           })}
         </div>
 
-        <div id="quote" className="rounded-lg border border-[#E9E1D8] bg-white p-6 shadow-[0_24px_70px_rgba(32,34,56,0.08)] sm:p-8 lg:p-10">
+        <div id="quote" className="rounded-lg border border-[#E9E1D8] bg-white p-6 shadow-[0_24px_70px_rgba(32,34,56,0.08)] sm:p-8 lg:p-10 [&_button]:text-base [&_input]:text-lg [&_label]:text-base [&_p]:text-base [&_textarea]:text-lg">
           <LeadForm
             intent="quote"
             sourcePath="/contact"
@@ -222,16 +222,16 @@ export default async function ContactPage() {
                     <h3 className="text-xl font-extrabold text-[#164E4A]">
                       {location.name}
                     </h3>
-                    <p className="mt-1 text-sm font-semibold text-[#B9854F]">
+                    <p className="mt-1 text-base font-semibold text-[#B9854F]">
                       {location.region}
                     </p>
                   </div>
                 </div>
-                <p className="mt-5 text-sm leading-7 text-[#6F6B65]">
+                <p className="mt-5 text-base font-medium leading-8 text-[#1E3A8A] sm:text-lg">
                   {location.address}
                 </p>
                 <a
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-extrabold text-[#164E4A] transition hover:text-[#B9854F]"
+                  className="mt-5 inline-flex items-center gap-2 text-base font-extrabold text-[#164E4A] transition hover:text-[#B9854F] sm:text-lg"
                   href={location.directionsUrl}
                   rel="noreferrer"
                   target="_blank"
@@ -259,7 +259,7 @@ export default async function ContactPage() {
       </section>
 
       <section className="mt-20 bg-white py-16">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 [&_p]:text-base sm:[&_p]:text-lg">
           <div className="mb-10 text-center">
             <span className="text-[11px] font-bold uppercase tracking-[0.36em] text-[#B9854F]">
               Support

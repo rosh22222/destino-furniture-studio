@@ -182,38 +182,16 @@ export function ColourVariantsShowcase() {
             <div className={styles.sofaSignature}>
               Designed for Your Space. Styled for Your Lifestyle.
             </div>
-
-            <div className={styles.sofaColourArea}>
-              <div aria-label="Sofa colour options" className={styles.swatches}>
-                {(showAllSofas ? sofaVariants : sofaVariants.slice(0, 5)).map(
-                  (variant, index) => (
-                    <SwatchButton
-                      active={index === sofaIndex}
-                      key={variant.name}
-                      onClick={() => setSofaIndex(index)}
-                      variant={variant}
-                    />
-                  ),
-                )}
-                <button
-                  className={styles.moreButton}
-                  onClick={() => setShowAllSofas((value) => !value)}
-                  type="button"
-                >
-                  {showAllSofas ? "Show Less" : "More +8"}
-                </button>
-              </div>
-            </div>
           </div>
 
-          <div className={styles.sofaVisual}>
-            <div className={styles.sofaStage}>
+          <div className={styles.chairVisual}>
+            <div className={styles.chairFrame}>
               {sofaVariants.map((variant, index) => (
                 <Image
                   alt={variant.alt}
                   className={cn(
                     styles.productImage,
-                    index === sofaIndex && styles.activeSofaImage,
+                    index === sofaIndex && styles.activeChairImage,
                   )}
                   fill
                   key={variant.name}
@@ -222,6 +200,32 @@ export function ColourVariantsShowcase() {
                   unoptimized
                 />
               ))}
+            </div>
+            <div
+              aria-label="Sofa colour options"
+              className={cn(
+                styles.swatches,
+                styles.chairSwatches,
+                styles.sofaSwatches,
+              )}
+            >
+              {(showAllSofas ? sofaVariants : sofaVariants.slice(0, 5)).map(
+                (variant, index) => (
+                  <SwatchButton
+                    active={index === sofaIndex}
+                    key={variant.name}
+                    onClick={() => setSofaIndex(index)}
+                    variant={variant}
+                  />
+                ),
+              )}
+              <button
+                className={styles.moreButton}
+                onClick={() => setShowAllSofas((value) => !value)}
+                type="button"
+              >
+                {showAllSofas ? "Show Less" : "More +8"}
+              </button>
             </div>
           </div>
         </section>
