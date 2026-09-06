@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 import type { Project } from "@/lib/types";
 
@@ -25,9 +25,16 @@ export function ProjectCard({
               src={project.coverImage}
             />
           ) : project.coverVideo ? (
-            <div className="flex h-full w-full items-center justify-center bg-[#202238] text-white">
-              <Play aria-hidden="true" className="h-10 w-10" />
-            </div>
+            <video
+              aria-label={`${project.title} project video`}
+              className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
+              autoPlay
+              loop
+              muted
+              playsInline
+              preload="metadata"
+              src={project.coverVideo}
+            />
           ) : null}
         </div>
       </Link>

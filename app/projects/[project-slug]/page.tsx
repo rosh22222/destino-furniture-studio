@@ -125,14 +125,35 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="absolute -inset-4 rounded-[2rem] bg-[#026670]/10 blur-2xl" />
               <div className="relative overflow-hidden rounded-[2rem] border border-white bg-white p-3 shadow-[0_30px_90px_rgba(32,34,56,0.16)]">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-[#F4EFE7]">
-                  <Image
-                    alt={project.title}
-                    className="object-cover"
-                    fill
-                    priority
-                    sizes="(min-width: 1024px) 620px, 100vw"
-                    src={project.coverImage || "/images/pages/projects/fallback-office-lounge.jpeg"}
-                  />
+                  {project.coverImage ? (
+                    <Image
+                      alt={project.title}
+                      className="object-cover"
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 620px, 100vw"
+                      src={project.coverImage}
+                    />
+                  ) : project.coverVideo ? (
+                    <video
+                      aria-label={`${project.title} project video`}
+                      className="h-full w-full object-cover"
+                      controls
+                      muted
+                      playsInline
+                      preload="metadata"
+                      src={project.coverVideo}
+                    />
+                  ) : (
+                    <Image
+                      alt={project.title}
+                      className="object-cover"
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 620px, 100vw"
+                      src="/images/pages/projects/fallback-office-lounge.jpeg"
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -193,7 +214,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </aside>
 
           <div className="space-y-8">
-            {project.coverVideo ? (
+            {project.coverVideo && project.coverImage ? (
               <div className="overflow-hidden rounded-lg border border-[#DED7CF] bg-black">
                 <video
                   className="aspect-video w-full"

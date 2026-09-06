@@ -62,9 +62,9 @@ export function Header({ categories }: HeaderProps) {
           <div className="flex items-center gap-4">
             <Link
               className="hidden h-11 items-center justify-center rounded-full bg-[#202238] px-7 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#C56545] hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C56545] lg:inline-flex"
-              href="/contact"
+              href="/franchise"
             >
-              Enquiry
+              Franchise
             </Link>
             <button
               aria-expanded={menuOpen}
@@ -98,10 +98,10 @@ export function Header({ categories }: HeaderProps) {
                 ))}
                 <Link
                   className="mt-2 inline-flex h-12 items-center justify-center rounded-full bg-[#202238] px-6 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#C56545] hover:shadow-md"
-                  href="/contact"
+                  href="/franchise"
                   onClick={closeMenu}
                 >
-                  Enquiry
+                  Franchise
                 </Link>
               </nav>
               <div className="mt-4 border-t border-[#DED7CF] pt-4">
