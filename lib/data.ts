@@ -1711,8 +1711,6 @@ export const projects: Project[] = [
       imageAsset("projects/ayodha-business-finance-tirupati-branch/img1.jpeg"),
       imageAsset("projects/ayodha-business-finance-tirupati-branch/img2.jpeg"),
       imageAsset("projects/ayodha-business-finance-tirupati-branch/img3.jpeg"),
-      imageAsset("projects/ayodha-business-finance-tirupati-branch/img4.jpeg"),
-      imageAsset("projects/ayodha-business-finance-tirupati-branch/img5.jpeg"),
     ],
     description:
       "A branch-office furniture project added to the Destino portfolio for finance and commercial workspace enquiries.",
@@ -1735,7 +1733,6 @@ export const projects: Project[] = [
     gallery: [
       imageAsset("projects/qq-ads-kakinada/cover.png"),
       imageAsset("projects/qq-ads-kakinada/img1.jpeg"),
-      imageAsset("projects/qq-ads-kakinada/img2.jpeg"),
       imageAsset("projects/qq-ads-kakinada/img3.jpeg"),
     ],
     description:
@@ -1825,7 +1822,6 @@ export const projects: Project[] = [
       imageAsset("projects/exa-thermonetrics-amtz-vizag/img1.jpeg"),
       imageAsset("projects/exa-thermonetrics-amtz-vizag/img2.jpeg"),
       imageAsset("projects/exa-thermonetrics-amtz-vizag/img3.jpeg"),
-      imageAsset("projects/exa-thermonetrics-amtz-vizag/img4.jpeg"),
       imageAsset("projects/exa-thermonetrics-amtz-vizag/img5.jpeg"),
     ],
     description:
@@ -2132,11 +2128,9 @@ export const projects: Project[] = [
     gallery: [
       imageAsset("projects/spl-logistics-turnkey-project/cover.jpeg"),
       imageAsset("projects/spl-logistics-turnkey-project/gallery-02.jpeg"),
-      imageAsset("projects/spl-logistics-turnkey-project/gallery-03.jpeg"),
       imageAsset("projects/spl-logistics-turnkey-project/gallery-04.jpeg"),
       imageAsset("projects/spl-logistics-turnkey-project/gallery-05.jpeg"),
       imageAsset("projects/spl-logistics-turnkey-project/gallery-06.jpeg"),
-      imageAsset("projects/spl-logistics-turnkey-project/gallery-07.jpeg"),
       imageAsset("projects/spl-logistics-turnkey-project/gallery-08.jpeg"),
     ],
     description:
