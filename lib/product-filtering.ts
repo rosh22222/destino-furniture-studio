@@ -2,9 +2,9 @@ import type { Product } from "@/lib/types";
 
 const standardProductTypes = [
   "Chairs",
-  "Workstations",
   "Tables",
   "Storage",
+  "Metal Series",
   "Recliners",
   "Swings",
   "Sofas",

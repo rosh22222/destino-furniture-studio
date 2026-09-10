@@ -21,12 +21,12 @@ export function ProductCard({
   return (
     <article className="group relative overflow-hidden rounded-lg bg-white transition-shadow duration-300 hover:shadow-md">
       {/* Image Section */}
-      <div className="relative w-full aspect-[3/2] overflow-hidden bg-[#F5F1EA]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#F8F5EF]">
         <Link className="block h-full w-full" href={href}>
           {product.image ? (
             <Image
               alt={`${product.name} by Destino Furniture Studio`}
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              className="object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03]"
               fill
               priority={priority}
               sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 92vw"

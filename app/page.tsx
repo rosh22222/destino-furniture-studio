@@ -83,7 +83,7 @@ const homeCategories = [
   {
     title: "Ergonomic Chairs",
     href: "/products/ergonomic-chairs",
-    image: "/images/categories/ergonomic-chair.png",
+    image: "/images/products/chairs/ergonomic/img1.png",
   },
   {
     title: "Office Chairs",
@@ -93,52 +93,52 @@ const homeCategories = [
   {
     title: "Office Tables",
     href: "/products/office-tables",
-    image: "/images/categories/office-table.png",
+    image: "/images/products/tables/office-tables/office-table.png",
   },
   {
     title: "Cafeteria Chairs",
     href: "/products/cafeteria-chairs",
-    image: "/images/categories/cafeteria-chair.png",
+    image: "/images/products/chairs/cafeteria/chair34.png",
   },
   {
     title: "Workstation Tables",
-    href: "/products/workstation-tables-and-chairs",
-    image: "/images/categories/workstation-tables.png",
+    href: "/products?type=Tables&category=workstation-tables-and-chairs",
+    image: "/images/products/tables/workstation/work1.png",
   },
   {
     title: "Workstation Chairs",
-    href: "/products/workstation-tables-and-chairs",
-    image: "/images/categories/workstation-chairs.png",
+    href: "/products?type=Chairs&category=workstation-tables-and-chairs",
+    image: "/images/products/chairs/workstation/img1.png",
   },
   {
     title: "Wood Collection",
     href: "/products/customized-furniture",
-    image: "/images/categories/wood-collection.png",
+    image: "/images/categories/wood-collection/wood1.png",
   },
   {
     title: "Office Turnkey Interiors",
     href: "/products/office-interiors",
-    image: "/images/categories/turnkey-interior.png",
+    image: "/images/categories/office-interiors/interior1.png",
   },
   {
     title: "Storage Units",
     href: "/products/storage-units",
-    image: "/images/categories/storage-units.jpg",
+    image: "/images/products/storage/storage1.png",
   },
   {
     title: "Metal Series",
     href: "/products/metal-series",
-    image: "/images/categories/metal-series.png",
+    image: "/images/products/metal-series/metal1.png",
   },
   {
     title: "Banquet Chairs",
     href: "/products/banquet-chairs",
-    image: "/images/categories/banquet-chairs.jpg",
+    image: "/images/categories/banquet/banquet1.png",
   },
   {
     title: "Cafeteria Tables",
     href: "/products/cafeteria-tables",
-    image: "/images/categories/cafeteria-tables.jpg",
+    image: "/images/products/tables/cafeteria-tables/img1.png",
   },
 ];
 
@@ -289,13 +289,13 @@ export default async function Home() {
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {homeCategories.map((category) => (
               <Link
-                className="group relative min-h-64 overflow-hidden rounded-lg border border-[#DED7CF] bg-[#F5F1EA] shadow-[0_14px_42px_rgba(32,34,56,0.08)]"
+                className="group relative min-h-72 overflow-hidden rounded-lg border border-[#DED7CF] bg-[#F8F5EF] shadow-[0_14px_42px_rgba(32,34,56,0.08)]"
                 href={category.href}
                 key={category.title}
               >
                 <Image
                   alt={category.title + " by Destino Furniture Studio"}
-                  className="object-cover transition duration-300 group-hover:scale-[1.03]"
+                  className="object-contain p-3 transition duration-300 group-hover:scale-[1.03]"
                   fill
                   priority
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 92vw"
@@ -333,14 +333,14 @@ export default async function Home() {
               href={item.href}
               key={idx}
             >
-              <div className="relative mb-5 aspect-square w-full overflow-hidden rounded-lg border border-[#E6DDD1] bg-white shadow-[0_16px_45px_rgba(32,34,56,0.08)] transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_22px_55px_rgba(2,102,112,0.14)]">
+              <div className="relative mb-5 aspect-[4/3] w-full overflow-hidden rounded-lg border border-[#E6DDD1] bg-white shadow-[0_16px_45px_rgba(32,34,56,0.08)] transition duration-300 group-hover:-translate-y-1 group-hover:shadow-[0_22px_55px_rgba(2,102,112,0.14)]">
                 <span className="absolute right-5 top-5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/85 text-[#026670] shadow-sm">
                   <ArrowUpRight className="h-5 w-5" />
                 </span>
                 <div className="absolute inset-0">
                   <Image
                     alt={item.title}
-                    className="object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
+                    className="object-contain p-3 transition-transform duration-500 ease-in-out group-hover:scale-[1.03]"
                     fill
                     sizes="(min-width: 1024px) 340px, (min-width: 640px) 300px, 260px"
                     src={item.image}

@@ -75,11 +75,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <section className="bg-[#FCFBF8] py-10 md:py-16">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
           <div className="space-y-4">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-[#DED7CF] bg-[#F5F1EA]">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-[#DED7CF] bg-[#F8F5EF]">
               {product.image ? (
                 <Image
                   alt={`${product.name} by Destino Furniture Studio`}
-                  className="object-cover"
+                  className="object-contain p-4"
                   fill
                   priority
                   sizes="(min-width: 1024px) 52vw, 92vw"
