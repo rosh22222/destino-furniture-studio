@@ -96,6 +96,17 @@ export const categories: Category[] = [
     keywords: ["office chairs", "ergonomic office chairs"],
   },
   {
+    slug: "visitor-chairs",
+    name: "Visitor Chairs",
+    summary: "Visitor seating for reception areas, cabins, waiting rooms and meeting spaces.",
+    description:
+      "Visitor-chair selections are planned around comfort, finish coordination, space layout and expected daily use. Exact upholstery and dimensions are confirmed during quotation.",
+    image: "/images/products/chairs/visitor/visitor1.png",
+    featured: true,
+    displayOrder: 8.5,
+    keywords: ["visitor chairs", "office visitor seating", "reception chairs"],
+  },
+  {
     slug: "office-tables",
     name: "Office Tables",
     summary: "Executive desks, meeting tables, work tables and storage-connected table systems.",
@@ -182,6 +193,39 @@ export const categories: Category[] = [
     image: '/images/products/chairs/cafeteria/chair34.png',
     displayOrder: 17,
     keywords: ['cafeteria', 'chairs'],
+  },
+  {
+    slug: "barstools",
+    name: "Barstools",
+    summary: "Premium barstools for cafe counters, office pantries and hospitality spaces.",
+    description:
+      "Barstools are selected for cafe counters, pantry counters, lounge bars and hospitality spaces where comfort, height, finish and durability need to work together.",
+    image: "/images/products/barstools/barstool1.png",
+    featured: true,
+    displayOrder: 17.5,
+    keywords: ["barstools", "bar stools", "cafe counter seating"],
+  },
+  {
+    slug: "lounge-seating",
+    name: "Lounge Seating",
+    summary: "Premium lounge seating for reception, waiting and informal meeting spaces.",
+    description:
+      "Lounge seating is curated for comfortable reception areas, office lounges, waiting spaces and informal discussion zones with finishes confirmed during quotation.",
+    image: "/images/products/lounge/lounge1.png",
+    featured: true,
+    displayOrder: 18,
+    keywords: ["lounge seating", "office lounge furniture", "waiting area seating"],
+  },
+  {
+    slug: "multiseaters",
+    name: "Multiseaters",
+    summary: "Multi-seat sofas and bench seating for reception and lounge environments.",
+    description:
+      "Multiseaters are selected for reception areas, office lounges, waiting spaces and hospitality corners where comfort, durability and a refined visual presence matter.",
+    image: "/images/products/multiseaters/multiseater1.png",
+    featured: true,
+    displayOrder: 19,
+    keywords: ["multiseater sofas", "multi seater furniture", "reception sofas"],
   }
 ];
 
@@ -915,6 +959,222 @@ export const products: Product[] = [
     seoTitle: "Office Chair 18 | Destino Furniture Studio",
     seoDescription: "Explore Office Chair 18, a premium office chair from Destino Furniture Studio.",
     updatedAt: "2026-09-06",
+  },
+  {
+    slug: "visitor-chair-1",
+    name: "Visitor Chair 1",
+    categorySlug: "visitor-chairs",
+    furnitureType: "Chairs",
+    image: "/images/products/chairs/visitor/visitor1.png",
+    gallery: ["/images/products/chairs/visitor/visitor1.png"],
+    shortDescription:
+      "Premium visitor chair for reception, cabin and meeting-room seating.",
+    fullDescription:
+      "Visitor Chair 1 brings a refined upholstered profile for reception areas, cabins and meeting rooms. It is suited for spaces that need comfortable guest seating with a clean professional look.",
+    features: [
+      "Comfortable upholstered visitor seating",
+      "Reception and cabin application",
+      "Premium office-ready finish",
+    ],
+    relatedSlugs: ["visitor-chair-2", "visitor-chair-3"],
+    displayOrder: 35,
+    status: "published",
+    seoTitle: "Visitor Chair 1 | Destino Furniture Studio",
+    seoDescription:
+      "Explore Visitor Chair 1, a premium visitor chair from Destino Furniture Studio.",
+    updatedAt: "2026-09-11",
+  },
+  {
+    slug: "visitor-chair-2",
+    name: "Visitor Chair 2",
+    categorySlug: "visitor-chairs",
+    furnitureType: "Chairs",
+    image: "/images/products/chairs/visitor/visitor2.png",
+    gallery: ["/images/products/chairs/visitor/visitor2.png"],
+    shortDescription:
+      "Elegant visitor chair with a warm finish for professional guest areas.",
+    fullDescription:
+      "Visitor Chair 2 is designed for offices, waiting areas and discussion spaces where visitor comfort and visual warmth matter. Its compact profile helps the seating feel premium without overpowering the room.",
+    features: [
+      "Warm premium seating finish",
+      "Ideal for waiting and meeting areas",
+      "Compact professional profile",
+    ],
+    relatedSlugs: ["visitor-chair-1", "visitor-chair-3"],
+    displayOrder: 35.1,
+    status: "published",
+    seoTitle: "Visitor Chair 2 | Destino Furniture Studio",
+    seoDescription:
+      "Explore Visitor Chair 2, a premium visitor chair from Destino Furniture Studio.",
+    updatedAt: "2026-09-11",
+  },
+  {
+    slug: "visitor-chair-3",
+    name: "Visitor Chair 3",
+    categorySlug: "visitor-chairs",
+    furnitureType: "Chairs",
+    image: "/images/products/chairs/visitor/visitor3.png",
+    gallery: ["/images/products/chairs/visitor/visitor3.png"],
+    shortDescription:
+      "Executive visitor chair for cabins, conference rooms and client seating.",
+    fullDescription:
+      "Visitor Chair 3 offers a sleek executive look for cabin visitor seating, conference rooms and client-facing spaces. It pairs a polished frame with supportive cushioning for a composed office setting.",
+    features: [
+      "Executive visitor seating style",
+      "Suitable for cabins and conference rooms",
+      "Supportive cushioned comfort",
+    ],
+    relatedSlugs: ["visitor-chair-1", "visitor-chair-2"],
+    displayOrder: 35.2,
+    status: "published",
+    seoTitle: "Visitor Chair 3 | Destino Furniture Studio",
+    seoDescription:
+      "Explore Visitor Chair 3, a premium visitor chair from Destino Furniture Studio.",
+    updatedAt: "2026-09-11",
+  },
+  {
+    slug: "lounge-seating-1",
+    name: "Lounge Seating 1",
+    categorySlug: "lounge-seating",
+    furnitureType: "Sofas",
+    image: "/images/products/lounge/lounge1.png",
+    gallery: ["/images/products/lounge/lounge1.png"],
+    shortDescription:
+      "Premium single lounge chair for reception and waiting areas.",
+    fullDescription:
+      "Lounge Seating 1 creates a warm and comfortable focal point for reception spaces, waiting areas and informal office corners. Its soft upholstery and refined profile help the space feel welcoming without losing a professional finish.",
+    features: [
+      "Premium reception lounge seating",
+      "Soft cushioned comfort",
+      "Suitable for waiting and informal meeting spaces",
+    ],
+    relatedSlugs: ["lounge-seating-2", "multiseater-1"],
+    displayOrder: 36,
+    status: "published",
+    seoTitle: "Lounge Seating 1 | Destino Furniture Studio",
+    seoDescription:
+      "Explore Lounge Seating 1, a premium lounge seating option from Destino Furniture Studio.",
+    updatedAt: "2026-09-11",
+  },
+  {
+    slug: "lounge-seating-2",
+    name: "Lounge Seating 2",
+    categorySlug: "lounge-seating",
+    furnitureType: "Sofas",
+    image: "/images/products/lounge/lounge2.png",
+    gallery: ["/images/products/lounge/lounge2.png"],
+    shortDescription:
+      "Two-seat lounge bench for office receptions and premium waiting zones.",
+    fullDescription:
+      "Lounge Seating 2 is designed for reception areas, waiting lounges and collaborative corners that need relaxed seating with a clean commercial look. The compact two-seat form keeps the layout useful and visually balanced.",
+    features: [
+      "Two-seat lounge format",
+      "Clean commercial styling",
+      "Ideal for reception and collaborative corners",
+    ],
+    relatedSlugs: ["lounge-seating-1", "multiseater-2"],
+    displayOrder: 36.1,
+    status: "published",
+    seoTitle: "Lounge Seating 2 | Destino Furniture Studio",
+    seoDescription:
+      "Explore Lounge Seating 2, a premium lounge seating option from Destino Furniture Studio.",
+    updatedAt: "2026-09-11",
+  },
+  {
+    slug: "multiseater-1",
+    name: "Multiseater 1",
+    categorySlug: "multiseaters",
+    furnitureType: "Sofas",
+    image: "/images/products/multiseaters/multiseater1.png",
+    gallery: ["/images/products/multiseaters/multiseater1.png"],
+    shortDescription:
+      "Three-seater sofa for reception lounges and visitor waiting areas.",
+    fullDescription:
+      "Multiseater 1 offers generous seating for reception lounges, visitor waiting areas and office common spaces. Its structured cushions and slim base give the space a premium, orderly and comfortable feel.",
+    features: [
+      "Three-seat reception sofa",
+      "Comfortable multi-person seating",
+      "Premium lounge and waiting-area application",
+    ],
+    relatedSlugs: ["multiseater-2", "lounge-seating-1"],
+    displayOrder: 37,
+    status: "published",
+    seoTitle: "Multiseater 1 | Destino Furniture Studio",
+    seoDescription:
+      "Explore Multiseater 1, a premium multi-seat sofa from Destino Furniture Studio.",
+    updatedAt: "2026-09-11",
+  },
+  {
+    slug: "multiseater-2",
+    name: "Multiseater 2",
+    categorySlug: "multiseaters",
+    furnitureType: "Sofas",
+    image: "/images/products/multiseaters/multiseater2.png",
+    gallery: ["/images/products/multiseaters/multiseater2.png"],
+    shortDescription:
+      "Premium compact multiseater sofa for lounges and waiting spaces.",
+    fullDescription:
+      "Multiseater 2 is suited for office lounges, hospitality corners and waiting spaces where multiple visitors need comfortable seating in a polished footprint. Its soft form and premium upholstery add a refined seating statement.",
+    features: [
+      "Compact multi-seat sofa",
+      "Premium upholstery presence",
+      "Useful for lounges, waiting spaces and hospitality corners",
+    ],
+    relatedSlugs: ["multiseater-1", "lounge-seating-2"],
+    displayOrder: 37.1,
+    status: "published",
+    seoTitle: "Multiseater 2 | Destino Furniture Studio",
+    seoDescription:
+      "Explore Multiseater 2, a premium multi-seat sofa from Destino Furniture Studio.",
+    updatedAt: "2026-09-11",
+  },
+  {
+    slug: "barstool-1",
+    name: "Barstool 1",
+    categorySlug: "barstools",
+    furnitureType: "Chairs",
+    image: "/images/products/barstools/barstool1.png",
+    gallery: ["/images/products/barstools/barstool1.png"],
+    shortDescription:
+      "Premium upholstered barstool for cafe counters and office pantry spaces.",
+    fullDescription:
+      "Barstool 1 is designed for cafe counters, office pantries and hospitality interiors that need elevated seating with comfort and a refined visual finish. Its upholstered seat and footrest-ready frame make it practical for daily use.",
+    features: [
+      "Upholstered counter seating",
+      "Suitable for cafes and office pantries",
+      "Footrest-ready barstool frame",
+    ],
+    relatedSlugs: ["barstool-2", "cafeteria-chair-11"],
+    displayOrder: 37.2,
+    status: "published",
+    seoTitle: "Barstool 1 | Destino Furniture Studio",
+    seoDescription:
+      "Explore Barstool 1, a premium barstool from Destino Furniture Studio.",
+    updatedAt: "2026-09-11",
+  },
+  {
+    slug: "barstool-2",
+    name: "Barstool 2",
+    categorySlug: "barstools",
+    furnitureType: "Chairs",
+    image: "/images/products/barstools/barstool2.png",
+    gallery: ["/images/products/barstools/barstool2.png"],
+    shortDescription:
+      "Elegant adjustable barstool for pantry counters, cafes and lounge bars.",
+    fullDescription:
+      "Barstool 2 brings a polished counter-seating look for office pantry counters, cafes and lounge bar settings. The cushioned profile and chrome base make it suitable for compact premium spaces.",
+    features: [
+      "Adjustable counter seating profile",
+      "Cushioned premium finish",
+      "Useful for cafes, lounge bars and pantry counters",
+    ],
+    relatedSlugs: ["barstool-1", "cafeteria-table-1"],
+    displayOrder: 37.3,
+    status: "published",
+    seoTitle: "Barstool 2 | Destino Furniture Studio",
+    seoDescription:
+      "Explore Barstool 2, a premium barstool from Destino Furniture Studio.",
+    updatedAt: "2026-09-11",
   },
   {
     slug: "cafeteria-chair-1",

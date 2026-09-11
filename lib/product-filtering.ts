@@ -11,6 +11,10 @@ const standardProductTypes = [
 ];
 
 const hiddenCustomizedProductSlugs = ["lounge-and-visitor-seating"];
+const workstationCategorySlugs = [
+  "workstation-tables-and-chairs",
+  "workstation-chairs",
+];
 
 export type NormalizedProductFilters = {
   q: string;
@@ -62,7 +66,9 @@ export function filterProducts(
       : true;
 
     const matchesCategory = filters.category
-      ? product.categorySlug === filters.category
+      ? filters.category === "workstations"
+        ? workstationCategorySlugs.includes(product.categorySlug)
+        : product.categorySlug === filters.category
       : true;
     const matchesBrand = filters.brand
       ? product.brandSlug === filters.brand

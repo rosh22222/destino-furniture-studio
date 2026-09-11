@@ -91,6 +91,11 @@ const homeCategories = [
     image: "/images/categories/office-chair.png",
   },
   {
+    title: "Visitor Chairs",
+    href: "/products/visitor-chairs",
+    image: "/images/products/chairs/visitor/visitor1.png",
+  },
+  {
     title: "Office Tables",
     href: "/products/office-tables",
     image: "/images/products/tables/office-tables/office-table.png",
@@ -168,7 +173,7 @@ const whyDestinoItems = [
 const ourCollectionItems = [
   {
     title: "VISITORS",
-    href: "/product/lounge-and-visitor-seating",
+    href: "/products/visitor-chairs",
     image: "/images/collection/visitors1.png",
   },
   {
@@ -178,7 +183,7 @@ const ourCollectionItems = [
   },
   {
     title: "BARSTOOL",
-    href: "/products?type=Chairs",
+    href: "/products/barstools",
     image: "/images/collection/barstool.png",
   },
   {
@@ -188,7 +193,7 @@ const ourCollectionItems = [
   },
   {
     title: "CAFE CHAIRS",
-    href: "/products/cafeteria-furniture",
+    href: "/products/cafeteria-chairs",
     image: "/images/collection/cafe-chair.png",
   },
   {
@@ -198,17 +203,17 @@ const ourCollectionItems = [
   },
   {
     title: "WORKSTATION",
-    href: "/products?type=Workstations",
+    href: "/products?category=workstations",
     image: "/images/collection/workstation.png",
   },
   {
     title: "LOUNGE",
-    href: "/product/lounge-and-visitor-seating",
+    href: "/products/lounge-seating",
     image: "/images/collection/longue.png",
   },
   {
     title: "MULTISEATERS",
-    href: "/products?type=Sofas",
+    href: "/products/multiseaters",
     image: "/images/collection/multiseater.png",
   },
 ];

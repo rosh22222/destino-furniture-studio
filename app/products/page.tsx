@@ -29,6 +29,7 @@ const productTypeFilters = [
 const chairSubcategoryFilters = [
   { label: "Ergonomic Chairs", slug: "ergonomic-chairs" },
   { label: "Office Chairs", slug: "office-chairs" },
+  { label: "Visitor Chairs", slug: "visitor-chairs" },
   { label: "Cafeteria Chairs", slug: "cafeteria-chairs" },
   { label: "Workstation Chairs", slug: "workstation-chairs" },
   { label: "Banquet Chairs", slug: "banquet-chairs" },
@@ -260,7 +261,9 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
                               (product) => product.categorySlug === subcategory.slug,
                             );
                             const shouldShowSubcategory = filters.category
-                              ? filters.category === subcategory.slug
+                              ? filters.category === subcategory.slug ||
+                                (filters.category === "workstations" &&
+                                  subcategory.slug === "workstation-chairs")
                               : true;
 
                             if (!shouldShowSubcategory) {
