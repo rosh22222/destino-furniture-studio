@@ -1,13 +1,13 @@
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowRight, Download, MessageCircle } from "lucide-react";
 
 
-import { ImageGallery } from "@/components/image-gallery";
 import { JsonLd } from "@/components/json-ld";
 import { LeadForm } from "@/components/lead-form";
 import { ProductCard } from "@/components/product-card";
+import { ProductImageGallery } from "@/components/product-image-gallery";
+import { RichText } from "@/components/rich-text";
 import { WishlistButton } from "@/components/wishlist-button";
 import { getBrands, getCategories, getProducts } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
@@ -65,6 +65,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const relatedProducts = products
     .filter((item) => product.relatedSlugs.includes(item.slug))
     .slice(0, 3);
+  const productGalleryImages = [
+    product.image,
+    ...(product.gallery || []),
+  ].filter((image): image is string => Boolean(image));
 
 
   return (
@@ -74,30 +78,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
       <section className="bg-[#FCFBF8] py-10 md:py-16">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
-          <div className="space-y-4">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-[#DED7CF] bg-[#F8F5EF]">
-              {product.image ? (
-                <Image
-                  alt={`${product.name} by Destino Furniture Studio`}
-                  className="object-contain p-4"
-                  fill
-                  priority
-                  sizes="(min-width: 1024px) 52vw, 92vw"
-                  src={product.image}
-                />
-              ) : (
-                <div className="flex h-full w-full items-center justify-center text-gray-400">
-                  No Image
-                </div>
-              )}
-            </div>
-            {product.gallery?.length > 0 && (
-              <ImageGallery
-                images={product.gallery.filter((image) => image !== product.image)}
-                title={product.name}
-              />
-            )}
-          </div>
+          <ProductImageGallery images={productGalleryImages} title={product.name} />
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#C56545]">
@@ -106,13 +87,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <h1 className="mt-3 text-4xl font-semibold leading-tight text-[#202238] md:text-5xl">
               {product.name}
             </h1>
-            <p className="mt-5 text-lg leading-8 text-[#625f5a]">
-              {product.shortDescription}
-            </p>
-            {product.fullDescription ? (
-              <p className="mt-4 text-base leading-7 text-[#625f5a]">
-                {product.fullDescription}
-              </p>
+            <RichText
+              className="mt-5 space-y-4"
+              paragraphClassName="text-lg leading-8 text-[#625f5a]"
+              text={product.shortDescription}
+            />
+            {product.fullDescription &&
+            product.fullDescription !== product.shortDescription ? (
+              <RichText
+                className="mt-4 space-y-4"
+                paragraphClassName="text-base leading-7 text-[#625f5a]"
+                text={product.fullDescription}
+              />
             ) : null}
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -144,7 +130,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 ["Furniture type", product.furnitureType],
                 ["Category", category?.name],
                 ["Brand", brand?.name],
-                ["SKU or model", product.sku],
+                ["Product ID", product.sku],
                 ["Dimensions", product.dimensions],
               ]
                 .filter((item): item is [string, string] => Boolean(item[1]))

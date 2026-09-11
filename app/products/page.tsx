@@ -30,7 +30,7 @@ const chairSubcategoryFilters = [
   { label: "Ergonomic Chairs", slug: "ergonomic-chairs" },
   { label: "Office Chairs", slug: "office-chairs" },
   { label: "Cafeteria Chairs", slug: "cafeteria-chairs" },
-  { label: "Workstation Chairs", slug: "workstation-tables-and-chairs" },
+  { label: "Workstation Chairs", slug: "workstation-chairs" },
   { label: "Banquet Chairs", slug: "banquet-chairs" },
 ];
 

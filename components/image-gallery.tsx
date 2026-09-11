@@ -1,28 +1,44 @@
 "use client";
 
-import Image from "next/image";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
+
+import { SafeGalleryImage } from "@/components/safe-gallery-image";
 
 type ImageGalleryProps = {
   images: string[];
   title: string;
 };
 
+function normalizeImageSrc(src: string) {
+  try {
+    const url = new URL(src, "http://localhost");
+
+    if (url.pathname === "/_next/image") {
+      return url.searchParams.get("url") || src;
+    }
+  } catch {
+    return src;
+  }
+
+  return src;
+}
+
 export function ImageGallery({ images, title }: ImageGalleryProps) {
+  const uniqueImages = Array.from(new Set(images.map(normalizeImageSrc)));
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const close = () => setActiveIndex(null);
   const previous = useCallback(() => {
     setActiveIndex((value) =>
-      value === null ? null : value === 0 ? images.length - 1 : value - 1,
+      value === null ? null : value === 0 ? uniqueImages.length - 1 : value - 1,
     );
-  }, [images.length]);
+  }, [uniqueImages.length]);
   const next = useCallback(() => {
     setActiveIndex((value) =>
-      value === null ? null : value === images.length - 1 ? 0 : value + 1,
+      value === null ? null : value === uniqueImages.length - 1 ? 0 : value + 1,
     );
-  }, [images.length]);
+  }, [uniqueImages.length]);
 
   useEffect(() => {
     if (activeIndex === null) {
@@ -45,25 +61,24 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [activeIndex, next, previous]);
 
-  if (!images.length) {
+  if (!uniqueImages.length) {
     return null;
   }
 
   return (
     <>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {images.map((image, index) => (
+        {uniqueImages.map((image, index) => (
           <button
             aria-label={`Open ${title} image ${index + 1}`}
             className="group relative aspect-[4/3] overflow-hidden rounded-lg border border-[#DED7CF] bg-[#F5F1EA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C56545]"
-            key={image}
+            key={`${image}-${index}`}
             onClick={() => setActiveIndex(index)}
             type="button"
           >
-            <Image
+            <SafeGalleryImage
               alt={`${title} gallery image ${index + 1}`}
               className="object-cover transition duration-300 group-hover:scale-[1.03]"
-              fill
               sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
               src={image}
             />
@@ -98,12 +113,11 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
               <ChevronLeft aria-hidden="true" className="h-6 w-6" />
             </button>
             <div className="relative h-full max-h-[78vh] w-full max-w-6xl">
-              <Image
+              <SafeGalleryImage
                 alt={`${title} enlarged image ${activeIndex + 1}`}
                 className="object-contain"
-                fill
                 sizes="100vw"
-                src={images[activeIndex]}
+                src={uniqueImages[activeIndex]}
               />
             </div>
             <button

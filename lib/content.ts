@@ -119,28 +119,44 @@ export async function getProducts(): Promise<Product[]> {
     return byOrder(seedProducts).filter((product) => product.status === "published");
   }
 
-  return rows.map((row) => {
-    const content = row.content || {};
+  const mergedProducts = new Map(
+    byOrder(seedProducts)
+      .filter((product) => product.status === "published")
+      .map((product) => [product.slug, product]),
+  );
 
-    return {
+  rows.forEach((row) => {
+    const content = row.content || {};
+    const fallback = mergedProducts.get(row.slug);
+    const image = row.image_url || String(content.image || fallback?.image || "");
+    const gallery = Array.isArray(content.gallery)
+      ? (content.gallery as string[])
+      : fallback?.gallery || [];
+
+    mergedProducts.set(row.slug, {
+      ...fallback,
       ...(content as Partial<Product>),
       slug: row.slug,
       name: row.title,
-      image: row.image_url || String(content.image || ""),
-      gallery: Array.isArray(content.gallery) ? (content.gallery as string[]) : [],
-      categorySlug: String(content.categorySlug || ""),
-      furnitureType: String(content.furnitureType || "Furniture"),
+      image,
+      gallery: gallery.length ? gallery : image ? [image] : [],
+      categorySlug: String(content.categorySlug || fallback?.categorySlug || ""),
+      furnitureType: String(content.furnitureType || fallback?.furnitureType || "Furniture"),
       relatedSlugs: Array.isArray(content.relatedSlugs)
         ? (content.relatedSlugs as string[])
-        : [],
+        : fallback?.relatedSlugs || [],
       displayOrder: row.display_order ?? 100,
       status: "published",
-      seoTitle: String(content.seoTitle || row.title),
-      seoDescription: String(content.seoDescription || content.shortDescription || ""),
-      shortDescription: String(content.shortDescription || ""),
+      seoTitle: String(content.seoTitle || fallback?.seoTitle || row.title),
+      seoDescription: String(
+        content.seoDescription || fallback?.seoDescription || content.shortDescription || "",
+      ),
+      shortDescription: String(content.shortDescription || fallback?.shortDescription || ""),
       updatedAt: rowDate(row),
-    };
+    });
   });
+
+  return byOrder([...mergedProducts.values()]);
 }
 
 export async function getProjects(): Promise<Project[]> {
@@ -150,30 +166,46 @@ export async function getProjects(): Promise<Project[]> {
     return byOrder(seedProjects);
   }
 
-  return rows.map((row) => {
-    const content = row.content || {};
+  const mergedProjects = new Map(seedProjects.map((project) => [project.slug, project]));
 
-    return {
+  rows.forEach((row) => {
+    const content = row.content || {};
+    const fallback = mergedProjects.get(row.slug);
+    const coverImage = row.image_url || String(content.coverImage || fallback?.coverImage || "");
+    const gallery = Array.isArray(content.gallery)
+      ? (content.gallery as string[])
+      : fallback?.gallery || [];
+
+    mergedProjects.set(row.slug, {
+      ...fallback,
       ...(content as Partial<Project>),
       slug: row.slug,
       title: row.title,
-      clientName: String(content.clientName || row.title),
-      sector: String(content.sector || "Commercial"),
-      location: String(content.location || ""),
-      coverImage: row.image_url || String(content.coverImage || ""),
-      gallery: Array.isArray(content.gallery) ? (content.gallery as string[]) : [],
-      description: String(content.description || ""),
-      scope: Array.isArray(content.scope) ? (content.scope as string[]) : [],
-      categories: Array.isArray(content.categories) ? (content.categories as string[]) : [],
+      clientName: String(content.clientName || fallback?.clientName || row.title),
+      sector: String(content.sector || fallback?.sector || "Commercial"),
+      location: String(content.location || fallback?.location || ""),
+      coverImage,
+      gallery: gallery.length ? gallery : coverImage ? [coverImage] : [],
+      description: String(content.description || fallback?.description || ""),
+      scope: Array.isArray(content.scope)
+        ? (content.scope as string[])
+        : fallback?.scope || [],
+      categories: Array.isArray(content.categories)
+        ? (content.categories as string[])
+        : fallback?.categories || [],
       relatedProductSlugs: Array.isArray(content.relatedProductSlugs)
         ? (content.relatedProductSlugs as string[])
-        : [],
+        : fallback?.relatedProductSlugs || [],
       displayOrder: row.display_order ?? 100,
-      seoTitle: String(content.seoTitle || row.title),
-      seoDescription: String(content.seoDescription || content.description || ""),
+      seoTitle: String(content.seoTitle || fallback?.seoTitle || row.title),
+      seoDescription: String(
+        content.seoDescription || fallback?.seoDescription || content.description || "",
+      ),
       updatedAt: rowDate(row),
-    };
+    });
   });
+
+  return byOrder([...mergedProjects.values()]);
 }
 
 export async function getClients(): Promise<Client[]> {

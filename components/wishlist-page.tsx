@@ -6,6 +6,7 @@ import { MessageCircle, Trash2 } from "lucide-react";
 
 import { LeadForm } from "@/components/lead-form";
 import { useWishlist } from "@/components/wishlist-provider";
+import { stripRichText } from "@/lib/rich-text";
 import { quoteWhatsappMessage, whatsappUrl } from "@/lib/whatsapp";
 
 export function WishlistPage() {
@@ -88,7 +89,7 @@ export function WishlistPage() {
                     </Link>
                   </h2>
                   <p className="mt-2 text-sm leading-6 text-[#625f5a]">
-                    {product.shortDescription}
+                    {stripRichText(product.shortDescription)}
                   </p>
                 </div>
                 <button
@@ -124,4 +125,3 @@ export function WishlistPage() {
     </section>
   );
 }
-

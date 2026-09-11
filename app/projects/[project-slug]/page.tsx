@@ -8,6 +8,7 @@ import { ImageGallery } from "@/components/image-gallery";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
 import { ProjectEnquiryModal } from "@/components/project-enquiry-modal";
+import { RichText } from "@/components/rich-text";
 import { getBrands, getCategories, getProducts, getProjects } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { projectJsonLd } from "@/lib/structured-data";
@@ -105,9 +106,11 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   {project.location}
                 </span>
               </div>
-              <p className="mt-7 max-w-2xl text-lg font-medium leading-8 text-[#1E3A8A]">
-                {project.description}
-              </p>
+              <RichText
+                className="mt-7 max-w-2xl space-y-4"
+                paragraphClassName="text-lg font-medium leading-8 text-[#1E3A8A]"
+                text={project.description}
+              />
               <a
                 className="mt-8 inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#202238] px-7 text-base font-bold uppercase tracking-[0.12em] text-white shadow-[0_16px_34px_rgba(32,34,56,0.16)] transition hover:-translate-y-0.5 hover:bg-[#C56545]"
                 href={whatsappUrl(

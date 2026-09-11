@@ -2,6 +2,7 @@ import "server-only";
 
 import { redirect } from "next/navigation";
 
+import { products as seedProducts, projects as seedProjects } from "@/lib/data";
 import { createCookieSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
 
 export type AdminResourceKind = "content" | "lead";
@@ -31,113 +32,30 @@ export type AdminRow = {
   sourcePath?: string;
   products?: string[];
   message?: string;
+  isSeed?: boolean;
 };
 
 export const adminResources: AdminResource[] = [
-  {
-    slug: "product-categories",
-    label: "Product Categories",
-    table: "product_categories",
-    kind: "content",
-    description: "Manage category names, images, SEO content and display order.",
-  },
   {
     slug: "products",
     label: "Products",
     table: "products",
     kind: "content",
-    description: "Manage product ranges, SKU-level content, galleries and status.",
-  },
-  {
-    slug: "brands",
-    label: "Brands and Channel Partners",
-    table: "brands",
-    kind: "content",
-    description: "Manage HOF, Spacewood, Paradise Furniture and future brands.",
+    description: "Add products with category, furniture type, image and product details.",
   },
   {
     slug: "projects",
     label: "Projects",
     table: "projects",
     kind: "content",
-    description: "Manage project case studies, galleries, scopes and SEO fields.",
+    description: "Add project case studies with client, location, sector, images and scope.",
   },
   {
     slug: "clients",
     label: "Clients",
     table: "clients",
     kind: "content",
-    description: "Manage client logos, sectors and display order.",
-  },
-  {
-    slug: "faqs",
-    label: "FAQs",
-    table: "faqs",
-    kind: "content",
-    description: "Manage visible FAQ questions and answers.",
-  },
-  {
-    slug: "homepage",
-    label: "Homepage Featured Content",
-    table: "homepage_sections",
-    kind: "content",
-    description: "Manage homepage featured sections and display order.",
-  },
-  {
-    slug: "contact-info",
-    label: "Contact Information",
-    table: "site_settings",
-    kind: "content",
-    description: "Manage phone, WhatsApp, email and confirmed NAP information.",
-  },
-  {
-    slug: "social-links",
-    label: "Social Links",
-    table: "social_links",
-    kind: "content",
-    description: "Manage verified social URLs and display status.",
-  },
-  {
-    slug: "footer",
-    label: "Footer Content",
-    table: "footer_content",
-    kind: "content",
-    description: "Manage footer navigation, policies and supporting text.",
-  },
-  {
-    slug: "default-seo",
-    label: "Default SEO Settings",
-    table: "seo_defaults",
-    kind: "content",
-    description: "Manage global SEO titles, descriptions and indexing defaults.",
-  },
-  {
-    slug: "page-seo",
-    label: "Page SEO Settings",
-    table: "seo_pages",
-    kind: "content",
-    description: "Manage page-specific metadata, canonicals and image alt text.",
-  },
-  {
-    slug: "redirects",
-    label: "Redirects",
-    table: "redirects",
-    kind: "content",
-    description: "Manage legacy URL redirects and destination paths.",
-  },
-  {
-    slug: "enquiries",
-    label: "Website Enquiries",
-    table: "website_enquiries",
-    kind: "lead",
-    description: "Review general, project and location enquiries.",
-  },
-  {
-    slug: "quotation-requests",
-    label: "Quotation Requests",
-    table: "quotation_requests",
-    kind: "lead",
-    description: "Review product and wishlist quotation requests.",
+    description: "Upload client logos for the clients page.",
   },
 ];
 
@@ -237,7 +155,7 @@ export async function getAdminRows(resource: AdminResource): Promise<AdminRow[]>
     .order("display_order", { ascending: true })
     .limit(100);
 
-  return (data || []).map((row) => ({
+  const rows = (data || []).map((row) => ({
     id: row.id,
     title: row.title,
     slug: row.slug,
@@ -249,4 +167,89 @@ export async function getAdminRows(resource: AdminResource): Promise<AdminRow[]>
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   }));
+
+  if (resource.slug !== "products" && resource.slug !== "projects") {
+    return rows;
+  }
+
+  const dbRowsBySlug = new Map(rows.map((row) => [row.slug, row]));
+
+  if (resource.slug === "projects") {
+    const seedSlugs = new Set(seedProjects.map((project) => project.slug));
+    const seedRows = seedProjects.map<AdminRow>((project) => {
+      const dbRow = dbRowsBySlug.get(project.slug);
+
+      if (dbRow) {
+        return dbRow;
+      }
+
+      return {
+        id: `seed:${project.slug}`,
+        title: project.title,
+        slug: project.slug,
+        status: "published",
+        displayOrder: project.displayOrder,
+        imageUrl: project.coverImage || "",
+        imageAlt: project.title,
+        content: {
+          ...project,
+          coverImage: project.coverImage || "",
+          coverVideo: project.coverVideo || "",
+          gallery: project.gallery,
+          clientName: project.clientName,
+          sector: project.sector,
+          location: project.location,
+          description: project.description,
+          scope: project.scope,
+          categories: project.categories,
+          relatedProductSlugs: project.relatedProductSlugs,
+        },
+        updatedAt: project.updatedAt,
+        isSeed: true,
+      };
+    });
+    const databaseOnlyRows = rows.filter((row) => !seedSlugs.has(row.slug || ""));
+
+    return [...seedRows, ...databaseOnlyRows].sort(
+      (a, b) => (a.displayOrder || 100) - (b.displayOrder || 100),
+    );
+  }
+
+  const publishedSeedProducts = seedProducts.filter(
+    (product) => product.status === "published",
+  );
+  const seedSlugs = new Set(publishedSeedProducts.map((product) => product.slug));
+  const seedRows = publishedSeedProducts
+    .map<AdminRow>((product) => {
+      const dbRow = dbRowsBySlug.get(product.slug);
+
+      if (dbRow) {
+        return dbRow;
+      }
+
+      return {
+        id: `seed:${product.slug}`,
+        title: product.name,
+        slug: product.slug,
+        status: product.status,
+        displayOrder: product.displayOrder,
+        imageUrl: product.image,
+        imageAlt: product.name,
+        content: {
+          ...product,
+          image: product.image,
+          gallery: product.gallery,
+          categorySlug: product.categorySlug,
+          furnitureType: product.furnitureType,
+        },
+        updatedAt: product.updatedAt,
+        isSeed: true,
+      };
+    });
+
+  const databaseOnlyRows = rows.filter((row) => !seedSlugs.has(row.slug || ""));
+
+  return [...seedRows, ...databaseOnlyRows].sort(
+    (a, b) => (a.displayOrder || 100) - (b.displayOrder || 100),
+  );
 }

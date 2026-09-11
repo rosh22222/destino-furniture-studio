@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { stripRichText } from "@/lib/rich-text";
 import type { Project } from "@/lib/types";
 
 export function ProjectCard({
@@ -11,6 +12,8 @@ export function ProjectCard({
   project: Project;
   priority?: boolean;
 }) {
+  const previewDescription = stripRichText(project.description);
+
   return (
     <article className="group overflow-hidden rounded-2xl bg-white shadow-sm border border-[#E6DDD1] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#1E3A8A]/5">
       <Link className="block" href={`/projects/${project.slug}`}>
@@ -49,7 +52,7 @@ export function ProjectCard({
             </Link>
           </h3>
           <p className="mt-3 line-clamp-2 text-lg font-medium leading-relaxed text-[#1E3A8A]">
-            {project.description}
+            {previewDescription}
           </p>
         </div>
         <div className="mt-5">

@@ -117,14 +117,25 @@ export const categories: Category[] = [
   },
   {
     slug: "workstation-tables-and-chairs",
-    name: "Workstation Tables and Chairs",
-    summary: "Workstation tables and chairs for focused desk and staff seating zones.",
+    name: "Workstation Tables",
+    summary: "Workstation tables for focused desk and staff work zones.",
     description:
-      "Workstation selections include table systems and workstation chairs matched to desk use, comfort needs, finish preference and daily office requirements.",
+      "Workstation table selections include table systems matched to desk use, team size, finish preference and daily office requirements.",
     image: imageAsset("categories/workstation-tables-and-chairs/cover.jpeg"),
     featured: true,
     displayOrder: 11,
-    keywords: ["workstation tables", "workstation chairs", "office workstations"],
+    keywords: ["workstation tables", "office workstations"],
+  },
+  {
+    slug: "workstation-chairs",
+    name: "Workstation Chairs",
+    summary: "Workstation chairs for focused desk and staff seating zones.",
+    description:
+      "Workstation chair selections are matched to desk use, comfort needs, finish preference and daily office requirements.",
+    image: "/images/products/chairs/workstation/img1.png",
+    featured: true,
+    displayOrder: 12,
+    keywords: ["workstation chairs", "office chairs"],
   },
   {
     slug: 'storage-units',
@@ -132,7 +143,7 @@ export const categories: Category[] = [
     summary: 'Storage units and cabinets.',
     description: 'Various storage solutions for office and commercial use.',
     image: '/images/products/storage/storage1.png',
-    displayOrder: 12,
+    displayOrder: 13,
     keywords: ['storage', 'cabinets'],
   },
   {
@@ -141,7 +152,7 @@ export const categories: Category[] = [
     summary: 'Metal series furniture.',
     description: 'Durable metal furniture for various applications.',
     image: '/images/products/metal-series/metal1.png',
-    displayOrder: 13,
+    displayOrder: 14,
     keywords: ['metal', 'furniture'],
   },
   {
@@ -150,7 +161,7 @@ export const categories: Category[] = [
     summary: 'Banquet chairs and seating.',
     description: 'Comfortable and stackable banquet chairs for events.',
     image: '/images/categories/banquet/banquet1.png',
-    displayOrder: 14,
+    displayOrder: 15,
     keywords: ['banquet', 'chairs', 'events'],
   },
   {
@@ -159,7 +170,7 @@ export const categories: Category[] = [
     summary: 'Tables for cafeteria.',
     description: 'Durable tables for cafeteria and dining areas.',
     image: '/images/products/tables/cafeteria-tables/img1.png',
-    displayOrder: 15,
+    displayOrder: 16,
     keywords: ['cafeteria', 'tables'],
   }
 ,
@@ -169,7 +180,7 @@ export const categories: Category[] = [
     summary: 'Chairs for cafeteria.',
     description: 'Durable and comfortable chairs for cafeteria and dining areas.',
     image: '/images/products/chairs/cafeteria/chair34.png',
-    displayOrder: 16,
+    displayOrder: 17,
     keywords: ['cafeteria', 'chairs'],
   }
 ];
@@ -1816,7 +1827,7 @@ export const products: Product[] = [
   {
     slug: "workstation-1",
     name: "Workstation Chair 1",
-    categorySlug: "workstation-tables-and-chairs",
+    categorySlug: "workstation-chairs",
     furnitureType: "Chairs",
     image: "/images/products/chairs/workstation/img1.png",
     gallery: ["/images/products/chairs/workstation/img1.png"],
@@ -1833,7 +1844,7 @@ export const products: Product[] = [
   {
     slug: "workstation-2",
     name: "Workstation Chair 2",
-    categorySlug: "workstation-tables-and-chairs",
+    categorySlug: "workstation-chairs",
     furnitureType: "Chairs",
     image: "/images/products/chairs/workstation/img2.png",
     gallery: ["/images/products/chairs/workstation/img2.png"],
@@ -1850,7 +1861,7 @@ export const products: Product[] = [
   {
     slug: "workstation-3",
     name: "Workstation Chair 3",
-    categorySlug: "workstation-tables-and-chairs",
+    categorySlug: "workstation-chairs",
     furnitureType: "Chairs",
     image: "/images/products/chairs/workstation/img3.png",
     gallery: ["/images/products/chairs/workstation/img3.png"],
@@ -1996,6 +2007,8 @@ export const clients: Client[] = [
   { slug: "ladia", name: "Ladia", logo: imageAsset("clients/ladia.png"), sector: "Corporate", displayOrder: 22 },
   { slug: "pnb", name: "PNB", logo: imageAsset("clients/pnb.png"), sector: "Banking", displayOrder: 23 },
   { slug: "thermometrics", name: "Thermometrics", logo: imageAsset("clients/thermometrics.png"), sector: "Corporate", displayOrder: 24 },
+  { slug: "purple-micro-port", name: "Purple Micro Port", logo: imageAsset("clients/purple-micro-port.png"), sector: "Corporate", displayOrder: 25 },
+  { slug: "evalyn", name: "Evalyn", logo: imageAsset("clients/evalyn.png"), sector: "Corporate", displayOrder: 26 },
 ];
 
 export const projects: Project[] = [

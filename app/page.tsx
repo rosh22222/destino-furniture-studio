@@ -107,7 +107,7 @@ const homeCategories = [
   },
   {
     title: "Workstation Chairs",
-    href: "/products?type=Chairs&category=workstation-tables-and-chairs",
+    href: "/products?type=Chairs&category=workstation-chairs",
     image: "/images/products/chairs/workstation/img1.png",
   },
   {

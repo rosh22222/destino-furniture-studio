@@ -1,4 +1,5 @@
 import { siteConfig } from "@/lib/constants";
+import { stripRichText } from "@/lib/rich-text";
 import type { Category, Product, Project } from "@/lib/types";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -62,7 +63,7 @@ export function productJsonLd(product: Product, category?: Category) {
     image: product.gallery?.length
       ? product.gallery.map((image) => absoluteUrl(image))
       : product.image ? [absoluteUrl(product.image)] : undefined,
-    description: product.shortDescription,
+    description: stripRichText(product.shortDescription),
     sku: product.sku,
     category: category?.name,
     brand: product.brandSlug
@@ -93,7 +94,7 @@ export function projectJsonLd(project: Project) {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.title,
-    description: project.description,
+    description: stripRichText(project.description),
     image: project.coverImage ? absoluteUrl(project.coverImage) : undefined,
     about: project.categories,
     locationCreated: project.location,

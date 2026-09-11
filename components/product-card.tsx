@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Share2 } from "lucide-react";
 
 import { WishlistButton } from "@/components/wishlist-button";
+import { stripRichText } from "@/lib/rich-text";
 import type { Brand, Category, Product } from "@/lib/types";
 
 type ProductCardProps = {
@@ -17,6 +18,7 @@ export function ProductCard({
   priority,
 }: ProductCardProps) {
   const href = `/product/${product.slug}`;
+  const previewDescription = stripRichText(product.shortDescription);
 
   return (
     <article className="group relative overflow-hidden rounded-lg bg-white transition-shadow duration-300 hover:shadow-md">
@@ -54,10 +56,10 @@ export function ProductCard({
       <div className="p-4 sm:p-5">
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1">
-            {product.shortDescription && (
+            {previewDescription && (
               <p className="text-[15px] font-medium text-[#4F4B4A] line-clamp-2 leading-relaxed">
                 <Link className="hover:text-[#C56545]" href={href}>
-                  {product.shortDescription}
+                  {previewDescription}
                 </Link>
               </p>
             )}
