@@ -60,7 +60,7 @@ export function ProjectCard({
             className="inline-flex items-center gap-2 text-base font-bold text-[#202238] transition-colors hover:text-[#C56545]"
             href={`/projects/${project.slug}`}
           >
-            View case study <ArrowRight aria-hidden="true" className="h-[14px] w-[14px]" />
+            View Complete Project <ArrowRight aria-hidden="true" className="h-[14px] w-[14px]" />
           </Link>
         </div>
       </div>
