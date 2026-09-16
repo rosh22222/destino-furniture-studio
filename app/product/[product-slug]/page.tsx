@@ -67,6 +67,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .slice(0, 3);
   const productGalleryImages = [
     product.image,
+    product.coverVideo,
     ...(product.gallery || []),
   ].filter((image): image is string => Boolean(image));
 

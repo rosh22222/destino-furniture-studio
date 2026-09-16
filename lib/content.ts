@@ -9,6 +9,8 @@ import {
   projects as seedProjects,
 } from "@/lib/data";
 import { createPublicSupabaseClient } from "@/lib/supabase";
+import { readContentRows } from "@/lib/content-rows";
+import { mergeCatalogue, productFromRow, projectFromRow, type ContentRow } from "@/lib/catalogue-records";
 import type {
   Brand,
   Category,
@@ -17,17 +19,6 @@ import type {
   Product,
   Project,
 } from "@/lib/types";
-
-type ContentRow = {
-  title: string;
-  slug: string;
-  status: string;
-  display_order: number | null;
-  image_url: string | null;
-  image_alt: string | null;
-  content: Record<string, unknown> | null;
-  updated_at: string | null;
-};
 
 const cacheSeconds = 3600;
 
@@ -54,10 +45,6 @@ async function fetchContentRows(table: string) {
 
 function byOrder<T extends { displayOrder: number }>(items: T[]) {
   return [...items].sort((a, b) => a.displayOrder - b.displayOrder);
-}
-
-function rowDate(row: ContentRow) {
-  return row.updated_at?.slice(0, 10) || "2026-08-26";
 }
 
 function clientFromRow(row: ContentRow, fallback?: Client): Client {
@@ -113,99 +100,24 @@ export async function getBrands(): Promise<Brand[]> {
 }
 
 export async function getProducts(): Promise<Product[]> {
-  const rows = await fetchContentRows("products");
-
-  if (!rows) {
-    return byOrder(seedProducts).filter((product) => product.status === "published");
-  }
-
-  const mergedProducts = new Map(
-    byOrder(seedProducts)
-      .filter((product) => product.status === "published")
-      .map((product) => [product.slug, product]),
-  );
-
-  rows.forEach((row) => {
-    const content = row.content || {};
-    const fallback = mergedProducts.get(row.slug);
-    const image = row.image_url || String(content.image || fallback?.image || "");
-    const gallery = Array.isArray(content.gallery)
-      ? (content.gallery as string[])
-      : fallback?.gallery || [];
-
-    mergedProducts.set(row.slug, {
-      ...fallback,
-      ...(content as Partial<Product>),
-      slug: row.slug,
-      name: row.title,
-      image,
-      gallery: gallery.length ? gallery : image ? [image] : [],
-      categorySlug: String(content.categorySlug || fallback?.categorySlug || ""),
-      furnitureType: String(content.furnitureType || fallback?.furnitureType || "Furniture"),
-      relatedSlugs: Array.isArray(content.relatedSlugs)
-        ? (content.relatedSlugs as string[])
-        : fallback?.relatedSlugs || [],
-      displayOrder: row.display_order ?? 100,
-      status: "published",
-      seoTitle: String(content.seoTitle || fallback?.seoTitle || row.title),
-      seoDescription: String(
-        content.seoDescription || fallback?.seoDescription || content.shortDescription || "",
-      ),
-      shortDescription: String(content.shortDescription || fallback?.shortDescription || ""),
-      updatedAt: rowDate(row),
-    });
-  });
-
-  return byOrder([...mergedProducts.values()]);
+  const { rows, overrides } = await fetchCatalogue("products");
+  return mergeCatalogue(seedProducts.filter((product) => product.status === "published"), rows, overrides, productFromRow);
 }
 
 export async function getProjects(): Promise<Project[]> {
-  const rows = await fetchContentRows("projects");
+  const { rows, overrides } = await fetchCatalogue("projects");
+  return mergeCatalogue(seedProjects, rows, overrides, projectFromRow);
+}
 
-  if (!rows) {
-    return byOrder(seedProjects);
-  }
-
-  const mergedProjects = new Map(seedProjects.map((project) => [project.slug, project]));
-
-  rows.forEach((row) => {
-    const content = row.content || {};
-    const fallback = mergedProjects.get(row.slug);
-    const coverImage = row.image_url || String(content.coverImage || fallback?.coverImage || "");
-    const gallery = Array.isArray(content.gallery)
-      ? (content.gallery as string[])
-      : fallback?.gallery || [];
-
-    mergedProjects.set(row.slug, {
-      ...fallback,
-      ...(content as Partial<Project>),
-      slug: row.slug,
-      title: row.title,
-      clientName: String(content.clientName || fallback?.clientName || row.title),
-      sector: String(content.sector || fallback?.sector || "Commercial"),
-      location: String(content.location || fallback?.location || ""),
-      coverImage,
-      gallery: gallery.length ? gallery : coverImage ? [coverImage] : [],
-      description: String(content.description || fallback?.description || ""),
-      scope: Array.isArray(content.scope)
-        ? (content.scope as string[])
-        : fallback?.scope || [],
-      categories: Array.isArray(content.categories)
-        ? (content.categories as string[])
-        : fallback?.categories || [],
-      relatedProductSlugs: Array.isArray(content.relatedProductSlugs)
-        ? (content.relatedProductSlugs as string[])
-        : fallback?.relatedProductSlugs || [],
-      displayOrder: row.display_order ?? 100,
-      seoTitle: String(content.seoTitle || fallback?.seoTitle || row.title),
-      seoDescription: String(
-        content.seoDescription || fallback?.seoDescription || content.description || "",
-      ),
-      updatedAt: rowDate(row),
-    });
-  });
-
-  return byOrder([...mergedProjects.values()]);
+async function fetchCatalogue(table: "products" | "projects") {
+  const supabase = createPublicSupabaseClient();
+  if (!supabase) return { rows: [], overrides: [] };
+  const [rows, identities] = await Promise.all([
+    readContentRows(supabase, table, true),
+    supabase.rpc("catalogue_overrides", { resource: table }),
+  ]);
+  if (identities.error) throw new Error("Could not load the catalogue. Please try again.", { cause: identities.error });
+  return { rows: rows as ContentRow[], overrides: (identities.data as { slug: string }[]).map((row) => row.slug) };
 }
 
 export async function getClients(): Promise<Client[]> {

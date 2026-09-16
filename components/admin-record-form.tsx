@@ -1,11 +1,12 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useActionState, useEffect, useId, useRef, useState } from "react";
-import { CheckCircle2, ImagePlus, Save, Sparkles, Upload } from "lucide-react";
+import type { ReactElement, ReactNode } from "react";
+import { cloneElement, startTransition, useActionState, useEffect, useId, useRef, useState } from "react";
+import { CheckCircle2, ImagePlus, Link2, Save, Sparkles, Upload, X } from "lucide-react";
 
 import { saveAdminRecord, type AdminActionState } from "@/app/admin/actions";
 import type { AdminResource, AdminRow } from "@/lib/admin";
+import { imageAccept, isVideoMedia, maxUploadBytes, mediaAccept, normalizeMediaUrl, validateImageFile, validateMediaFile } from "@/lib/admin-media";
 
 const initialState: AdminActionState = {
   ok: false,
@@ -61,7 +62,7 @@ function contentValue(record: AdminRow | undefined, key: string) {
 
 function galleryValue(record: AdminRow | undefined) {
   const value = contentValue(record, "gallery");
-  const imageUrl = record?.imageUrl || contentValue(record, "image");
+  const imageUrl = normalizeMediaUrl(record?.imageUrl || contentValue(record, "image") || contentValue(record, "coverImage"));
 
   if (!value || !imageUrl) {
     return value;
@@ -69,7 +70,7 @@ function galleryValue(record: AdminRow | undefined) {
 
   return value
     .split("\n")
-    .map((line) => line.trim())
+    .map(normalizeMediaUrl)
     .filter((line) => line && line !== imageUrl)
     .join("\n");
 }
@@ -83,15 +84,10 @@ function slugifyValue(value: string) {
 }
 
 const inputClass =
-  "h-12 w-full rounded-lg border border-[#D9D2C8] bg-white px-4 text-base font-medium text-[#1E3A8A] shadow-[0_8px_20px_rgba(32,34,56,0.03)] outline-none transition placeholder:text-[#8A9AAA] focus:border-[#026670] focus:ring-4 focus:ring-[#026670]/10";
+  "h-12 w-full rounded-lg border border-[#D9D2C8] bg-white px-4 text-base font-medium tracking-normal text-[#1E3A8A] outline-none transition placeholder:text-[#8A9AAA] focus:border-[#026670] focus:ring-4 focus:ring-[#026670]/10";
 const textareaClass =
-  "min-h-28 w-full rounded-lg border border-[#D9D2C8] bg-white px-4 py-3 text-base font-medium leading-7 text-[#1E3A8A] shadow-[0_8px_20px_rgba(32,34,56,0.03)] outline-none transition placeholder:text-[#8A9AAA] focus:border-[#026670] focus:ring-4 focus:ring-[#026670]/10";
+  "min-h-28 w-full rounded-lg border border-[#D9D2C8] bg-white px-4 py-3 text-base font-medium leading-7 tracking-normal text-[#1E3A8A] outline-none transition placeholder:text-[#8A9AAA] focus:border-[#026670] focus:ring-4 focus:ring-[#026670]/10";
 const labelClass = "space-y-2 text-sm font-extrabold uppercase tracking-[0.12em] text-[#026670]";
-
-type PreviewState = {
-  url: string;
-  resetKey: string;
-};
 
 function FormSection({
   title,
@@ -103,7 +99,7 @@ function FormSection({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-2xl border border-[#E6DDD1] bg-white/90 p-5 shadow-[0_18px_45px_rgba(32,34,56,0.06)]">
+    <section className="border-b border-[#E6DDD1] pb-6 last:border-b-0">
       <div className="mb-5 flex items-center gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EAF6F5] text-[#026670]">
           <Sparkles aria-hidden="true" className="h-4 w-4" />
@@ -125,17 +121,28 @@ function FormSection({
 function Field({
   label,
   children,
+  required = false,
   wide = false,
 }: {
   label: string;
-  children: ReactNode;
+  children: ReactElement<{ id?: string }>;
+  required?: boolean;
   wide?: boolean;
 }) {
+  const fieldId = useId();
   return (
-    <label className={`${labelClass} ${wide ? "md:col-span-2" : ""}`}>
-      <span>{label}</span>
-      {children}
-    </label>
+    <div className={`${labelClass} ${wide ? "md:col-span-2" : ""}`}>
+      <label className="block" htmlFor={fieldId}>
+        {label}
+        {required ? (
+          <>
+            <span aria-hidden="true" className="ml-1 text-[#C56545]">*</span>
+            <span className="sr-only"> required</span>
+          </>
+        ) : null}
+      </label>
+      {cloneElement(children, { id: fieldId })}
+    </div>
   );
 }
 
@@ -146,32 +153,108 @@ export function AdminRecordForm({
   resource: AdminResource;
   record?: AdminRow;
 }) {
-  const [state, action, pending] = useActionState(saveAdminRecord, initialState);
-  const [preview, setPreview] = useState<PreviewState | null>(
-    record?.imageUrl ? { url: record.imageUrl, resetKey: "" } : null,
+  const [state, action, pending] = useActionState(async (previous: AdminActionState, data: FormData) => {
+    const result = await saveAdminRecord(previous, data);
+    return { ...previous, ...result };
+  }, initialState);
+  const [validation, setValidation] = useState("");
+  const savedRecord = record && state.record ? state.record : record;
+  return (
+    <form
+      action={action}
+      aria-busy={pending}
+      className="space-y-5 py-2"
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (pending) return;
+        const data = new FormData(event.currentTarget);
+        const resourceSlug = String(data.get("resource") || "");
+        const validator = resourceSlug === "products" ? validateMediaFile : validateImageFile;
+        const files = [...data.getAll("image"), ...data.getAll("galleryImages")]
+          .filter((value): value is File => value instanceof File && value.size > 0);
+        const error = files.map(validator).find(Boolean) ||
+          (files.reduce((total, file) => total + file.size, 0) > maxUploadBytes ? "Upload up to 25 MB at a time." : "");
+        setValidation(error);
+        if (!error) startTransition(() => action(data));
+      }}
+    >
+      <fieldset className="min-w-0 space-y-5" disabled={pending}>
+        <AdminRecordFields key={state.savedAt ?? "initial"} record={savedRecord} resource={resource} />
+      </fieldset>
+      <div className="flex flex-wrap items-center gap-4 rounded-lg border border-[#E6DDD1] bg-white p-3">
+        <button
+          className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#026670] px-7 text-sm font-bold text-white transition hover:bg-[#1E3A8A] disabled:opacity-60"
+          disabled={pending} type="submit"
+        >
+          {state.ok ? <CheckCircle2 aria-hidden="true" className="h-4 w-4" /> : <Save aria-hidden="true" className="h-4 w-4" />}
+          {pending ? "Saving..." : "Save Record"}
+        </button>
+        {validation || state.message ? (
+          <p className={`text-sm font-semibold ${!validation && state.ok ? "text-[#026670]" : "text-[#9d3f28]"}`} role="status">
+            {pending ? "Saving changes..." : validation || state.message}
+          </p>
+        ) : null}
+      </div>
+    </form>
   );
-  const formRef = useRef<HTMLFormElement>(null);
+}
+
+function useFilePreviews(files: File[]) {
+  const [urls, setUrls] = useState<string[]>([]);
+  useEffect(() => {
+    const next = files.map((file) => URL.createObjectURL(file));
+    // Object URLs live only as long as the selected files.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setUrls(next);
+    return () => next.forEach((url) => URL.revokeObjectURL(url));
+  }, [files]);
+  return urls;
+}
+
+function AdminRecordFields({ resource, record }: { resource: AdminResource; record?: AdminRow }) {
+  const [originalVersion] = useState(record?.updatedAt || "");
+  const [coverFiles, setCoverFiles] = useState<File[]>([]);
+  const [coverSource, setCoverSource] = useState<"upload" | "url">("upload");
+  const [coverImageUrl, setCoverImageUrl] = useState(record?.imageUrl || "");
+  const [galleryFiles, setGalleryFiles] = useState<File[]>([]);
+  const [removeCover, setRemoveCover] = useState(false);
+  const [galleryUrls, setGalleryUrls] = useState(galleryValue(record));
+  const coverPreviews = useFilePreviews(coverFiles);
+  const galleryPreviews = useFilePreviews(galleryFiles);
+  const visiblePreview = coverSource === "url"
+    ? normalizeMediaUrl(coverImageUrl) || null
+    : coverPreviews[0] || (!removeCover ? record?.imageUrl : null);
+  const visiblePreviewIsVideo = (coverSource === "upload" && coverFiles[0]?.type.startsWith("video/")) ||
+    (visiblePreview ? isVideoMedia(visiblePreview) : false);
   const titleRef = useRef<HTMLInputElement>(null);
   const slugRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
   const uploadId = useId();
+  const [slugEdited, setSlugEdited] = useState(false);
   const isClient = resource.slug === "clients";
   const isProduct = resource.slug === "products";
   const isProject = resource.slug === "projects";
-  const resetKey = !record && state.ok ? String(state.savedAt || state.message) : "";
-  const visiblePreview = record
-    ? preview?.url || null
-    : preview?.resetKey === resetKey
-      ? preview.url
-      : null;
+  const supportsCoverLink = isProduct || isProject;
+  const acceptedCoverMedia = isProduct ? mediaAccept : imageAccept;
+  const acceptedGalleryMedia = isProduct ? mediaAccept : imageAccept;
 
-  useEffect(() => {
-    if (state.ok && !record) {
-      formRef.current?.reset();
-    }
-  }, [record, state.ok, state.savedAt]);
+  function updateGalleryFiles(files: File[]) {
+    const transfer = new DataTransfer();
+    files.forEach((file) => transfer.items.add(file));
+    if (galleryInputRef.current) galleryInputRef.current.files = transfer.files;
+    setGalleryFiles(files);
+  }
+
+  function changeCoverSource(source: "upload" | "url") {
+    setCoverSource(source);
+    setCoverFiles([]);
+    setRemoveCover(false);
+    if (coverInputRef.current) coverInputRef.current.value = "";
+  }
 
   function syncSlugFromTitle() {
-    if ((!isProject && !isProduct) || slugRef.current?.value.trim()) {
+    if ((!isProject && !isProduct) || slugEdited) {
       return;
     }
 
@@ -183,13 +266,11 @@ export function AdminRecordForm({
   }
 
   return (
-    <form
-      action={action}
-      className="space-y-5 rounded-2xl border border-[#E6DDD1] bg-[#FFF9F5] p-4 shadow-[0_24px_60px_rgba(32,34,56,0.08)] sm:p-5"
-      ref={formRef}
-    >
+    <>
       <input name="resource" type="hidden" value={resource.slug} />
       {record && !record.isSeed ? <input name="id" type="hidden" value={record.id} /> : null}
+      <input name="seedSlug" type="hidden" value={record?.isSeed ? record.slug : ""} />
+      <input name="expectedUpdatedAt" type="hidden" value={!record?.isSeed ? originalVersion : ""} />
       <input name="existingImageUrl" type="hidden" value={record?.imageUrl || ""} />
       <input name="existingTitle" type="hidden" value={record?.title || ""} />
       {isProduct ? (
@@ -205,12 +286,13 @@ export function AdminRecordForm({
       {!isClient ? (
         <FormSection eyebrow="CMS" title={isProduct ? "Product Details" : "Project Details"}>
           <div className="grid gap-4 md:grid-cols-2">
-            <Field label={isProduct ? "Product name" : "Project title"}>
+            <Field label={isProduct ? "Product name" : "Project title"} required>
               <input
                 className={inputClass}
                 defaultValue={record?.title}
                 name="title"
                 onBlur={syncSlugFromTitle}
+                onChange={syncSlugFromTitle}
                 onKeyDown={(event) => {
                   if ((isProject || isProduct) && event.key === "Enter") {
                     event.preventDefault();
@@ -227,15 +309,17 @@ export function AdminRecordForm({
                 className={inputClass}
                 defaultValue={record?.slug}
                 name="slug"
+                onChange={() => setSlugEdited(true)}
                 placeholder="auto-created if empty"
                 ref={slugRef}
               />
             </Field>
-            <Field label="Status">
+            <Field label="Status" required>
               <select
                 className={inputClass}
                 defaultValue={record?.status || "published"}
                 name="status"
+                required
               >
                 <option value="published">Published</option>
                 <option value="draft">Draft</option>
@@ -245,7 +329,7 @@ export function AdminRecordForm({
 
             {isProduct ? (
               <>
-                <Field label="Category">
+                <Field label="Category" required>
                   <select
                     className={inputClass}
                     defaultValue={contentValue(record, "categorySlug")}
@@ -255,6 +339,9 @@ export function AdminRecordForm({
                     <option disabled value="">
                       Select category
                     </option>
+                    {contentValue(record, "categorySlug") && !categoryOptions.some((category) => category.value === contentValue(record, "categorySlug")) ? (
+                      <option value={contentValue(record, "categorySlug")}>{contentValue(record, "categorySlug")}</option>
+                    ) : null}
                     {categoryOptions.map((category) => (
                       <option key={category.value} value={category.value}>
                         {category.label}
@@ -262,7 +349,7 @@ export function AdminRecordForm({
                     ))}
                   </select>
                 </Field>
-                <Field label="Furniture type">
+                <Field label="Furniture type" required>
                   <select
                     className={inputClass}
                     defaultValue={contentValue(record, "furnitureType") || ""}
@@ -272,6 +359,9 @@ export function AdminRecordForm({
                     <option disabled value="">
                       Select type
                     </option>
+                    {contentValue(record, "furnitureType") && !productTypes.includes(contentValue(record, "furnitureType")) ? (
+                      <option value={contentValue(record, "furnitureType")}>{contentValue(record, "furnitureType")}</option>
+                    ) : null}
                     {productTypes.map((type) => (
                       <option key={type} value={type}>
                         {type}
@@ -310,14 +400,6 @@ export function AdminRecordForm({
                     placeholder="Corporate"
                   />
                 </Field>
-                <Field label="Cover video path">
-                  <input
-                    className={inputClass}
-                    defaultValue={contentValue(record, "coverVideo")}
-                    name="coverVideo"
-                    placeholder="/images/projects/example/video.mp4"
-                  />
-                </Field>
               </>
             ) : null}
           </div>
@@ -331,46 +413,85 @@ export function AdminRecordForm({
         title={isClient ? "Client Logo" : isProduct ? "Product Image" : "Project Cover Image"}
       >
         <div className="space-y-4">
+          {supportsCoverLink ? (
+            <>
+              <input name="coverSource" type="hidden" value={coverSource} />
+              <div aria-label="Cover media source" className="inline-flex max-w-full gap-1 rounded-lg border border-[#D9D2C8] bg-white p-1" role="group">
+                {(["upload", "url"] as const).map((source) => (
+                  <button
+                    aria-pressed={coverSource === source}
+                    className={`inline-flex min-h-11 items-center justify-center gap-2 rounded-md px-3 text-sm font-semibold transition ${coverSource === source ? "bg-[#026670] text-white" : "text-[#1E3A8A] hover:bg-[#EAF6F5]"}`}
+                    key={source} onClick={() => changeCoverSource(source)} type="button"
+                  >
+                    {source === "upload" ? <Upload aria-hidden="true" className="h-4 w-4" /> : <Link2 aria-hidden="true" className="h-4 w-4" />}
+                    {source === "upload" ? (isProduct ? "Upload media" : "Upload image") : (isProduct ? "Media link" : "Image link")}
+                  </button>
+                ))}
+              </div>
+              {coverSource === "url" ? (
+                <Field label={isProduct ? "Product media link" : "Cover image link"} required>
+                  <input
+                    className={inputClass} name="coverImageUrl" inputMode="url"
+                    onChange={(event) => setCoverImageUrl(event.target.value)}
+                    placeholder={isProduct ? "https://example.com/product.mp4 or /images/product.png" : "https://example.com/project.jpg"}
+                    required value={coverImageUrl}
+                  />
+                </Field>
+              ) : null}
+            </>
+          ) : null}
           <label
-            className="group flex min-h-52 cursor-pointer items-center justify-center rounded-2xl border border-dashed border-[#D9D2C8] bg-[#FCFBF8] p-5 transition hover:border-[#026670] hover:bg-white hover:shadow-[0_18px_46px_rgba(2,102,112,0.10)]"
-            htmlFor={uploadId}
+            className={`group flex min-h-52 items-center justify-center rounded-2xl border border-dashed border-[#D9D2C8] bg-[#FCFBF8] p-5 transition ${coverSource === "upload" ? "cursor-pointer hover:border-[#026670] hover:bg-white" : ""}`}
+            htmlFor={coverSource === "upload" ? uploadId : undefined}
           >
             {visiblePreview ? (
               <span className="block aspect-[16/9] w-full overflow-hidden rounded-xl bg-white">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  alt="Admin image preview"
-                  className="h-full w-full object-contain"
-                  src={visiblePreview}
-                />
+                {visiblePreviewIsVideo ? (
+                  <video
+                    aria-label="Admin video preview"
+                    className="h-full w-full object-contain"
+                    controls
+                    muted
+                    playsInline
+                    preload="metadata"
+                    src={visiblePreview}
+                  />
+                ) : (
+                  <>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      alt="Admin image preview"
+                      className="h-full w-full object-contain"
+                      src={visiblePreview}
+                    />
+                  </>
+                )}
               </span>
             ) : (
               <span className="flex flex-col items-center gap-3 text-center text-[#1E3A8A]">
                 <span className="flex h-14 w-14 items-center justify-center rounded-full bg-[#EAF6F5] text-[#026670] transition group-hover:bg-[#026670] group-hover:text-white">
-                  <Upload aria-hidden="true" className="h-6 w-6" />
+                  {coverSource === "url" ? <Link2 aria-hidden="true" className="h-6 w-6" /> : <Upload aria-hidden="true" className="h-6 w-6" />}
                 </span>
                 <span className="text-base font-extrabold">
-                  {isClient ? "Upload client logo" : "Upload main image"}
+                  {coverSource === "url" ? "Media preview" : isClient ? "Upload client logo" : isProduct ? "Upload main image or video" : "Upload main image"}
                 </span>
                 <span className="text-sm font-semibold text-[#61758A]">
-                  JPG, PNG, WebP or AVIF up to 5 MB
+                  {isProduct ? "JPG, PNG, WebP, AVIF, MP4, WebM or OGG up to 25 MB" : "JPG, PNG, WebP or AVIF up to 5 MB"}
                 </span>
               </span>
             )}
           </label>
           <input
             id={uploadId}
-            accept="image/*"
+            disabled={coverSource === "url"}
+            ref={coverInputRef}
+            accept={acceptedCoverMedia}
             className="sr-only"
             name="image"
             onChange={(event) => {
               const file = event.target.files?.[0];
-              if (file) {
-                setPreview({
-                  url: URL.createObjectURL(file),
-                  resetKey,
-                });
-              }
+              setCoverFiles(file ? [file] : []);
+              if (file) setRemoveCover(false);
             }}
             type="file"
           />
@@ -380,29 +501,84 @@ export function AdminRecordForm({
               <Field label="Image alt text" wide>
                 <input className={inputClass} defaultValue={record?.imageAlt} name="imageAlt" />
               </Field>
-              <Field label="Gallery image URLs" wide>
+              {isProduct || isProject ? (
+                <Field label="Cover video path" wide>
+                  <input
+                    className={inputClass}
+                    defaultValue={contentValue(record, "coverVideo")}
+                    name="coverVideo"
+                    placeholder={isProduct ? "/images/products/example/video.mp4 or https://example.com/video.mp4" : "/images/projects/example/video.mp4"}
+                  />
+                </Field>
+              ) : null}
+              <Field label={isProduct ? "Gallery media URLs" : "Gallery image URLs"} wide>
                 <textarea
                   className={textareaClass}
-                  defaultValue={galleryValue(record)}
+                  value={galleryUrls}
+                  onChange={(event) => setGalleryUrls(event.target.value)}
                   name="galleryUrls"
-                  placeholder="Extra gallery images after the cover. One image URL or /images/... path per line"
+                  placeholder={isProduct ? "Extra gallery images or videos after the cover. One URL or /images/... path per line" : "Extra gallery images after the cover. One image URL or /images/... path per line"}
                 />
               </Field>
-              <Field label="Upload gallery images" wide>
+              <Field label={isProduct ? "Upload gallery media" : "Upload gallery images"} wide>
                 <input
-                  accept="image/*"
+                  accept={acceptedGalleryMedia}
                   className={`${inputClass} h-auto py-3 file:mr-4 file:rounded-full file:border-0 file:bg-[#EAF6F5] file:px-4 file:py-2 file:text-sm file:font-extrabold file:text-[#026670] hover:file:bg-[#DDF0EF]`}
                   multiple
                   name="galleryImages"
+                  ref={galleryInputRef}
+                  onChange={(event) => {
+                    const selected = Array.from(event.target.files || []);
+                    const combined = [...galleryFiles, ...selected];
+                    updateGalleryFiles(combined.filter((file, index) => combined.findIndex((item) => item.name === file.name && item.size === file.size && item.lastModified === file.lastModified) === index));
+                  }}
                   type="file"
                 />
               </Field>
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 md:col-span-2">
+                {Array.from(new Set(galleryUrls.split(/\r?\n/).map(normalizeMediaUrl).filter(Boolean))).map((url) => (
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-[#D9D2C8] bg-white" key={url}>
+                    {isVideoMedia(url) ? (
+                      <video aria-label="Gallery video preview" className="h-full w-full object-contain" muted playsInline preload="metadata" src={url} />
+                    ) : (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img alt="Gallery preview" className="h-full w-full object-contain" src={url} />
+                      </>
+                    )}
+                    <button
+                      aria-label="Remove gallery image" title="Remove gallery image"
+                      className="absolute right-1 top-1 flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#9d3f28] shadow"
+                      onClick={() => setGalleryUrls(galleryUrls.split(/\r?\n/).filter((line) => normalizeMediaUrl(line) !== url).join("\n"))}
+                      type="button"
+                    ><X aria-hidden="true" className="h-4 w-4" /></button>
+                  </div>
+                ))}
+                {galleryPreviews.map((url, index) => (
+                  <div className="relative aspect-[4/3] overflow-hidden rounded-lg border border-[#026670] bg-white" key={url}>
+                    {galleryFiles[index]?.type.startsWith("video/") ? (
+                      <video aria-label={`New gallery video ${index + 1}`} className="h-full w-full object-contain" muted playsInline preload="metadata" src={url} />
+                    ) : (
+                      <>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img alt={`New gallery image ${index + 1}`} className="h-full w-full object-contain" src={url} />
+                      </>
+                    )}
+                    <button
+                      aria-label={`Remove selected image ${index + 1}: ${galleryFiles[index]?.name || ""}`} title="Remove selected image"
+                      className="absolute right-1 top-1 flex h-8 w-8 items-center justify-center rounded-full bg-white text-[#9d3f28] shadow"
+                      onClick={() => updateGalleryFiles(galleryFiles.filter((_, fileIndex) => fileIndex !== index))}
+                      type="button"
+                    ><X aria-hidden="true" className="h-4 w-4" /></button>
+                  </div>
+                ))}
+              </div>
             </div>
           ) : null}
 
-          {record?.imageUrl && !isClient ? (
+          {record?.imageUrl && !isClient && coverSource === "upload" ? (
             <label className="flex items-center gap-2 text-sm font-semibold text-[#1E3A8A]">
-              <input className="h-4 w-4 accent-[#026670]" name="deleteImage" type="checkbox" />
+              <input checked={removeCover} onChange={(event) => setRemoveCover(event.target.checked)} disabled={coverFiles.length > 0} className="h-4 w-4 accent-[#026670]" name="deleteImage" type="checkbox" />
               Remove current image
             </label>
           ) : null}
@@ -470,34 +646,6 @@ export function AdminRecordForm({
         <input name="featured" type="hidden" value="on" />
       ) : null}
 
-      <div className="rounded-2xl border border-[#E6DDD1] bg-white p-3 shadow-[0_18px_45px_rgba(32,34,56,0.08)]">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <button
-            className="inline-flex h-12 items-center justify-center gap-2 rounded-full bg-[#026670] px-7 text-sm font-extrabold uppercase tracking-[0.12em] text-white shadow-[0_14px_30px_rgba(2,102,112,0.22)] transition hover:-translate-y-0.5 hover:bg-[#1E3A8A] disabled:opacity-60"
-            disabled={pending}
-            type="submit"
-          >
-            {state.ok ? (
-              <CheckCircle2 aria-hidden="true" className="h-4 w-4" />
-            ) : (
-              <Save aria-hidden="true" className="h-4 w-4" />
-            )}
-            {pending ? "Saving..." : "Save Record"}
-          </button>
-          {state.message ? (
-            <p
-              className={
-                state.ok
-                  ? "text-sm font-bold text-[#026670]"
-                  : "text-sm font-bold text-[#9d3f28]"
-              }
-              role="status"
-            >
-              {state.message}
-            </p>
-          ) : null}
-        </div>
-      </div>
 
       {isClient && !visiblePreview ? (
         <div className="flex items-center gap-2 rounded-full bg-[#EAF6F5] px-4 py-2 text-sm font-bold text-[#1E3A8A]">
@@ -505,6 +653,6 @@ export function AdminRecordForm({
           Logo name is created from the uploaded file name.
         </div>
       ) : null}
-    </form>
+    </>
   );
 }

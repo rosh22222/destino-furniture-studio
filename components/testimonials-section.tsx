@@ -50,6 +50,27 @@ const testimonials: Testimonial[] = [
     review:
       "We at Higher IT are extremely happy with the furniture provided by Destino Furniture Studio. The office setup looks very modern, professional, and visually appealing. The quality of the furniture is excellent, with great finishing and durability. Every piece perfectly matches our workspace needs and enhances the overall environment. Their design sense and attention to detail truly stand out. We highly recommend Destino Furniture Studio for anyone looking for stylish and high-quality office furniture. Great work and thank you for making our office look amazing.",
   },
+  {
+    name: "N.S Developers",
+    role: "Client Experience",
+    project: "Showroom Experience",
+    image: "/images/pages/about/hero-office-lounge.jpeg",
+    imageAlt: "Destino Furniture Studio showroom lounge and office display",
+    initials: "NS",
+    review:
+      "I recently visited Destino Furniture Studio, and I must say it was an excellent experience. The showroom is beautifully maintained, showcasing a wide range of stylish and comfortable furniture pieces. The quality of the products is top-notch, with attention to detail evident in every design. The staff were extremely courteous and knowledgeable, helping me choose the perfect pieces for my home without any pressure. They also provided useful tips about maintenance and styling, which I really appreciated. Overall, Destino Furniture Studio offers a great combination of quality, design, and customer service, making it a highly recommended place for anyone looking to elevate their home decor.",
+  },
+  {
+    name: "Absolin",
+    role: "Client Experience",
+    project: "Office Chair Upgrade",
+    image: "/images/products/chairs/ergonomic/img1.png",
+    imageAlt: "Ergonomic back chair supplied by Destino Furniture Studio",
+    logo: "/images/testimonial/absolin-logo.svg",
+    logoAlt: "Absolin logo",
+    review:
+      "The experience with Destino Furniture Studio, particularly with Manikanta Pradeep, was wonderful. They were the closest vendor I have ever dealt with. Manikanta Pradeep intently listened to all our requirements and expertly provided suggestions on cost-saving measures. With Destino Furniture Studio, we have been able to furnish our office comprehensively. On our 10th anniversary, Destino Furniture Studio helped us replace all our 50+ chairs with the amazing Back Chairs, which tremendously increased productivity in our company.",
+  },
 ];
 
 export function TestimonialsSection() {
@@ -75,7 +96,11 @@ export function TestimonialsSection() {
           </p>
         </header>
 
-        <div className={styles.row}>
+        <div
+          aria-label="Client testimonials carousel"
+          className={styles.row}
+          tabIndex={0}
+        >
           {testimonials.map((testimonial) => {
             const canExpand = testimonial.name !== "Anand Potti";
             const isExpanded = expandedReview === testimonial.name;

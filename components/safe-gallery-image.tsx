@@ -2,9 +2,12 @@
 
 import Image from "next/image";
 
+import { isVideoMedia } from "@/lib/admin-media";
+
 type SafeGalleryImageProps = {
   alt: string;
   className?: string;
+  controls?: boolean;
   priority?: boolean;
   sizes: string;
   src: string;
@@ -22,10 +25,25 @@ function isRemoteImage(src: string) {
 export function SafeGalleryImage({
   alt,
   className = "",
+  controls = false,
   priority,
   sizes,
   src,
 }: SafeGalleryImageProps) {
+  if (isVideoMedia(src)) {
+    return (
+      <video
+        aria-label={alt}
+        className={`absolute inset-0 h-full w-full ${className}`}
+        controls={controls}
+        muted
+        playsInline
+        preload="metadata"
+        src={src}
+      />
+    );
+  }
+
   if (isRemoteImage(src)) {
     return (
       <img

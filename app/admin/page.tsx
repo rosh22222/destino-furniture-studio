@@ -4,6 +4,7 @@ import {
   ArrowUpRight,
   FolderKanban,
   ImageIcon,
+  Inbox,
   LogOut,
   Package,
 } from "lucide-react";
@@ -109,7 +110,7 @@ export default async function AdminPage() {
         </div>
       </header>
 
-      <section className="mx-auto mt-8 grid max-w-7xl gap-5 md:grid-cols-3">
+      <section className="mx-auto mt-8 grid max-w-7xl gap-5 md:grid-cols-2 xl:grid-cols-4">
         {adminResources.map((resource) => (
           <Link
             className="group relative overflow-hidden rounded-2xl border border-[#E6DDD1] bg-white p-6 shadow-[0_18px_50px_rgba(32,34,56,0.07)] transition duration-300 hover:-translate-y-1 hover:border-[#026670]/35 hover:shadow-[0_26px_65px_rgba(2,102,112,0.14)]"
@@ -122,6 +123,8 @@ export default async function AdminPage() {
                 <Package aria-hidden="true" className="h-6 w-6" />
               ) : resource.slug === "projects" ? (
                 <FolderKanban aria-hidden="true" className="h-6 w-6" />
+              ) : resource.slug === "enquiries" ? (
+                <Inbox aria-hidden="true" className="h-6 w-6" />
               ) : (
                 <ImageIcon aria-hidden="true" className="h-6 w-6" />
               )}

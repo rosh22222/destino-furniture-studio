@@ -27,6 +27,7 @@ export type Product = {
   brandSlug?: string;
   furnitureType: string;
   image: string;
+  coverVideo?: string;
   gallery: string[];
   shortDescription: string;
   fullDescription?: string;

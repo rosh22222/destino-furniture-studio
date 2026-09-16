@@ -58,6 +58,7 @@ export function ProductImageGallery({ images, title }: ProductImageGalleryProps)
         <SafeGalleryImage
           alt={`${title} image ${activeIndex + 1}`}
           className="object-contain p-4"
+          controls
           priority
           sizes="(min-width: 1024px) 52vw, 92vw"
           src={galleryImages[activeIndex]}

@@ -6,6 +6,9 @@ const supabaseImageHostname = process.env.NEXT_PUBLIC_SUPABASE_URL
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  experimental: {
+    serverActions: { bodySizeLimit: "26mb" },
+  },
   turbopack: {
     root: process.cwd(),
   },

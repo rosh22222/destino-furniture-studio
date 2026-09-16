@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
 import { stripRichText } from "@/lib/rich-text";
+import { SafeGalleryImage } from "@/components/safe-gallery-image";
 import type { Project } from "@/lib/types";
 
 export function ProjectCard({
@@ -19,10 +19,9 @@ export function ProjectCard({
       <Link className="block" href={`/projects/${project.slug}`}>
         <div className="relative aspect-[16/9] overflow-hidden bg-[#F5F1EA]">
           {project.coverImage ? (
-            <Image
+            <SafeGalleryImage
               alt={`${project.title} project by Destino Furniture Studio`}
               className="object-cover transition duration-500 group-hover:scale-[1.05]"
-              fill
               priority={priority}
               sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
               src={project.coverImage}

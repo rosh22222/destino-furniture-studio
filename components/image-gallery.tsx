@@ -116,6 +116,7 @@ export function ImageGallery({ images, title }: ImageGalleryProps) {
               <SafeGalleryImage
                 alt={`${title} enlarged image ${activeIndex + 1}`}
                 className="object-contain"
+                controls
                 sizes="100vw"
                 src={uniqueImages[activeIndex]}
               />

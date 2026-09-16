@@ -3,6 +3,8 @@ import "server-only";
 import { redirect } from "next/navigation";
 
 import { products as seedProducts, projects as seedProjects } from "@/lib/data";
+import { readContentRows } from "@/lib/content-rows";
+import { sourceSlug } from "@/lib/catalogue-records";
 import { createCookieSupabaseClient, isSupabaseConfigured } from "@/lib/supabase";
 
 export type AdminResourceKind = "content" | "lead";
@@ -29,9 +31,14 @@ export type AdminRow = {
   name?: string;
   phone?: string;
   email?: string;
+  company?: string;
+  location?: string;
   sourcePath?: string;
   products?: string[];
+  project?: string;
   message?: string;
+  leadType?: string;
+  sourceTable?: string;
   isSeed?: boolean;
 };
 
@@ -56,6 +63,13 @@ export const adminResources: AdminResource[] = [
     table: "clients",
     kind: "content",
     description: "Upload client logos for the clients page.",
+  },
+  {
+    slug: "enquiries",
+    label: "Enquiries",
+    table: "quotation_requests",
+    kind: "lead",
+    description: "View quotation, contact and franchise enquiries submitted from the website.",
   },
 ];
 
@@ -127,33 +141,55 @@ export async function getAdminRows(resource: AdminResource): Promise<AdminRow[]>
   }
 
   if (resource.kind === "lead") {
-    const { data } = await supabase
-      .from(resource.table)
-      .select("id,name,phone,email,message,source_path,products,status,created_at")
-      .order("created_at", { ascending: false })
-      .limit(100);
+    const leadSources =
+      resource.slug === "enquiries"
+        ? [
+            { table: "quotation_requests", label: "Quotation" },
+            { table: "website_enquiries", label: "General" },
+          ]
+        : [{ table: resource.table, label: resource.label }];
 
-    return (data || []).map((row) => ({
-      id: row.id,
-      title: row.name,
-      name: row.name,
-      phone: row.phone,
-      email: row.email || "",
-      message: row.message,
-      sourcePath: row.source_path,
-      products: row.products || [],
-      status: row.status,
-      createdAt: row.created_at,
-    }));
+    const results = await Promise.all(
+      leadSources.map(async (source) => {
+        const { data } = await supabase
+          .from(source.table)
+          .select(
+            "id,name,phone,email,company,location,message,source_path,products,project,status,metadata,created_at",
+          )
+          .order("created_at", { ascending: false })
+          .limit(100);
+
+        return (data || []).map((row) => ({
+          id: row.id,
+          title: row.name,
+          name: row.name,
+          phone: row.phone,
+          email: row.email || "",
+          company: row.company || "",
+          location: row.location || "",
+          message: row.message,
+          sourcePath: row.source_path,
+          products: row.products || [],
+          project: row.project || "",
+          status: row.status,
+          createdAt: row.created_at,
+          leadType: source.label,
+          sourceTable: source.table,
+          content: row.metadata || {},
+        }));
+      }),
+    );
+
+    return results
+      .flat()
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt || 0).getTime() -
+          new Date(a.createdAt || 0).getTime(),
+      );
   }
 
-  const { data } = await supabase
-    .from(resource.table)
-    .select(
-      "id,title,slug,status,display_order,image_url,image_alt,content,created_at,updated_at",
-    )
-    .order("display_order", { ascending: true })
-    .limit(100);
+  const data = await readContentRows(supabase, resource.table);
 
   const rows = (data || []).map((row) => ({
     id: row.id,
@@ -172,18 +208,12 @@ export async function getAdminRows(resource: AdminResource): Promise<AdminRow[]>
     return rows;
   }
 
-  const dbRowsBySlug = new Map(rows.map((row) => [row.slug, row]));
+  return mergeAdminCatalogueRows(resource.slug, rows);
+}
 
-  if (resource.slug === "projects") {
-    const seedSlugs = new Set(seedProjects.map((project) => project.slug));
-    const seedRows = seedProjects.map<AdminRow>((project) => {
-      const dbRow = dbRowsBySlug.get(project.slug);
-
-      if (dbRow) {
-        return dbRow;
-      }
-
-      return {
+export function getSeedRows(resource: string): AdminRow[] {
+  if (resource === "projects") {
+    return seedProjects.map((project) => ({
         id: `seed:${project.slug}`,
         title: project.title,
         slug: project.slug,
@@ -206,28 +236,11 @@ export async function getAdminRows(resource: AdminResource): Promise<AdminRow[]>
         },
         updatedAt: project.updatedAt,
         isSeed: true,
-      };
-    });
-    const databaseOnlyRows = rows.filter((row) => !seedSlugs.has(row.slug || ""));
-
-    return [...seedRows, ...databaseOnlyRows].sort(
-      (a, b) => (a.displayOrder || 100) - (b.displayOrder || 100),
-    );
+      }));
   }
-
-  const publishedSeedProducts = seedProducts.filter(
-    (product) => product.status === "published",
-  );
-  const seedSlugs = new Set(publishedSeedProducts.map((product) => product.slug));
-  const seedRows = publishedSeedProducts
-    .map<AdminRow>((product) => {
-      const dbRow = dbRowsBySlug.get(product.slug);
-
-      if (dbRow) {
-        return dbRow;
-      }
-
-      return {
+  if (resource !== "products") return [];
+  return seedProducts.filter((product) => product.status === "published")
+    .map((product) => ({
         id: `seed:${product.slug}`,
         title: product.name,
         slug: product.slug,
@@ -244,12 +257,17 @@ export async function getAdminRows(resource: AdminResource): Promise<AdminRow[]>
         },
         updatedAt: product.updatedAt,
         isSeed: true,
-      };
-    });
+      }));
+}
 
-  const databaseOnlyRows = rows.filter((row) => !seedSlugs.has(row.slug || ""));
-
-  return [...seedRows, ...databaseOnlyRows].sort(
-    (a, b) => (a.displayOrder || 100) - (b.displayOrder || 100),
-  );
+export function mergeAdminCatalogueRows(resource: string, rows: AdminRow[]) {
+  const seeds = new Map(getSeedRows(resource).map((row) => [row.slug, row]));
+  const merged = new Map(seeds);
+  for (const row of rows) merged.delete(sourceSlug(row));
+  for (const row of rows) {
+    if (row.content?._deleted) continue;
+    const seed = seeds.get(sourceSlug(row));
+    merged.set(row.slug, { ...row, content: { ...seed?.content, ...row.content } });
+  }
+  return [...merged.values()].sort((a, b) => (a.displayOrder ?? 100) - (b.displayOrder ?? 100));
 }

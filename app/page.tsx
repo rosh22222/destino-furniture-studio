@@ -83,42 +83,42 @@ const homeCategories = [
   {
     title: "Ergonomic Chairs",
     href: "/products/ergonomic-chairs",
-    image: "/images/products/chairs/ergonomic/img1.png",
+    image: "/images/categories/ergonomic-chairs/cover.png",
   },
   {
     title: "Office Chairs",
     href: "/products/office-chairs",
-    image: "/images/categories/office-chair.png",
+    image: "/images/categories/office-chairs/cover.png",
   },
   {
     title: "Visitor Chairs",
     href: "/products/visitor-chairs",
-    image: "/images/products/chairs/visitor/visitor1.png",
+    image: "/images/categories/visitors-chair/cover.png",
   },
   {
     title: "Office Tables",
     href: "/products/office-tables",
-    image: "/images/products/tables/office-tables/office-table.png",
+    image: "/images/categories/office-tables/cover.png",
   },
   {
     title: "Cafeteria Chairs",
     href: "/products/cafeteria-chairs",
-    image: "/images/products/chairs/cafeteria/chair34.png",
+    image: "/images/categories/cafeteria-furniture/cover.png",
   },
   {
     title: "Workstation Tables",
     href: "/products?type=Tables&category=workstation-tables-and-chairs",
-    image: "/images/products/tables/workstation/work1.png",
+    image: "/images/categories/workstation-tables-and-chairs/cover.png",
   },
   {
     title: "Workstation Chairs",
     href: "/products?type=Chairs&category=workstation-chairs",
-    image: "/images/products/chairs/workstation/img1.png",
+    image: "/images/categories/workstation-tables-and-chairs/work-chair.png",
   },
   {
     title: "Wood Collection",
     href: "/products/customized-furniture",
-    image: "/images/categories/wood-collection/wood1.png",
+    image: "/images/categories/wood-collection/cover.png",
   },
   {
     title: "Office Turnkey Interiors",
@@ -128,22 +128,22 @@ const homeCategories = [
   {
     title: "Storage Units",
     href: "/products/storage-units",
-    image: "/images/products/storage/storage1.png",
+    image: "/images/categories/storage-unit/cover.png",
   },
   {
     title: "Metal Series",
     href: "/products/metal-series",
-    image: "/images/products/metal-series/metal1.png",
+    image: "/images/categories/metal-series/cover.png",
   },
   {
     title: "Banquet Chairs",
     href: "/products/banquet-chairs",
-    image: "/images/categories/banquet/banquet1.png",
+    image: "/images/categories/banquet/cover.png",
   },
   {
     title: "Cafeteria Tables",
     href: "/products/cafeteria-tables",
-    image: "/images/products/tables/cafeteria-tables/img1.png",
+    image: "/images/categories/cafeteria-furniture/cover.png",
   },
 ];
 
@@ -300,7 +300,24 @@ export default async function Home() {
               >
                 <Image
                   alt={category.title + " by Destino Furniture Studio"}
-                  className="object-contain p-3 transition duration-300 group-hover:scale-[1.03]"
+                  className={
+                    [
+                      "Ergonomic Chairs",
+                      "Office Chairs",
+                      "Visitor Chairs",
+                      "Office Tables",
+                      "Cafeteria Chairs",
+                      "Workstation Tables",
+                      "Workstation Chairs",
+                      "Wood Collection",
+                      "Storage Units",
+                      "Metal Series",
+                      "Banquet Chairs",
+                      "Cafeteria Tables",
+                    ].includes(category.title)
+                      ? "object-cover object-center transition duration-300 group-hover:scale-[1.03]"
+                      : "object-contain p-3 transition duration-300 group-hover:scale-[1.03]"
+                  }
                   fill
                   priority
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 45vw, 92vw"

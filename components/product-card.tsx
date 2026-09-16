@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Share2 } from "lucide-react";
 
+import { SafeGalleryImage } from "@/components/safe-gallery-image";
 import { WishlistButton } from "@/components/wishlist-button";
 import { stripRichText } from "@/lib/rich-text";
 import type { Brand, Category, Product } from "@/lib/types";
@@ -26,10 +26,9 @@ export function ProductCard({
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#F8F5EF]">
         <Link className="block h-full w-full" href={href}>
           {product.image ? (
-            <Image
+            <SafeGalleryImage
               alt={`${product.name} by Destino Furniture Studio`}
               className="object-contain p-3 transition-transform duration-500 group-hover:scale-[1.03]"
-              fill
               priority={priority}
               sizes="(min-width: 1024px) 28vw, (min-width: 640px) 45vw, 92vw"
               src={product.image}

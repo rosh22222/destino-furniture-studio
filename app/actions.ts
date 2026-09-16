@@ -1,6 +1,7 @@
 "use server";
 
 import { headers } from "next/headers";
+import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
 import { createPublicSupabaseClient } from "@/lib/supabase";
@@ -140,6 +141,7 @@ export async function submitLead(
   }
 
   await notifyLead(parsed.data);
+  revalidatePath("/admin/enquiries");
 
   return {
     ok: true,
@@ -147,4 +149,3 @@ export async function submitLead(
       "Thank you. Your enquiry has been received and the Destino team can follow up with a quotation.",
   };
 }
-

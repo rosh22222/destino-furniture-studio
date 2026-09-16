@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Building2, MapPin, MessageCircle } from "lucide-
 
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import { ImageGallery } from "@/components/image-gallery";
+import { SafeGalleryImage } from "@/components/safe-gallery-image";
 import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
 import { ProjectEnquiryModal } from "@/components/project-enquiry-modal";
@@ -129,10 +130,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="relative overflow-hidden rounded-[2rem] border border-white bg-white p-3 shadow-[0_30px_90px_rgba(32,34,56,0.16)]">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-[#F4EFE7]">
                   {project.coverImage ? (
-                    <Image
+                    <SafeGalleryImage
                       alt={project.title}
                       className="object-cover"
-                      fill
                       priority
                       sizes="(min-width: 1024px) 620px, 100vw"
                       src={project.coverImage}
