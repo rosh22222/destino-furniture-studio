@@ -169,10 +169,17 @@ export function AdminRecordForm({
         if (pending) return;
         const data = new FormData(event.currentTarget);
         const resourceSlug = String(data.get("resource") || "");
-        const validator = resourceSlug === "products" ? validateMediaFile : validateImageFile;
-        const files = [...data.getAll("image"), ...data.getAll("galleryImages")]
+        const coverValidator = resourceSlug === "products" || resourceSlug === "projects"
+          ? validateMediaFile
+          : validateImageFile;
+        const galleryValidator = resourceSlug === "products" ? validateMediaFile : validateImageFile;
+        const coverFiles = data.getAll("image")
           .filter((value): value is File => value instanceof File && value.size > 0);
-        const error = files.map(validator).find(Boolean) ||
+        const galleryFiles = data.getAll("galleryImages")
+          .filter((value): value is File => value instanceof File && value.size > 0);
+        const files = [...coverFiles, ...galleryFiles];
+        const error = coverFiles.map(coverValidator).find(Boolean) ||
+          galleryFiles.map(galleryValidator).find(Boolean) ||
           (files.reduce((total, file) => total + file.size, 0) > maxUploadBytes ? "Upload up to 25 MB at a time." : "");
         setValidation(error);
         if (!error) startTransition(() => action(data));
@@ -236,7 +243,8 @@ function AdminRecordFields({ resource, record }: { resource: AdminResource; reco
   const isProduct = resource.slug === "products";
   const isProject = resource.slug === "projects";
   const supportsCoverLink = isProduct || isProject;
-  const acceptedCoverMedia = isProduct ? mediaAccept : imageAccept;
+  const acceptsCoverVideo = isProduct || isProject;
+  const acceptedCoverMedia = acceptsCoverVideo ? mediaAccept : imageAccept;
   const acceptedGalleryMedia = isProduct ? mediaAccept : imageAccept;
 
   function updateGalleryFiles(files: File[]) {
@@ -424,16 +432,16 @@ function AdminRecordFields({ resource, record }: { resource: AdminResource; reco
                     key={source} onClick={() => changeCoverSource(source)} type="button"
                   >
                     {source === "upload" ? <Upload aria-hidden="true" className="h-4 w-4" /> : <Link2 aria-hidden="true" className="h-4 w-4" />}
-                    {source === "upload" ? (isProduct ? "Upload media" : "Upload image") : (isProduct ? "Media link" : "Image link")}
+                    {source === "upload" ? (acceptsCoverVideo ? "Upload media" : "Upload image") : (acceptsCoverVideo ? "Media link" : "Image link")}
                   </button>
                 ))}
               </div>
               {coverSource === "url" ? (
-                <Field label={isProduct ? "Product media link" : "Cover image link"} required>
+                <Field label={isProduct ? "Product media link" : isProject ? "Project media link" : "Cover image link"} required>
                   <input
                     className={inputClass} name="coverImageUrl" inputMode="url"
                     onChange={(event) => setCoverImageUrl(event.target.value)}
-                    placeholder={isProduct ? "https://example.com/product.mp4 or /images/product.png" : "https://example.com/project.jpg"}
+                    placeholder={acceptsCoverVideo ? "https://example.com/project.mp4 or /images/project.png" : "https://example.com/project.jpg"}
                     required value={coverImageUrl}
                   />
                 </Field>
@@ -473,10 +481,10 @@ function AdminRecordFields({ resource, record }: { resource: AdminResource; reco
                   {coverSource === "url" ? <Link2 aria-hidden="true" className="h-6 w-6" /> : <Upload aria-hidden="true" className="h-6 w-6" />}
                 </span>
                 <span className="text-base font-extrabold">
-                  {coverSource === "url" ? "Media preview" : isClient ? "Upload client logo" : isProduct ? "Upload main image or video" : "Upload main image"}
+                  {coverSource === "url" ? "Media preview" : isClient ? "Upload client logo" : acceptsCoverVideo ? "Upload main image or video" : "Upload main image"}
                 </span>
                 <span className="text-sm font-semibold text-[#61758A]">
-                  {isProduct ? "JPG, PNG, WebP, AVIF, MP4, WebM or OGG up to 25 MB" : "JPG, PNG, WebP or AVIF up to 5 MB"}
+                  {acceptsCoverVideo ? "JPG, PNG, WebP, AVIF, MP4, WebM or OGG up to 25 MB" : "JPG, PNG, WebP or AVIF up to 5 MB"}
                 </span>
               </span>
             )}

@@ -10,6 +10,7 @@ import { JsonLd } from "@/components/json-ld";
 import { ProductCard } from "@/components/product-card";
 import { ProjectEnquiryModal } from "@/components/project-enquiry-modal";
 import { RichText } from "@/components/rich-text";
+import { isVideoMedia } from "@/lib/admin-media";
 import { getBrands, getCategories, getProducts, getProjects } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 import { projectJsonLd } from "@/lib/structured-data";
@@ -42,7 +43,9 @@ export async function generateMetadata({ params }: ProjectPageProps) {
     title: project.seoTitle,
     description: project.seoDescription,
     path: `/projects/${project.slug}`,
-    image: project.coverImage || "/images/pages/projects/fallback-office-lounge.jpeg",
+    image: project.coverImage && !isVideoMedia(project.coverImage)
+      ? project.coverImage
+      : "/images/pages/projects/fallback-office-lounge.jpeg",
   });
 }
 
@@ -65,6 +68,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   );
   const categoryMap = new Map(categories.map((category) => [category.slug, category]));
   const brandMap = new Map(brands.map((brand) => [brand.slug, brand]));
+  const coverImageIsVideo = project.coverImage ? isVideoMedia(project.coverImage) : false;
+  const heroVideo = coverImageIsVideo ? project.coverImage : project.coverVideo;
 
   return (
     <>
@@ -129,7 +134,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               <div className="absolute -inset-4 rounded-[2rem] bg-[#026670]/10 blur-2xl" />
               <div className="relative overflow-hidden rounded-[2rem] border border-white bg-white p-3 shadow-[0_30px_90px_rgba(32,34,56,0.16)]">
                 <div className="relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-[#F4EFE7]">
-                  {project.coverImage ? (
+                  {project.coverImage && !coverImageIsVideo ? (
                     <SafeGalleryImage
                       alt={project.title}
                       className="object-cover"
@@ -137,15 +142,17 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       sizes="(min-width: 1024px) 620px, 100vw"
                       src={project.coverImage}
                     />
-                  ) : project.coverVideo ? (
+                  ) : heroVideo ? (
                     <video
                       aria-label={`${project.title} project video`}
                       className="h-full w-full object-cover"
+                      autoPlay
                       controls
+                      loop
                       muted
                       playsInline
                       preload="metadata"
-                      src={project.coverVideo}
+                      src={heroVideo}
                     />
                   ) : (
                     <Image
@@ -217,7 +224,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           </aside>
 
           <div className="space-y-8">
-            {project.coverVideo && project.coverImage ? (
+            {project.coverVideo && project.coverImage && !coverImageIsVideo ? (
               <div className="overflow-hidden rounded-lg border border-[#DED7CF] bg-black">
                 <video
                   className="aspect-video w-full"

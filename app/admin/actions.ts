@@ -257,6 +257,12 @@ function saveError(message: string): AdminActionState {
   return { ok: false, message };
 }
 
+function databaseDisplayOrder(value: unknown) {
+  const order = Number(value);
+  if (!Number.isFinite(order)) return 100;
+  return Math.max(1, Math.ceil(order));
+}
+
 export async function saveAdminRecord(
   _previousState: AdminActionState,
   formData: FormData,
@@ -300,20 +306,26 @@ export async function saveAdminRecord(
       }
     }
 
-    const acceptsMixedMedia = resource.slug === "products";
-    const validateUpload = acceptsMixedMedia ? validateMediaFile : validateImageFile;
+    const acceptsCoverMedia = resource.slug === "products" || resource.slug === "projects";
+    const validateCoverUpload = acceptsCoverMedia ? validateMediaFile : validateImageFile;
+    const validateGalleryUpload = resource.slug === "products" ? validateMediaFile : validateImageFile;
     const useCoverLink = (resource.slug === "projects" || resource.slug === "products") && cleanText(formData.get("coverSource")) === "url";
     const coverImageUrl = normalizeMediaUrl(cleanText(formData.get("coverImageUrl")));
     if (useCoverLink && (!coverImageUrl || !validMediaUrl(coverImageUrl))) {
       return saveError(resource.slug === "products"
         ? "Enter a valid https:// product media link or a local /images/ path."
-        : "Enter a valid https:// cover image link or a local /images/ path.");
+        : "Enter a valid https:// project media link or a local /images/ path.");
     }
     const uploadedImage = useCoverLink ? null : uploadedFiles(formData, "image")[0] ?? null;
     const galleryImages = uploadedFiles(formData, "galleryImages");
     const files = [...(uploadedImage ? [uploadedImage] : []), ...galleryImages];
+    if (uploadedImage) {
+      const error = validateCoverUpload(uploadedImage);
+      if (error) return saveError(error);
+    }
     for (const file of files) {
-      const error = validateUpload(file);
+      if (file === uploadedImage) continue;
+      const error = validateGalleryUpload(file);
       if (error) return saveError(error);
     }
     if (files.reduce((total, file) => total + file.size, 0) > maxUploadBytes) {
@@ -363,7 +375,8 @@ export async function saveAdminRecord(
     }
 
     async function upload(file: File) {
-      const result = await uploadMediaFile(supabase!, resource!.slug, file, validateUpload);
+      const validator = file === uploadedImage ? validateCoverUpload : validateGalleryUpload;
+      const result = await uploadMediaFile(supabase!, resource!.slug, file, validator);
       if (result.error) throw new Error(result.error);
       if (result.path) uploadedPaths.push(result.path);
       return result.url;
@@ -380,7 +393,7 @@ export async function saveAdminRecord(
     const payload = {
       title, slug,
       status: resource.slug === "clients" || cleanText(formData.get("status")) === "published" ? "published" : "draft",
-      display_order: displayOrder,
+      display_order: databaseDisplayOrder(displayOrder),
       image_url: imageUrl,
       image_alt: cleanText(formData.get("imageAlt")) || title,
       content,

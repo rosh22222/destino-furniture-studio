@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 
 import { stripRichText } from "@/lib/rich-text";
 import { SafeGalleryImage } from "@/components/safe-gallery-image";
+import { isVideoMedia } from "@/lib/admin-media";
 import type { Project } from "@/lib/types";
 
 export function ProjectCard({
@@ -13,12 +14,14 @@ export function ProjectCard({
   priority?: boolean;
 }) {
   const previewDescription = stripRichText(project.description);
+  const coverImageIsVideo = project.coverImage ? isVideoMedia(project.coverImage) : false;
+  const coverVideo = coverImageIsVideo ? project.coverImage : project.coverVideo;
 
   return (
     <article className="group overflow-hidden rounded-2xl bg-white shadow-sm border border-[#E6DDD1] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#1E3A8A]/5">
       <Link className="block" href={`/projects/${project.slug}`}>
         <div className="relative aspect-[16/9] overflow-hidden bg-[#F5F1EA]">
-          {project.coverImage ? (
+          {project.coverImage && !coverImageIsVideo ? (
             <SafeGalleryImage
               alt={`${project.title} project by Destino Furniture Studio`}
               className="object-cover transition duration-500 group-hover:scale-[1.05]"
@@ -26,7 +29,7 @@ export function ProjectCard({
               sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw"
               src={project.coverImage}
             />
-          ) : project.coverVideo ? (
+          ) : coverVideo ? (
             <video
               aria-label={`${project.title} project video`}
               className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.05]"
@@ -35,7 +38,7 @@ export function ProjectCard({
               muted
               playsInline
               preload="metadata"
-              src={project.coverVideo}
+              src={coverVideo}
             />
           ) : null}
         </div>

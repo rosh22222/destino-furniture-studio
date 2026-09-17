@@ -5,6 +5,7 @@ import {
   getProducts,
   getProjects,
 } from "@/lib/content";
+import { isVideoMedia } from "@/lib/admin-media";
 import { absoluteUrl } from "@/lib/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -51,7 +52,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(project.updatedAt),
       changeFrequency: "monthly" as const,
       priority: 0.7,
-      images: project.coverImage ? [absoluteUrl(project.coverImage)] : [],
+      images: project.coverImage && !isVideoMedia(project.coverImage)
+        ? [absoluteUrl(project.coverImage)]
+        : [],
     })),
   ];
 }
