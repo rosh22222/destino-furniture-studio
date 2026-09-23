@@ -53,8 +53,14 @@ export function ProductCard({
 
       {/* Content Section */}
       <div className="p-4 sm:p-5">
-        <div className="flex items-start justify-between gap-4">
-          <div className="flex-1">
+        <div className="space-y-3">
+          <h3 className="text-[17px] font-extrabold leading-snug text-[#1E3A8A]">
+            <Link className="hover:text-[#C56545]" href={href}>
+              {product.name}
+            </Link>
+          </h3>
+          <div className="flex items-start justify-between gap-4">
+            <div className="flex-1">
             {previewDescription && (
               <p className="text-[15px] font-medium text-[#4F4B4A] line-clamp-2 leading-relaxed">
                 <Link className="hover:text-[#C56545]" href={href}>
@@ -62,10 +68,11 @@ export function ProductCard({
                 </Link>
               </p>
             )}
+            </div>
+            <button aria-label="Share" className="shrink-0 text-gray-400 hover:text-gray-700 mt-0.5">
+              <Share2 className="h-[14px] w-[14px]" />
+            </button>
           </div>
-          <button aria-label="Share" className="shrink-0 text-gray-400 hover:text-gray-700 mt-0.5">
-            <Share2 className="h-[14px] w-[14px]" />
-          </button>
         </div>
         
         <div className="mt-4">

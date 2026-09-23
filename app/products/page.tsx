@@ -3,6 +3,7 @@ import Link from "next/link";
 
 
 import { ProductCard } from "@/components/product-card";
+import { ProductTitleSearch } from "@/components/product-title-search";
 import { getBrands, getCategories, getProducts } from "@/lib/content";
 import {
   filterProducts,
@@ -152,6 +153,12 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
 
       <section className="bg-white py-10 md:py-14">
         <div className="mx-auto max-w-7xl space-y-8 px-4 sm:px-6 lg:px-8">
+          <ProductTitleSearch
+            brands={brands}
+            categories={categories}
+            products={products}
+          />
+
           {!showChairSubcategories ? (
             <div className="flex flex-wrap items-center gap-3">
               <span className="text-sm font-semibold text-[#202238]">Product Types:</span>

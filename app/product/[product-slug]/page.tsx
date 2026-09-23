@@ -79,7 +79,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
       <section className="bg-[#FCFBF8] py-10 md:py-16">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
-          <ProductImageGallery images={productGalleryImages} title={product.name} />
+          <div className="space-y-4">
+            <ProductImageGallery images={productGalleryImages} title={product.name} />
+            <div className="rounded-lg border border-[#DED7CF] bg-white px-4 py-3 shadow-[0_14px_35px_rgba(32,34,56,0.05)]">
+              <p className="text-xs font-extrabold uppercase tracking-[0.14em] text-[#C56545]">
+                Product title
+              </p>
+              <h2 className="mt-1 text-xl font-extrabold leading-snug text-[#1E3A8A]">
+                {product.name}
+              </h2>
+            </div>
+          </div>
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#C56545]">
